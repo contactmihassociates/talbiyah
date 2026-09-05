@@ -250,26 +250,50 @@ p:last-child{margin-bottom:0}
 .dark .ph{background:rgba(201,162,39,.16);color:var(--gold);border-bottom-color:rgba(201,162,39,.55)}
 
 /* ---------- Reveal (mask-based, subtle) ---------- */
-.rv{opacity:0;transform:translate3d(0,26px,0);clip-path:inset(0 0 100% 0)}
-.js-off .rv,.no-motion .rv{opacity:1;transform:none;clip-path:none}
+/* Visible by default. `html.anim` is added only when GSAP is loaded AND
+   arrived while the preloader was still up — so a slow or blocked CDN
+   leaves the page readable instead of blanking it, and content that is
+   already on screen is never yanked back to opacity 0. */
+.anim .rv{opacity:0;transform:translate3d(0,26px,0);clip-path:inset(0 0 100% 0)}
 
 /* ============================================================
    PRELOADER
    ============================================================ */
+/* The preloader runs on CSS, not on GSAP, and it must: the animation
+   library is ~120KB from a CDN, and `defer` holds DOMContentLoaded until it
+   lands. Driving the loader from JS meant the hero painted first, the
+   loader then covered it, and the wipe revealed the same hero again — a
+   flash on a desk connection, seconds of hide-and-seek on the 4G most of
+   this audience is on. On CSS the sequence starts with the first paint and
+   clears on its own whatever the network is doing, and it is also the
+   no-JS path: nothing here needs a script to finish.
+   Timeline: draw 0.04–1.2s · لبيك 0.85–1.45s · caption 1.15–1.65s ·
+   wipe 1.85–2.65s. GSAP only takes over the hero once the wipe is done. */
 #loader{
   position:fixed;inset:0;z-index:9999;background:var(--navy);
   display:grid;place-items:center;gap:1.4rem;
-  /* Failsafe: if JS or a CDN never arrives, the loader retires itself. */
-  animation:loaderFailsafe 0s linear 5s forwards;
+  animation:loaderOut .8s cubic-bezier(.76,0,.24,1) 1.85s forwards;
 }
-@keyframes loaderFailsafe{to{opacity:0;visibility:hidden;pointer-events:none}}
-#loader.done{animation:none}
+@keyframes loaderOut{to{transform:translateY(-100%);visibility:hidden}}
+#loader.done{animation:none;display:none}
+/* pathLength="1" on each path is what lets CSS draw them with no JS
+   measuring the geometry first. */
+#loader svg path{stroke-dasharray:1;stroke-dashoffset:1;animation:loaderDraw .8s cubic-bezier(.65,0,.35,1) forwards}
+#mark1{animation-delay:.04s}#mark2{animation-delay:.16s}#mark3{animation-delay:.28s}#mark4{animation-delay:.4s}
+@keyframes loaderDraw{to{stroke-dashoffset:0}}
+@keyframes loaderRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes loaderFade{to{opacity:1}}
+/* Holds the page still while the loader plays. Set by a tiny inline script
+   so it applies during parse, and released on a timer that does not depend
+   on any CDN. Lenis is not running yet, so overflow alone is enough here. */
+html.loading,html.loading body{overflow:hidden}
 .loader-in{display:grid;justify-items:center;gap:1.5rem;text-align:center}
 #loader svg{width:clamp(88px,18vw,124px);height:auto}
 #loader svg path{stroke:var(--gold);stroke-width:1.35;fill:none;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
-.loader-ar{font-family:var(--arabic);font-size:clamp(1.9rem,6vw,2.7rem);color:var(--gold);opacity:0;line-height:1.4}
-.loader-cap{font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;color:rgba(250,247,240,.5);opacity:0}
-.js-off #loader{display:none}
+.loader-ar{font-family:var(--arabic);font-size:clamp(1.9rem,6vw,2.7rem);color:var(--gold);opacity:0;line-height:1.4;
+  animation:loaderRise .6s cubic-bezier(.22,.61,.36,1) .85s forwards}
+.loader-cap{font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;color:rgba(250,247,240,.5);opacity:0;
+  animation:loaderFade .5s ease-out 1.15s forwards}
 
 /* ============================================================
    HEADER
@@ -331,8 +355,8 @@ p:last-child{margin-bottom:0}
 .sky-mid{opacity:.42}.sky-mid *{stroke-width:1.1}
 .sky-near{opacity:.72}.sky-near *{stroke-width:1.35}
 .hero .wrap{padding-bottom:clamp(70px,13vh,140px);padding-top:clamp(120px,18vh,180px);z-index:4}
-.hero-ar{font-family:var(--arabic);font-size:clamp(1.35rem,3.4vw,2.1rem);color:var(--gold);margin:0 0 1.1rem;line-height:1.6;direction:rtl;opacity:0}
-.js-off .hero-ar,.no-motion .hero-ar{opacity:1}
+.hero-ar{font-family:var(--arabic);font-size:clamp(1.35rem,3.4vw,2.1rem);color:var(--gold);margin:0 0 1.1rem;line-height:1.6;direction:rtl;opacity:1}
+.anim .hero-ar{opacity:0}
 h1 .ln{display:block;overflow:hidden;padding-block:.02em}
 h1 .ch{display:inline-block;will-change:transform}
 .hero h1{max-width:16ch;margin-bottom:1.5rem}
@@ -888,6 +912,12 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
   .rv{opacity:1!important;transform:none!important;clip-path:none!important}
   #plane,#stars{display:none}
   .mbar{transform:translateY(0)}
+  /* The rule above zeroes the wipe's duration but not its delay, which
+     would leave a reduced-motion visitor looking at a navy panel for
+     1.85 seconds for no reason. Get out of the way almost at once. */
+  #loader{animation-delay:.2s!important}
+  #loader svg path{stroke-dashoffset:0!important}
+  .loader-ar,.loader-cap{opacity:1!important}
 }
 </style>
 </head>
@@ -902,15 +932,27 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
       <!-- The same mihrab arch as the header mark. Paths are drawn in this
            order by the preloader timeline: threshold, outer arch, inner
            arch, then the crown. -->
-      <path id="mark1" d="M8 116h112"/>
-      <path id="mark2" d="M24 114V58C24 35 40 18 64 9c24 9 40 26 40 49v56"/>
-      <path id="mark3" d="M43 114V63c0-14 8-25 21-30 13 5 21 16 21 30v51"/>
-      <path id="mark4" d="M64 45l10 12-10 12-10-12z"/>
+      <path id="mark1" pathLength="1" d="M8 116h112"/>
+      <path id="mark2" pathLength="1" d="M24 114V58C24 35 40 18 64 9c24 9 40 26 40 49v56"/>
+      <path id="mark3" pathLength="1" d="M43 114V63c0-14 8-25 21-30 13 5 21 16 21 30v51"/>
+      <path id="mark4" pathLength="1" d="M64 45l10 12-10 12-10-12z"/>
     </svg>
     <p class="loader-ar" lang="ar" dir="rtl">لَبَّيْك</p>
     <p class="loader-cap">Talbiyah</p>
   </div>
 </div>
+
+<script>
+/* Parse-time, no dependencies: hold the page still while the CSS preloader
+   plays, and release on a timer so nothing can leave it stuck. The motion
+   layer clears this early if it gets there first. */
+(function(){
+  var h=document.documentElement, quick=false;
+  try{quick=matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
+  h.classList.add('loading');
+  setTimeout(function(){h.classList.remove('loading');}, quick?350:2700);
+})();
+</script>
 
 <!-- ========== HEADER ========== -->
 <header class="hdr" id="hdr">
@@ -1950,27 +1992,36 @@ document.addEventListener('DOMContentLoaded', function () {
      fades up beneath it, then the whole panel wipes upward off screen.
      Tune: star draw 0.85s, hold 0.25s, wipe 0.85s.
      ================================================================== */
-  function runLoader(done) {
+  /* The CSS owns the loader's drawing and its exit (see #loader in the
+     stylesheet). All that is left for JS is to know when the wipe has
+     finished, so the hero intro can start on the same beat, and to release
+     the parse-time scroll lock. */
+  var LOADER_END = 2650;                       // wipe ends: 1.85s delay + 0.8s
+  var loaderGone = false;
+
+  function loaderStillUp() {
+    return !loaderGone && performance.now() < LOADER_END - 120;
+  }
+
+  function whenLoaderGone(done) {
     var loader = $('#loader');
-    if (!loader || RM || !HAS) { killLoader(true); done(); return; }
-
-    // Same trap as the mobile menu: the class alone will not hold Lenis, and
-    // a visitor who scrolls during the loader misses the hero intro entirely.
-    document.body.classList.add('is-locked');
-    if (lenis) lenis.stop();
-    var paths = $$('#loader svg path');
-    paths.forEach(function (p) {
-      var len = p.getTotalLength();
-      gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
+    function finish() {
+      if (loaderGone) return;
+      loaderGone = true;
+      document.documentElement.classList.remove('loading');
+      document.body.classList.remove('is-locked');
+      if (lenis) lenis.start();
+      if (loader) loader.classList.add('done');
+      done();
+    }
+    if (!loader) { finish(); return; }
+    loader.addEventListener('animationend', function (e) {
+      if (e.animationName === 'loaderOut') finish();
     });
-
-    var tl = gsap.timeline({ onComplete: function () { killLoader(true); done(); } });
-    tl.to(paths, { strokeDashoffset: 0, duration: 0.8, ease: 'power2.inOut', stagger: 0.1 })
-      .to('.loader-ar',  { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.45')
-      .fromTo('.loader-ar', { y: 12 }, { y: 0, duration: 0.6, ease: 'power2.out' }, '<')
-      .to('.loader-cap', { opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.35')
-      .to({}, { duration: 0.25 })
-      .to('#loader', { yPercent: -100, duration: 0.85, ease: 'expo.inOut' });
+    // Backstop for reduced motion, for a loader that finished before this
+    // code ever ran, and for anything that drops the event.
+    var left = RM ? 320 : LOADER_END - performance.now();
+    setTimeout(finish, left > 0 ? left : 0);
   }
 
   /* ====================================================================
@@ -2787,6 +2838,16 @@ document.addEventListener('DOMContentLoaded', function () {
      ================================================================== */
   function boot() {
     gsap.registerPlugin(ScrollTrigger);
+
+    // Entrance animations are an enhancement with a deadline. They are worth
+    // running only if GSAP got here while the preloader was still covering
+    // the page; arriving later would mean hiding content the visitor is
+    // already reading in order to fade it back in. Everything else — the
+    // pinned journey, the tilt, the counters, smooth scroll — runs either
+    // way, because none of it starts by hiding anything.
+    var entrances = loaderStillUp() && !RM;
+    if (entrances) document.documentElement.classList.add('anim');
+
     smoothScroll();
     traceLengths();
     stitch();
@@ -2795,10 +2856,10 @@ document.addEventListener('DOMContentLoaded', function () {
     counters();
     marquee();
     scrollspy();
-    reveals();
+    if (entrances) reveals();
     mobileBar();
 
-    runLoader(function () { heroIntro(); });
+    whenLoaderGone(function () { if (entrances) heroIntro(); });
 
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
@@ -2812,14 +2873,17 @@ document.addEventListener('DOMContentLoaded', function () {
   if (HAS) {
     boot();
   } else {
-    var waited = 0;
+    // Measure real elapsed time, not ticks: setInterval is clamped to about
+    // a second in a background tab, so counting 120ms per tick turned this
+    // 3.5s budget into roughly thirty seconds whenever the page was opened
+    // in a tab the visitor had not switched to yet.
+    var startedAt = performance.now();
     var poll = setInterval(function () {
-      waited += 120;
       if (typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined') {
         clearInterval(poll);
         HAS = true;
         boot();
-      } else if (waited >= 3500) {
+      } else if (performance.now() - startedAt >= 3500) {
         clearInterval(poll);
         revealAll(); killLoader(true); marquee(); traceLengths();
       }
