@@ -584,3 +584,58 @@ fallback is hidden.
 owner's call. It is included as a functional safeguard against silent data
 loss rather than as copy, and the wording is purely instructional. Reword it
 freely.
+
+---
+
+## Iteration 13 — The pinned journey, and non-Lenis scrolling
+
+Two probes, **both clean**. Recorded because knowing these are sound is worth
+as much as a fix, and both looked risky enough to be worth checking.
+
+**The pinned horizontal journey is correct at the breakpoint edge.** At 901px —
+one pixel into the desktop branch, the worst case — the track needs 1752px of
+travel and the pin runs for exactly 2032px, matching `overflow + 0.35 x
+viewport height` to within a pixel. Driving the trigger from its start to its
+end: `x` goes -2 → -876 → -1750 against an expected -1752, step visibility
+moves cleanly 1-2-3 → 3-4-5 → 5-6-7, and the last step finishes fully on
+screen at right 863 in a 901px viewport. Nothing is stranded.
+
+**Lenis does not fight the browser's own scrolling.** Session 9 found that
+Lenis reverts scrolls it did not initiate, which raised a real worry: a screen
+reader moving focus to an off-screen element, or find-in-page, both scroll
+natively. Tested directly — focusing an off-screen `tel:` link scrolled to
+17582 and the target ended in view with focus held, and `scrollIntoView` on the
+FAQ landed correctly. The earlier symptom was `window.scrollTo` racing Lenis's
+own frame loop, not a general hostility to native scrolling. **Assistive
+technology and find-in-page work.**
+
+---
+
+## Where this stopped, and why
+
+Thirteen iterations: all ten areas once, then three more on the areas most
+likely to still be hiding something. The last two found one defect and none,
+which is the signal to stop rather than start inventing work.
+
+**Final regression, everything at once:** GSAP, ScrollTrigger and Lenis all
+load; 101 ScrollTriggers; 6 promoted compositor layers (from 79); both JSON-LD
+blocks valid; 13 named landmarks; 0 buttons without `type`; 13 gallery figures
+and 3 ziyarat band figures; marquee duplicated to 8; 6 balanced FAQ questions;
+countdown reading 25 days; FAQ opens; enquiry form composes its message; 1
+journey pin; no horizontal overflow; the no-JS fallback correctly hidden while
+JavaScript is running.
+
+**What is left is not code.** The outstanding items all need the owner:
+real testimonials, the registration number, verified pilgrim counts, the Urdu
+claim, the July-poster kit list, and the title length. Those are in the README
+and in iteration 10 above.
+
+**One environment note for whoever runs this next.** Three separate iterations
+lost time to the same trap: with the Browser pane hidden or throttled,
+`requestAnimationFrame` **and CSS animation clocks** freeze. Tweens read as
+unstarted, elements sit at their pre-animation offsets, and `innerWidth` can
+report 0. A `loaderOut` animation here reported `playState: running,
+currentTime: 0` twenty-one seconds after load. Before believing any measurement
+that looks like a layout break: force an explicit viewport with
+`resize_window`, check `document.visibilityState`, and settle animation end
+states with `gsap.globalTimeline.progress(1, false)`.

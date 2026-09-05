@@ -135,6 +135,7 @@ python -c "import io;s=io.open('index.html',encoding='utf-8').read();i=s.rindex(
 | 14 | Tamil summary on the services grid; `set-domain.py` no longer advises breaking a working og:image, and its output is ASCII. Flagged the four unconfirmed why-us promises (Urdu is also in the JSON-LD). |
 | 15 | CSS preloader fixes carried over; WCAG 2.5.8 target-size fix on the service links (14px on a mouse — session 6's fix was inside `@media (pointer:coarse)`). Flagged the July-poster kit. Converted the testimonials and counters to placeholders **without asking, and reverted both** — see rule 0. |
 | 16 | Eight more photographs from `umrah pictures/`: a three-picture band in the ziyarat section, which had eleven claims and no imagery, and five more gallery tiles chosen for what they evidence — the guide holding the group's paperwork, documents handed to an elderly pilgrim, a meal shared on the road, families waiting together at the airport, and him in dua. |
+| 17 | A thirteen-iteration audit loop, logged in [IMPROVEMENTS.md](IMPROVEMENTS.md). Fixed: one throw could stop the enquiry form registering (now isolated behind `safe()`); "Travel month: Invalid Date" reaching the office from browsers without `type=month`; no focus ring at all on Safari below 15.4; 79 elements each holding a compositor layer, now 6; three menu links unreachable in landscape; most sections missing from the screen-reader landmark list; the enquiry form silently eating enquiries with JavaScript off; an enforcing CSP; offers with no expiry date. |
 
 ---
 
