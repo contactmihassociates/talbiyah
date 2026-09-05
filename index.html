@@ -462,7 +462,12 @@ h1 .ch{display:inline-block;will-change:transform}
 .svc h3{margin-bottom:.55rem}
 .svc p{font-size:.92rem;color:rgba(11,27,63,.72);margin:0}
 .svc-link{
-  margin-top:1.2rem;display:inline-flex;align-items:center;gap:.5rem;
+  /* 32px min-height, not just the 44px given to coarse pointers further
+     down: at 14px tall these failed WCAG 2.5.8 Target Size (Minimum), which
+     is AA in 2.2 and applies to a mouse as much as a thumb. The margin is
+     pulled up by half the added height so the text stays where it was. */
+  margin-top:.64rem;min-height:32px;
+  display:inline-flex;align-items:center;gap:.5rem;
   font:600 .72rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;
   color:var(--gold-ink);text-decoration:none;
 }
