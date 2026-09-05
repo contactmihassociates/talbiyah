@@ -1952,16 +1952,16 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
         <form class="form rv" id="enquiry" novalidate>
           <div class="field">
             <label for="f-name">Your name <span class="lb-ta" lang="ta">பெயர்</span></label>
-            <input type="text" id="f-name" name="name" autocomplete="name" required placeholder="Full name">
+            <input type="text" id="f-name" name="name" autocomplete="name" required maxlength="80" placeholder="Full name">
           </div>
           <div class="form-row">
             <div class="field">
               <label for="f-phone">Phone <span class="lb-ta" lang="ta">தொலைபேசி</span></label>
-              <input type="tel" id="f-phone" name="phone" autocomplete="tel" inputmode="tel" required placeholder="10-digit mobile">
+              <input type="tel" id="f-phone" name="phone" autocomplete="tel" inputmode="tel" required maxlength="20" placeholder="10-digit mobile">
             </div>
             <div class="field">
               <label for="f-month">Travel month <span class="lb-ta" lang="ta">பயண மாதம்</span></label>
-              <input type="month" id="f-month" name="month">
+              <input type="month" id="f-month" name="month" maxlength="40" placeholder="YYYY-MM">
             </div>
           </div>
           <div class="field">
@@ -2092,6 +2092,25 @@ document.addEventListener('DOMContentLoaded', function () {
   var RM  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var HAS = typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined';
 
+  /* --------------------------------------------------------------------
+     One failure should not take the page down with it.
+
+     Everything here lives in a single DOMContentLoaded callback, and the
+     units run in source order, so a throw anywhere above the enquiry form
+     used to stop that form ever getting its submit handler — and a form
+     with no handler does a native submit, reloading the page and losing
+     the enquiry. That is the worst thing this page can do, so each
+     independent unit is isolated. A unit that fails is skipped; the rest
+     of the page carries on.
+     ------------------------------------------------------------------ */
+  function safe(name, fn) {
+    try {
+      fn();
+    } catch (err) {
+      if (window.console && console.warn) console.warn('[talbiyah] ' + name + ':', err);
+    }
+  }
+
   document.body.classList.remove('js-off');
   if (RM) document.documentElement.classList.add('no-motion');
 
@@ -2166,10 +2185,12 @@ document.addEventListener('DOMContentLoaded', function () {
      Canvas 2D rather than Three.js: ~1KB instead of ~600KB for a slow
      drift of gold dots. Pauses entirely when the hero leaves the screen.
      ================================================================== */
-  (function stars() {
+  safe('stars', function stars() {
     var cv = $('#stars');
     if (!cv || RM) return;
+    // Privacy modes and some low-memory Android builds hand back null here.
     var ctx = cv.getContext('2d', { alpha: true });
+    if (!ctx) return;
     var dots = [], raf = null, w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
 
     function build() {
@@ -2219,7 +2240,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('visibilitychange', function () {
       document.hidden ? stop() : start();
     });
-  })();
+  });
 
   /* ====================================================================
      2b · HERO — headline split into characters
@@ -2333,7 +2354,7 @@ document.addEventListener('DOMContentLoaded', function () {
      strip stops advertising a departure that has already left and asks for
      the next one instead. Recomputed hourly for a tab left open overnight.
      ================================================================== */
-  (function countdown() {
+  safe('countdown', function countdown() {
     var strip = $('#announce');
     if (!strip) return;
     var iso = strip.dataset.depart;
@@ -2411,12 +2432,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     paint();
     setInterval(paint, 3600000);
-  })();
+  });
 
   /* ====================================================================
      HEADER + MOBILE NAV
      ================================================================== */
-  (function header() {
+  safe('header', function header() {
     var hdr = $('#hdr'), btn = $('#menuBtn'), nav = $('#nav');
     var onScroll = function () { hdr.classList.toggle('stuck', window.scrollY > 40); };
     window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
@@ -2463,7 +2484,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && nav.classList.contains('open')) { close(); btn.focus(); }
     });
-  })();
+  });
 
   /* ====================================================================
      3 · STITCH — the hairline flight path
@@ -2728,7 +2749,7 @@ document.addEventListener('DOMContentLoaded', function () {
      grid-template-rows 0fr -> 1fr, so this manages only ARIA state and
      keyboard movement between questions.
      ================================================================== */
-  (function faq() {
+  safe('faq', function faq() {
     var qs = $$('.faq-q');
     if (!qs.length) return;
 
@@ -2766,14 +2787,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (go) { e.preventDefault(); go.focus(); }
       });
     });
-  })();
+  });
 
   /* ====================================================================
      MAP — click to load
      The Google embed is several hundred KB and this page is read on 4G.
      Until the visitor asks for it, there is only a button.
      ================================================================== */
-  (function map() {
+  safe('map', function map() {
     var facade = $('#mapFacade');
     if (!facade) return;
     // Two pins, one slot: the office and Khurasani Peer Masjid on LB Road,
@@ -2792,7 +2813,7 @@ document.addEventListener('DOMContentLoaded', function () {
         facade.remove();
       });
     });
-  })();
+  });
 
   /* ====================================================================
      ENQUIRY FORM -> WHATSAPP
@@ -2800,7 +2821,7 @@ document.addEventListener('DOMContentLoaded', function () {
      into a wa.me deep link, so the enquiry arrives as an ordinary
      WhatsApp message the office can reply to.
      ================================================================== */
-  (function enquiry() {
+  safe('enquiry', function enquiry() {
     var form = $('#enquiry'), note = $('#formNote');
     if (!form || !note) return;
     var WA = '919710092070';
@@ -2828,11 +2849,20 @@ document.addEventListener('DOMContentLoaded', function () {
         fail($('#f-phone'), 'Please enter a phone number we can reach you on.'); return;
       }
 
+      // type="month" is not supported everywhere — Firefox and older Android
+      // WebViews render it as a plain text box. Whatever is typed there used to
+      // go straight into Date(), and the office received "Travel month:
+      // Invalid Date". Format it only when it really is YYYY-MM; otherwise
+      // pass the visitor's own words through, which are still useful.
       var when = '';
       if (month) {
-        var parts = month.split('-');
-        var d = new Date(Number(parts[0]), Number(parts[1]) - 1, 1);
-        when = d.toLocaleString('en-IN', { month: 'long', year: 'numeric' });
+        var ym = /^(\d{4})-(\d{2})$/.exec(month);
+        var d  = ym ? new Date(+ym[1], +ym[2] - 1, 1) : null;
+        if (d && !isNaN(d) && +ym[2] >= 1 && +ym[2] <= 12) {
+          when = d.toLocaleString('en-IN', { month: 'long', year: 'numeric' });
+        } else {
+          when = month.slice(0, 40);
+        }
       }
 
       var lines = [
@@ -2843,7 +2873,12 @@ document.addEventListener('DOMContentLoaded', function () {
         'Interested in: ' + pkg
       ];
       if (when) lines.push('Travel month: ' + when);
-      if (ppl)  lines.push('Travelling: ' + ppl + (Number(ppl) === 1 ? ' person' : ' people'));
+      // The form is novalidate, so min/max on the number field are advisory.
+      // Keep an implausible figure out of the message rather than sending
+      // "Travelling: 9999 people" to the office.
+      var n = parseInt(ppl, 10);
+      if (n > 0) lines.push('Travelling: ' + Math.min(n, 60) + (n === 1 ? ' person' : ' people'));
+      else if (ppl) lines.push('Travelling: ' + ppl.slice(0, 20));
       lines.push('', 'Sent from the Talbiyah website.');
 
       note.textContent = 'Opening WhatsApp with your enquiry written out…';
@@ -2856,7 +2891,7 @@ document.addEventListener('DOMContentLoaded', function () {
           '<a href="' + url + '" target="_blank" rel="noopener">Tap here to open WhatsApp</a>.';
       }
     });
-  })();
+  });
 
   /* ====================================================================
      9 · STICKY MOBILE BAR
@@ -2988,16 +3023,19 @@ document.addEventListener('DOMContentLoaded', function () {
     var entrances = loaderStillUp() && !RM;
     if (entrances) document.documentElement.classList.add('anim');
 
-    smoothScroll();
-    traceLengths();
-    stitch();
-    serviceTilt();
-    journey();
-    counters();
-    marquee();
-    scrollspy();
-    if (entrances) reveals();
-    mobileBar();
+    // Same isolation as the units above: a throw in the pinned journey
+    // should not cost the visitor the counters, the marquee and the sticky
+    // WhatsApp bar below it.
+    safe('smoothScroll', smoothScroll);
+    safe('traceLengths', traceLengths);
+    safe('stitch',       stitch);
+    safe('serviceTilt',  serviceTilt);
+    safe('journey',      journey);
+    safe('counters',     counters);
+    safe('marquee',      marquee);
+    safe('scrollspy',    scrollspy);
+    if (entrances) safe('reveals', reveals);
+    safe('mobileBar',    mobileBar);
 
     whenLoaderGone(function () { if (entrances) heroIntro(); });
 

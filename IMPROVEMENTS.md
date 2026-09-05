@@ -60,3 +60,57 @@ selectors (part of a defensive grouped rule, ~26 bytes, no user impact), the
 rules 2 → 1 with the styling still applied (`text-transform: uppercase`
 resolves); FAQ still opens and sets `aria-expanded`; mobile menu still opens
 and closes; no console errors; `node --check` passes. 164,156 → 164,145 bytes.
+
+---
+
+## Iteration 2 — Resilience & error handling
+
+**Audited** by building throwaway copies of the page and actually breaking
+things, rather than reading the code and hoping:
+
+- `_nocdn.html` — every CDN and font host rewritten to a domain that does not
+  resolve, to test the blocked-CDN promise in the README.
+- `_throws.html` — a deliberate `throw` injected into the first unit that runs.
+- The enquiry form driven with hostile input through a stubbed `window.open`.
+- A gallery image pointed at a 404 to see whether layout survives a bad deploy.
+
+Both test builds were deleted afterwards; regenerate them with a two-line
+string replace over `index.html` if you want to re-run these.
+
+**Held up already:** with every CDN blocked, the loader still retires, all 77
+reveals show, the counters read, the marquee is duplicated to 8 cards, the FAQ
+opens and closes through its non-GSAP branch, the countdown works and native
+scrolling works. A 404 image keeps its reserved box and shows alt text — the
+`width`/`height` attributes do their job.
+
+**Three real defects found and fixed:**
+
+1. **`Travel month: Invalid Date` reaching the office.** `type="month"` is not
+   supported in Firefox or older Android WebViews, where it renders as a plain
+   text box. Whatever the visitor typed went straight into `new Date()`, and
+   the enquiry arrived saying "Invalid Date". Now the value is formatted only
+   when it really matches `YYYY-MM` with a month in 1–12; anything else is
+   passed through as the visitor wrote it, which is still useful to the office.
+   Verified across `next july`, `2026-13`, `2026-10` and empty.
+
+2. **One throw could cost the page its enquiry form.** Everything runs inside a
+   single `DOMContentLoaded` callback with no `try`/`catch` anywhere, and the
+   units execute in source order — `stars`, `countdown`, `header`, `faq`, `map`,
+   then `enquiry` last. A throw in any of the first five meant the form never
+   got its submit handler, so submitting would do a native page reload and lose
+   the enquiry entirely. That is the worst failure this page has, and
+   `getContext('2d')` returning null — which privacy modes and some low-memory
+   Android builds do — was enough to cause it. Each unit and each boot step now
+   runs through a `safe()` wrapper, and the canvas context is null-checked.
+   **Verified with a real injected throw:** `stars()` fails, logs one warning,
+   and the form, FAQ, menu, countdown, map and all 100 ScrollTriggers still work.
+
+3. **Unbounded input.** No `maxlength` anywhere, so a pasted block of text built
+   an arbitrarily long `wa.me` deep link (600 characters of name produced an
+   811-character message), and `Travelling: 9999 people` could be sent because
+   the form is `novalidate`. Name capped at 80, phone at 20, month at 40, and
+   the party size clamped to the 60 the field already advertised.
+
+**Measured after:** no "Invalid Date" on any input tried; 100 ScrollTriggers,
+countdown, marquee, FAQ, menu, map and form all working both normally and with
+an injected failure; `node --check` passes; no new console errors.
