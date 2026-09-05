@@ -27,7 +27,14 @@
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Noto+Sans+Tamil:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Latin and Tamil faces. Cormorant 300 and Amiri 700 were requested but
+     never used anywhere in the stylesheet, so they are gone. -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Sans+Tamil:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Amiri is used for exactly two phrases of talbiyah, so it is subset to the
+     glyphs those phrases need — a couple of KB instead of the whole Arabic
+     face. IF YOU ADD ANY NEW ARABIC TEXT TO THIS PAGE, add its letters to the
+     text= parameter below or they will render in a fallback face. -->
+<link href="https://fonts.googleapis.com/css2?family=Amiri&amp;text=%D8%A7%D8%A8%D9%83%D9%84%D9%85%D9%87%D9%8A%D9%8E%D9%8F%D9%91%D9%92%EF%B7%BA&amp;display=swap" rel="stylesheet">
 
 <script type="application/ld+json">
 {
