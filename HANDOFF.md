@@ -19,13 +19,9 @@ comments, no unimplemented animation.
    **AFP**, **AP** and named photographers. It is gitignored and was purged
    from git history after being committed by mistake. If you need imagery, use
    `umrah pictures/` (Talbiyah's own, 37 unused) or a properly licensed source.
-2. **The testimonials are samples, and the page now says so.** Four cards,
-   each flagged "Sample — not a real review" with a bracketed
-   `[Pilgrim's name]`. They previously carried invented names, towns and
-   dates presented as genuine; those are gone. Replace them with real named
-   quotes, removing each card's `.tst-flag` and `tst--sample` as you go. Do
-   not write more invented ones, and do not un-flag a card without a real
-   quote behind it.
+2. **The testimonials are drafts, not real reviews.** Four cards with Tamil
+   Nadu names, written for the site. They must be replaced with real named
+   quotes before publishing. Do not write more invented ones.
 3. **Do not invent facts.** Registration number, payment terms, pilgrim
    counts — leave them bracketed until the office supplies them. Three
    brackets remain on the page: `[Reg. no. — add yours]` in the trust strip
