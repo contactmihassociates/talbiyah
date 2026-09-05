@@ -475,6 +475,35 @@ h1 .ch{display:inline-block;will-change:transform}
 .pkg .btn{width:100%}
 
 /* ============================================================
+   TAMIL SUMMARY
+   Noto Sans Tamil needs a little more line-height than the Latin
+   body face, and Tamil numerals are not used — prices stay in
+   Western digits exactly as the printed poster sets them.
+   ============================================================ */
+.ta-sec{background:var(--ivory-2)}
+.ta-sec :is(p,li,h2){font-family:"Noto Sans Tamil",var(--sans);line-height:1.75}
+.ta-sec .eyebrow{font-family:var(--sans)}
+.ta-h{font-size:clamp(1.5rem,4vw,2.2rem);line-height:1.5;font-weight:600;color:var(--navy)}
+.ta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.4rem;margin-top:2.6rem}
+.ta-block{border:1px solid var(--hair);padding:1.7rem 1.6rem;background:var(--ivory)}
+.ta-k{font-size:.8rem;color:var(--gold-ink);font-weight:600;margin:0 0 .2rem}
+.ta-k:not(:first-child){margin-top:1.3rem}
+.ta-v{font-size:1.22rem;margin:0;color:var(--navy);font-weight:600}
+.ta-price{font-size:1.55rem;margin:0;color:var(--navy);font-weight:600}
+.ta-price span{font-size:.86rem;font-weight:400;color:rgba(11,27,63,.6)}
+.ta-note{margin:.9rem 0 0;font-size:.88rem;color:rgba(11,27,63,.66)}
+.ta-inc{margin-top:1.4rem;border:1px solid var(--hair);padding:1.7rem 1.6rem;background:var(--ivory)}
+.ta-inc ul{list-style:none;margin:.9rem 0 0;padding:0;display:grid;gap:.6rem;grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
+.ta-inc li{position:relative;padding-left:1.5rem;font-size:.95rem;color:rgba(11,27,63,.82)}
+.ta-inc li::before{
+  content:"";position:absolute;left:0;top:.72em;width:6px;height:6px;
+  background:var(--gold);rotate:45deg;
+}
+.ta-lede{margin-top:2rem;font-size:1.02rem;color:rgba(11,27,63,.8);max-width:62ch}
+.ta-cta{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2rem}
+.ta-cta .btn{font-family:"Noto Sans Tamil",var(--sans);letter-spacing:.04em;text-transform:none}
+
+/* ============================================================
    JOURNEY TIMELINE
    ============================================================ */
 #journey{background:var(--navy);color:var(--ivory);overflow:hidden}
@@ -1151,6 +1180,60 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
   </div>
 </section>
 
+<!-- ========== TAMIL SUMMARY ==========
+     The wording here is lifted from Talbiyah's own printed poster, not
+     translated from the English above — so the terminology is the office's.
+     Have Moulavi Sadath read it once before publishing. Keep it in step with
+     the package cards whenever prices or dates change. -->
+<section class="sec ta-sec" id="tamil" lang="ta" aria-label="Details in Tamil">
+  <div class="wrap">
+    <p class="eyebrow rv" lang="en">In Tamil</p>
+    <h2 class="ta-h rv">அக்டோபர் 2026 உம்ரா பயண அழைப்பு</h2>
+
+    <div class="ta-grid">
+      <div class="ta-block rv">
+        <p class="ta-k">புறப்படும் தேதி</p>
+        <p class="ta-v">30 செப்டம்பர் 2026</p>
+        <p class="ta-k">திரும்பும் தேதி</p>
+        <p class="ta-v">14 அக்டோபர் 2026</p>
+        <p class="ta-note">சென்னையிலிருந்து ஓமான் ஏர் விமானத்தில்</p>
+      </div>
+
+      <div class="ta-block rv">
+        <p class="ta-k">பேக்கேஜ் விலை</p>
+        <p class="ta-price">&#8377;1,15,000 <span>மட்டுமே</span></p>
+        <p class="ta-k">ஹில்டன் பேக்கேஜ்</p>
+        <p class="ta-price">&#8377;1,49,000 <span>மட்டுமே</span></p>
+        <p class="ta-note">ஒரு அறையில் நான்கு பேர்</p>
+      </div>
+    </div>
+
+    <div class="ta-inc rv">
+      <p class="ta-k">பேக்கேஜில் அடங்கியவை</p>
+      <ul>
+        <li>விமான கட்டணம் (ஓமான் ஏர்)</li>
+        <li>விசா கட்டணம்</li>
+        <li>மக்கா, மதீனா தங்குமிடம் — ஹரமுக்கு அருகில்</li>
+        <li>இன்சூரன்ஸ்</li>
+        <li>சுவையான தமிழக உணவுகள்</li>
+        <li>மக்கா &amp; மதீனா ஜியாரத்</li>
+        <li>லக்கேஜ் மற்றும் ஜம்ஜம் தண்ணீர்</li>
+        <li>வரலாற்று சிறப்புமிக்க இடங்களை விளக்கத்துடன் பார்வையிடுதல்</li>
+      </ul>
+    </div>
+
+    <p class="ta-lede rv">மௌலவி அல்ஹாஜ் பி. முகமது சாதத் அவர்கள் குழுவுடன் நேரில் பயணம் செய்கிறார்கள். மன நிறைவான சேவை — நிறுவனரின் நேரடி பார்வையில்.</p>
+
+    <div class="ta-cta rv">
+      <a class="btn btn--gold" href="https://wa.me/919710092070?text=%E0%AE%85%E0%AE%B8%E0%AF%8D%E0%AE%B8%E0%AE%B2%E0%AE%BE%E0%AE%AE%E0%AF%81%20%E0%AE%85%E0%AE%B2%E0%AF%88%E0%AE%95%E0%AF%8D%E0%AE%95%E0%AF%81%E0%AE%AE%E0%AF%8D.%20%E0%AE%89%E0%AE%AE%E0%AF%8D%E0%AE%B0%E0%AE%BE%20%E0%AE%AA%E0%AE%AF%E0%AE%A3%20%E0%AE%B5%E0%AE%BF%E0%AE%B5%E0%AE%B0%E0%AE%99%E0%AF%8D%E0%AE%95%E0%AE%B3%E0%AF%8D%20%E0%AE%A4%E0%AF%87%E0%AE%B5%E0%AF%88." target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
+        முன்பதிவுக்கு: 97100 92070
+      </a>
+      <a class="btn btn--ghost" href="tel:+919791108230">97911 08230</a>
+    </div>
+  </div>
+</section>
+
 <!-- ========== JOURNEY TIMELINE ========== -->
 <section id="journey" aria-label="The journey, step by step">
   <div class="wrap jr-head" style="padding-top:var(--sec)">
@@ -1624,6 +1707,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
           <li><a href="#packages">Packages</a></li>
           <li><a href="#journey">The Journey</a></li>
           <li><a href="#ziyarat">Guided ziyarat</a></li>
+          <li><a href="#tamil" lang="ta">தமிழில் விவரங்கள்</a></li>
           <li><a href="#departures">Photographs</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="#contact">Contact</a></li>
