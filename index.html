@@ -661,6 +661,15 @@ h1 .ch{display:inline-block;will-change:transform}
   line-height:1.25;margin-bottom:.4rem;
 }
 .zy p{margin:0;font-size:.9rem;color:rgba(11,27,63,.72);max-width:46ch}
+
+.zy-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));
+  gap:1.1rem;margin-top:2.8rem}
+.zy-band figure{margin:0;border:1px solid var(--hair);background:var(--ivory)}
+.zy-band img{display:block;width:100%;height:auto}
+.zy-band figcaption{
+  padding:.7rem .9rem;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold-ink);
+}
 .zy-note{margin-top:2.6rem;font-size:.9rem;color:rgba(11,27,63,.72)}
 .zy-note a{color:var(--gold-ink);text-underline-offset:3px}
 
@@ -1538,6 +1547,40 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
     <h2 class="rv">The places, and why they matter.</h2>
     <p class="lede rv" style="margin-top:1.3rem">Ziyarat is where most groups are short-changed &mdash; a bus window, ten minutes, on to the next stop. Ours travels in our own coach, with Moulavi Sadath telling you what happened at each place before you get down, and time left to sit and pray. Access to some sites changes with Saudi regulations and the season; we tell you what is open before you travel, not after.</p>
 
+
+    <!-- Evidence for the paragraph above: him explaining before the group
+         gets down, the group listening rather than filing past, and an
+         unhurried stop. Cropped to one aspect so the row reads evenly. -->
+    <div class="zy-band rv">
+      <figure>
+        <picture>
+          <source srcset="assets/ziyarat-explaining.webp" type="image/webp">
+          <img src="assets/ziyarat-explaining.jpg" width="720" height="900"
+               loading="lazy" decoding="async"
+               alt="Moulavi Sadath explaining a site to the group in front of a large illustrated panel of it.">
+        </picture>
+        <figcaption>Explained before you get down</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source srcset="assets/ziyarat-listening.webp" type="image/webp">
+          <img src="assets/ziyarat-listening.jpg" width="720" height="900"
+               loading="lazy" decoding="async"
+               alt="Pilgrims from the group standing and listening to the guide outside the Prophet&rsquo;s Mosque in Madinah.">
+        </picture>
+        <figcaption>The group, listening</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source srcset="assets/ziyarat-stop.webp" type="image/webp">
+          <img src="assets/ziyarat-stop.jpg" width="720" height="900"
+               loading="lazy" decoding="async"
+               alt="Three pilgrims from the group at a camel farm on the ziyarat route outside the city.">
+        </picture>
+        <figcaption>Time to stop, not just pass</figcaption>
+      </figure>
+    </div>
+
     <div class="zy-grid">
       <div>
         <h3 class="zy-city rv">In and around Makkah</h3>
@@ -1743,6 +1786,46 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
                loading="lazy" decoding="async" alt="A family wearing their Talbiyah lanyards at the airport before departure.">
         </picture>
         <figcaption>Before departure</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source srcset="assets/guide-documents.webp" type="image/webp">
+          <img src="assets/guide-documents.jpg" width="760" height="760"
+               loading="lazy" decoding="async" alt="Moulavi Sadath at the kerbside outside the airport holding the group&rsquo;s travel documents.">
+        </picture>
+        <figcaption>The whole group&rsquo;s paperwork</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source srcset="assets/guide-elderly.webp" type="image/webp">
+          <img src="assets/guide-elderly.jpg" width="760" height="760"
+               loading="lazy" decoding="async" alt="A pilgrim being handed his documents at the airport entrance, with porter service staff behind.">
+        </picture>
+        <figcaption>Handed over, one by one</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source srcset="assets/group-meal.webp" type="image/webp">
+          <img src="assets/group-meal.jpg" width="760" height="1013"
+               loading="lazy" decoding="async" alt="Members of the group sitting on the ground sharing a meal served from a large dish.">
+        </picture>
+        <figcaption>A meal shared on the road</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source srcset="assets/airport-waiting.webp" type="image/webp">
+          <img src="assets/airport-waiting.jpg" width="760" height="428"
+               loading="lazy" decoding="async" alt="Families from the group waiting together with their bags in an airport departure hall.">
+        </picture>
+        <figcaption>Waiting together, not alone</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source srcset="assets/guide-dua.webp" type="image/webp">
+          <img src="assets/guide-dua.jpg" width="760" height="1013"
+               loading="lazy" decoding="async" alt="Moulavi Sadath sitting in prayer with his hands raised inside the mosque.">
+        </picture>
+        <figcaption>The reason for all of it</figcaption>
       </figure>
     </div>
   </div>

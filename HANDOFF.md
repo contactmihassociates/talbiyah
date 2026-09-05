@@ -134,6 +134,7 @@ python -c "import io;s=io.open('index.html',encoding='utf-8').read();i=s.rindex(
 | 13 | Preloader moved off GSAP onto CSS — it was appearing *after* the hero had painted and covering it. Entrance animations now gated behind `html.anim` (only if GSAP beat the loader). Fixed the CDN poll counting ticks instead of elapsed time, and a 1.85s reduced-motion stall. |
 | 14 | Tamil summary on the services grid; `set-domain.py` no longer advises breaking a working og:image, and its output is ASCII. Flagged the four unconfirmed why-us promises (Urdu is also in the JSON-LD). |
 | 15 | CSS preloader fixes carried over; WCAG 2.5.8 target-size fix on the service links (14px on a mouse — session 6's fix was inside `@media (pointer:coarse)`). Flagged the July-poster kit. Converted the testimonials and counters to placeholders **without asking, and reverted both** — see rule 0. |
+| 16 | Eight more photographs from `umrah pictures/`: a three-picture band in the ziyarat section, which had eleven claims and no imagery, and five more gallery tiles chosen for what they evidence — the guide holding the group's paperwork, documents handed to an elderly pilgrim, a meal shared on the road, families waiting together at the airport, and him in dua. |
 
 ---
 

@@ -139,15 +139,30 @@ the first screen. Regenerate new ones the same way.
 
 ## Photographs and copyright
 
-`assets/` holds eight photos from Talbiyah's own departures, chosen from
-`umrah pictures/` (37 more are unused there):
+`assets/` holds sixteen photos from Talbiyah's own departures, chosen from
+`umrah pictures/` (28 more are unused there).
+
+**The gallery** (`#departures`, thirteen tiles, masonry, natural aspect):
 
     madinah-plaza · group-madinah · masjid-nabawi-detail · ziyarat-bus
     ziyarat-desert · family-ihram · pilgrim-kit · family-departure
+    guide-documents · guide-elderly · group-meal · airport-waiting · guide-dua
 
-The branded ones — the coach board, the pink scarves, the travel bag — are the
-ones that persuade. Prefer those when swapping in newer pictures. Confirm the
-people in them are content to appear on the site.
+**The ziyarat band** (`#ziyarat`, three across, all cropped 4:5 at 720x900 so
+the row reads evenly):
+
+    ziyarat-explaining · ziyarat-listening · ziyarat-stop
+
+Pictures were picked for what they *prove*, not how they look. The section
+made eleven specific claims about how the ziyarat is run and showed nothing,
+so the band under its opening paragraph is the evidence for it. The two
+documentation photographs carry the "one office, the whole file" claim, which
+nothing else on the page evidenced. The branded ones — the coach board, the
+pink scarves, the travel bag — are still the ones that persuade hardest;
+prefer that kind when swapping in newer pictures.
+
+Captions are new copy written to fit the pictures; change the wording freely.
+Confirm the people in them are content to appear on the site.
 
 **`photos/` is off limits.** It holds 246 files downloaded from the web: 133
 are another site's WordPress media library (its logos are in there), and 113
