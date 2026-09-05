@@ -521,7 +521,10 @@ h1 .ch{display:inline-block;will-change:transform}
    given again, not as a different one. */
 .ta-alt{
   font-family:"Noto Sans Tamil",var(--sans);
-  font-size:.93rem;line-height:1.9;
+  /* Tamil conjuncts carry more detail per glyph than Latin, so this sits a
+     touch above the English body size rather than below it. For most of
+     this audience it is the version actually being read. */
+  font-size:.99rem;line-height:1.9;
   color:rgba(11,27,63,.74);
   margin-top:1.15rem;padding-top:1.15rem;
   border-top:1px solid var(--hair);
@@ -533,6 +536,13 @@ h1 .ch{display:inline-block;will-change:transform}
 }
 .dark .ta-alt{color:rgba(250,247,240,.74)}
 .dark .ta-alt::before{color:var(--gold)}
+
+/* Tells a Tamil-first reader the answers are bilingual before they open one. */
+.faq-bilingual{
+  margin-top:1.2rem;font-size:.9rem;color:rgba(11,27,63,.66);
+  display:flex;flex-wrap:wrap;gap:.15rem .6rem;
+}
+.faq-bilingual span{font-family:"Noto Sans Tamil",var(--sans);color:var(--gold-ink)}
 
 /* ============================================================
    JOURNEY TIMELINE
@@ -762,6 +772,12 @@ body:not(.js-off) .faq-a{height:0}
 body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
 .faq-a>div{overflow:hidden}
 .faq-a p{padding-bottom:1.6rem;font-size:.95rem;color:rgba(11,27,63,.75);max-width:64ch}
+/* The Tamil answer follows the English on a hairline. `.faq-a p` outranks
+   `.ta-alt` on specificity, so the size lift has to be restated here; and the
+   English paragraph drops its trailing padding so the rule sits evenly
+   between the two languages instead of hard against the Tamil. */
+.faq-a p:not(:last-child){padding-bottom:0}
+.faq-a p.ta-alt{font-size:.99rem;max-width:58ch}
 
 /* ============================================================
    CONTACT
@@ -1641,6 +1657,8 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
   <div class="wrap">
     <p class="eyebrow rv">Questions we are asked most</p>
     <h2 class="rv">Before you decide.</h2>
+    <p class="faq-bilingual rv">Every answer below is given in English and in Tamil.
+      <span lang="ta">ஒவ்வொரு பதிலும் ஆங்கிலத்திலும் தமிழிலும் உள்ளது.</span></p>
 
     <div class="faq rv">
 

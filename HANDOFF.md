@@ -76,6 +76,7 @@ python -c "import io;s=io.open('index.html',encoding='utf-8').read();i=s.rindex(
 | 8 | Tamil in the primary nav and on every form label. Found and fixed a scroll-lock bug: `body{overflow:hidden}` does not stop Lenis, so the page slid along behind the open mobile menu and during the preloader. |
 | 9 | Focus trap and `inert` for the mobile menu. Found and fixed a keyboard-scrolling failure: Lenis reverts any scroll it did not initiate, so PageDown, PageUp, Space, Home, End and the arrows did nothing at all. |
 | 10 | Scrollspy — `.here` and `aria-current` on the nav link whose section is under the middle of the viewport. |
+| 11 | Tamil rendering of all six FAQ answers and the guide's story (`.ta-alt`, labelled "தமிழில்"). JSON-LD deliberately left English-only. |
 
 ---
 
@@ -88,9 +89,10 @@ In order of value:
 2. **Booking and payment.** Deposit, balance date, what happens if a visa is
    refused. A buyer asks this before enquiring and the page cannot answer it.
    Needs facts from the office — do not guess.
-3. **More Tamil.** The offer is in Tamil; the FAQ and the guide's story are
-   not. Most of the audience reads Tamil first. Reuse the office's own poster
-   wording rather than translating.
+3. **More Tamil, continued.** The FAQ, the guide's story and the offer are now
+   bilingual (`.ta-alt`). Still English-only: the services grid, the journey
+   timeline, the ziyarat list and the why-us block. Have Moulavi Sadath read
+   the Tamil already on the page before adding more.
 4. **A page per departure** — photos and a short account of each group. Gives
    Google something new to index and returning families something to look at.
 5. Documents checklist as a PDF the office can send on WhatsApp.
