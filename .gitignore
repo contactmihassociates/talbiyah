@@ -6,3 +6,6 @@ file.enc
 
 # Source photo library — originals stay local, optimised copies live in assets/
 umrah pictures/
+
+# Third-party photographs — NOT ours to publish. Local reference only.
+photos/
