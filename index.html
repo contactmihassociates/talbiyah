@@ -537,6 +537,20 @@ h1 .ch{display:inline-block;will-change:transform}
 .dark .ta-alt{color:rgba(250,247,240,.74)}
 .dark .ta-alt::before{color:var(--gold)}
 
+/* Shown only after the advertised departure has left, so the page never
+   presents a past group's dates and prices as though they were bookable.
+   Injected by the countdown; see [data-offer-dated] in the motion layer. */
+.stale-note{
+  display:flex;gap:.9rem;align-items:flex-start;
+  margin:1.6rem 0 0;padding:1.1rem 1.3rem;border-radius:2px;
+  background:rgba(158,42,43,.09);border:1px solid rgba(158,42,43,.38);
+  font-size:.93rem;line-height:1.62;color:var(--navy);
+}
+.dark .stale-note{background:rgba(201,162,39,.12);border-color:rgba(201,162,39,.45);color:var(--ivory)}
+.stale-note svg{width:19px;height:19px;flex:none;margin-top:.22em;stroke:currentColor;fill:none;stroke-width:1.4}
+.stale-note b{display:block;margin-bottom:.15rem}
+.stale-note .ta{display:block;margin-top:.5rem;font-family:"Noto Sans Tamil",var(--sans);font-size:.92rem;opacity:.86}
+
 /* Tells a Tamil-first reader the answers are bilingual before they open one. */
 .faq-bilingual{
   margin-top:1.2rem;font-size:.9rem;color:rgba(11,27,63,.66);
@@ -1206,7 +1220,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
      Prices, dates and inclusions are taken from the October 2026 Oman Air
      poster. Update all three cards together when the next season's poster
      is printed. -->
-<section class="sec dark khatam" id="packages">
+<section class="sec dark khatam" id="packages" data-offer-dated>
   <div class="wrap">
     <p class="eyebrow rv">Umrah packages</p>
     <h2 class="rv">October 2026. Two packages, one standard of care.</h2>
@@ -1299,7 +1313,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
      translated from the English above — so the terminology is the office's.
      Have Moulavi Sadath read it once before publishing. Keep it in step with
      the package cards whenever prices or dates change. -->
-<section class="sec ta-sec" id="tamil" lang="ta" aria-label="Details in Tamil">
+<section class="sec ta-sec" id="tamil" lang="ta" aria-label="Details in Tamil" data-offer-dated>
   <div class="wrap">
     <p class="eyebrow rv" lang="en">In Tamil</p>
     <h2 class="ta-h rv">அக்டோபர் 2026 உம்ரா பயண அழைப்பு</h2>
@@ -2142,6 +2156,41 @@ document.addEventListener('DOMContentLoaded', function () {
     var cd  = $('#announceCd'), tag = $('#announceTag'), txt = $('.announce-txt', strip);
     var cta = $('.btn', strip);
 
+    // Retiring the strip is not enough on its own: the packages section and
+    // the Tamil section both quote this departure's dates and prices, and
+    // once it has left those read as a live offer. Rather than blanking
+    // them — the inclusions are still the best answer to "what do I get?" —
+    // each is topped with a note saying the trip has gone and the next one
+    // has to be asked about. Marked with [data-offer-dated] in the markup.
+    var staleMarked = false;
+    function markStale() {
+      if (staleMarked) return;
+      staleMarked = true;
+      $$('[data-offer-dated]').forEach(function (sec) {
+        if ($('.stale-note', sec)) return;
+        var wrap = $('.wrap', sec) || sec;
+        var note = document.createElement('p');
+        note.className = 'stale-note';
+        note.setAttribute('role', 'note');
+        note.innerHTML =
+          '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/>' +
+          '<path d="M12 7.5v5M12 16.2v.3"/></svg>' +
+          '<span><b>This departure has already left.</b>' +
+          'The dates and prices here are the October 2026 group’s, kept so you can ' +
+          'see what a package includes. Ask us for the next group’s dates and price.' +
+          '<span class="ta" lang="ta">இந்தப் பயணம் ' +
+          'புறப்பட்டுவிட்டது. ' +
+          'அடுத்த குழுவின் ' +
+          'தேதி மற்றும் விலைக்கு ' +
+          'எங்களைத் தொடர்பு ' +
+          'கொள்ளுங்கள்.</span></span>';
+        var h = $('h2', wrap);
+        if (h && h.parentNode === wrap) wrap.insertBefore(note, h.nextSibling);
+        else wrap.insertBefore(note, wrap.firstChild);
+      });
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+    }
+
     function paint() {
       var days = Math.ceil((depart - new Date()) / 86400000);
 
@@ -2155,7 +2204,8 @@ document.addEventListener('DOMContentLoaded', function () {
         cd.innerHTML = '<b>Today</b>';
         return;
       }
-      // The date has passed. Retire the advertisement.
+      // The date has passed. Retire the advertisement everywhere it appears.
+      markStale();
       cd.hidden = true;
       tag.textContent = 'Next departure';
       txt.innerHTML = '<b>The next Umrah group from Chennai is being arranged.</b> ' +
