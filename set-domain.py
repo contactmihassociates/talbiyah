@@ -42,7 +42,7 @@ def main():
     current = m.group(1) if m else PLACEHOLDER
 
     if current == domain:
-        print('Already set to %s — nothing to do.' % domain)
+        print('Already set to %s. Nothing to do.' % domain)
         return
 
     total = 0
@@ -62,8 +62,12 @@ def main():
     print('\n%s -> %s  (%d references)' % (current, domain, total))
     if total:
         print('\nStill to do by hand:')
-        print('  - upload assets/og-image.jpg so https://%s/og-image.jpg resolves,' % domain)
-        print('    or edit the og:image and twitter:image tags to assets/og-image.jpg')
+        # Deliberately ASCII: this prints to a Windows console, where a
+        # cp1252 stdout turns an em-dash into a mojibake box at best and a
+        # UnicodeEncodeError at worst.
+        print('  - check https://%s/assets/og-image.jpg actually loads.' % domain)
+        print('    WhatsApp shows no preview card if it 404s, and WhatsApp is')
+        print('    how this business gets shared.')
         print('  - submit https://%s/sitemap.xml in Google Search Console' % domain)
 
 
