@@ -58,7 +58,21 @@ Three gotchas that will waste your time otherwise:
   path, route it through Lenis.
 - **Screenshots of the preview pane are unreliable on tall pages.** Check the
   DOM (`getComputedStyle`, `getBoundingClientRect`) rather than trusting a
-  blank image.
+  blank image. They do not only come back blank — a capture can show a
+  stale, torn frame that looks like a serious layout break (the fixed header
+  stranded halfway down the page, a huge blank band above it). The fastest
+  way to settle whether a break is real is to hit-test the viewport:
+
+  ```js
+  [[195,20],[195,250],[195,500],[195,820]].map(([x,y]) => {
+    const e = document.elementFromPoint(x,y);
+    return {y, el: e.tagName + '.' + e.className, in: e.closest('section,header')?.id};
+  })
+  ```
+
+  If that agrees with `getBoundingClientRect()`, the page is fine and the
+  image is lying. Screenshots are reliable again once the tab is fronted
+  and any smooth scroll has settled.
 
 Validate after any edit:
 

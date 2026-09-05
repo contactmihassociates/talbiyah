@@ -36,7 +36,17 @@ python -m http.server 8777
 5. Have **Moulavi Sadath read all the Tamil** once — the offer section, the
    six FAQ answers, the guide's story, and the note that appears if a
    departure date passes without the page being updated.
-6. Submit the sitemap in Google Search Console.
+6. **Confirm the four "Why us" promises.** They were written from the card
+   and the posters, not from anything the office said, and they commit the
+   business to specific things:
+   - *"Nothing is subcontracted to a stranger"* — is the whole file really
+     handled in-house?
+   - *"He is on the flight, at the hotel, and beside you during tawaf"*
+   - *"Tamil, Urdu and English"* — **Urdu is an assumption.** It is also in
+     the JSON-LD as `availableLanguage: ["en","ta","ur"]`, so it is
+     machine-readable. Correct both together or drop `"ur"` from both.
+   - *"What is included is said out loud before you pay"*
+7. Submit the sitemap in Google Search Console.
 
 ---
 
