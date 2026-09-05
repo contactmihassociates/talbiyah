@@ -249,6 +249,17 @@ a:hover{color:var(--crimson)}
 ::selection{background:var(--gold);color:var(--navy)}
 
 h1,h2,h3,h4{font-family:var(--serif);font-weight:400;line-height:1.08;margin:0;letter-spacing:-.005em}
+/* Even out the line lengths of headings that wrap. The FAQ questions were the
+   worst of it — an 840px first line against a 288px second. h1 is left out on
+   purpose: it is split into per-character spans for the entrance animation,
+   and re-balancing would move the line breaks the split has already measured.
+   Browsers without text-wrap ignore both of these and wrap as before. */
+h2,h3,.faq-t{text-wrap:balance}
+/* The question text needs to be a real flex item, not an anonymous box
+   beside the icon, or text-wrap has nothing to balance. */
+.faq-t{flex:1}
+/* Keeps a single word from being stranded on the last line of a paragraph. */
+p{text-wrap:pretty}
 h1{font-size:clamp(2.6rem,7.2vw,5.1rem)}
 h2{font-size:clamp(2rem,4.6vw,3.35rem)}
 h3{font-size:clamp(1.3rem,2.3vw,1.65rem);line-height:1.2}
@@ -1907,7 +1918,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
     <div class="faq rv">
 
       <div class="faq-item">
-        <h3><button class="faq-q" type="button" id="q1" aria-expanded="false" aria-controls="a1">How long does an Umrah visa take?<span class="faq-ic" aria-hidden="true"></span></button></h3>
+        <h3><button class="faq-q" type="button" id="q1" aria-expanded="false" aria-controls="a1"><span class="faq-t">How long does an Umrah visa take?</span><span class="faq-ic" aria-hidden="true"></span></button></h3>
         <div class="faq-a" id="a1" role="region" aria-labelledby="q1"><div>
           <p>Once your documents are complete, an Umrah visa is usually issued within a few working days. Delays almost always come from an incomplete file — a passport too close to expiry, or photographs that do not meet the specification — which is exactly what we check before submitting. Haj is different: it runs on an annual application window through the Haj Committee of India and approved organisers, so it must be planned months ahead. Ask us for the current season's dates.</p>
           <p class="ta-alt" lang="ta">உங்கள் ஆவணங்கள் முழுமையாக இருந்தால், உம்ரா விசா பொதுவாக சில வேலை நாட்களுக்குள் கிடைத்துவிடும். தாமதம் பெரும்பாலும் முழுமையற்ற கோப்பால்தான் — பாஸ்போர்ட் காலாவதி நெருங்கியிருப்பது, அல்லது புகைப்படம் சரியான அளவில் இல்லாதது. அதை நாங்கள் விண்ணப்பிக்கும் முன்பே சரிபார்க்கிறோம். ஹஜ் வேறு: அது இந்திய ஹஜ் கமிட்டி மற்றும் அங்கீகரிக்கப்பட்ட அமைப்புகள் வழியாக ஆண்டுக்கு ஒருமுறை மட்டுமே விண்ணப்பிக்க முடியும், எனவே பல மாதங்கள் முன்பே திட்டமிட வேண்டும். இந்த ஆண்டின் தேதிகளை எங்களிடம் கேளுங்கள்.</p>
@@ -1915,7 +1926,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
       </div>
 
       <div class="faq-item">
-        <h3><button class="faq-q" type="button" id="q2" aria-expanded="false" aria-controls="a2">What documents do I need to give you?<span class="faq-ic" aria-hidden="true"></span></button></h3>
+        <h3><button class="faq-q" type="button" id="q2" aria-expanded="false" aria-controls="a2"><span class="faq-t">What documents do I need to give you?</span><span class="faq-ic" aria-hidden="true"></span></button></h3>
         <div class="faq-a" id="a2" role="region" aria-labelledby="q2"><div>
           <p>A passport valid for at least six months beyond your travel date, recent colour photographs to the required specification, and a meningitis (ACWY) vaccination certificate. Depending on who is travelling, we may also need proof of relationship for family members, and identification for children on a parent's booking. We give you the full list in writing at registration — and we tell you which ones we can arrange for you.</p>
           <p class="ta-alt" lang="ta">பயண தேதியிலிருந்து குறைந்தது ஆறு மாதம் செல்லுபடியாகும் பாஸ்போர்ட், தேவையான அளவில் சமீபத்திய வண்ணப் புகைப்படங்கள், மற்றும் மெனிஞ்சைடிஸ் (ACWY) தடுப்பூசி சான்றிதழ். யார் பயணிக்கிறார்கள் என்பதைப் பொறுத்து, குடும்ப உறவைக் காட்டும் ஆவணமும், பெற்றோருடன் வரும் குழந்தைகளுக்கு அடையாள ஆவணமும் தேவைப்படலாம். பதிவு செய்யும் போதே முழுப் பட்டியலை எழுத்து வடிவில் தருகிறோம் — அதில் எவற்றை நாங்களே ஏற்பாடு செய்து தர முடியும் என்பதையும் சொல்கிறோம்.</p>
@@ -1923,7 +1934,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
       </div>
 
       <div class="faq-item">
-        <h3><button class="faq-q" type="button" id="q3" aria-expanded="false" aria-controls="a3">Can women travel without a mahram?<span class="faq-ic" aria-hidden="true"></span></button></h3>
+        <h3><button class="faq-q" type="button" id="q3" aria-expanded="false" aria-controls="a3"><span class="faq-t">Can women travel without a mahram?</span><span class="faq-ic" aria-hidden="true"></span></button></h3>
         <div class="faq-a" id="a3" role="region" aria-labelledby="q3"><div>
           <p>Saudi requirements on this have changed in recent years, and women now travel for Umrah in circumstances that were not previously permitted — often as part of an organised group. Because the rules are revised from time to time and the fiqh position matters as much as the visa rule, we would rather answer this for your specific situation than print a blanket answer here. Call or message Moulavi Sadath and he will go through both sides of it with you.</p>
           <p class="ta-alt" lang="ta">இது குறித்த சவுதி விதிகள் சமீப ஆண்டுகளில் மாறியுள்ளன; முன்பு அனுமதிக்கப்படாத சூழ்நிலைகளிலும் இப்போது பெண்கள் உம்ராவுக்குப் பயணிக்கிறார்கள் — பெரும்பாலும் ஒரு குழுவின் பகுதியாக. விதிகள் அவ்வப்போது திருத்தப்படுவதாலும், விசா விதி அளவுக்கே ஃபிக்ஹ் நிலைப்பாடும் முக்கியம் என்பதாலும், இங்கே ஒரே பதிலை அச்சிடுவதைவிட உங்கள் சூழ்நிலைக்கேற்ப பதில் சொல்வதே சரி. மௌலவி சாதத் அவர்களை அழைத்துப் பேசுங்கள் — இரண்டு பக்கத்தையும் விளக்குவார்.</p>
@@ -1931,7 +1942,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
       </div>
 
       <div class="faq-item">
-        <h3><button class="faq-q" type="button" id="q4" aria-expanded="false" aria-controls="a4">Group departure or a private trip?<span class="faq-ic" aria-hidden="true"></span></button></h3>
+        <h3><button class="faq-q" type="button" id="q4" aria-expanded="false" aria-controls="a4"><span class="faq-t">Group departure or a private trip?</span><span class="faq-ic" aria-hidden="true"></span></button></h3>
         <div class="faq-a" id="a4" role="region" aria-labelledby="q4"><div>
           <p>A group departure costs less, travels on a fixed date, and means you are never navigating alone — the guide handles the transfers, the rituals and anything that goes wrong. A private booking lets you choose your own dates, hotel and pace, and suits families with very young children, elderly parents, or particular medical needs. Most first-time pilgrims are better served by the group; we will say so plainly if we think that is you.</p>
           <p class="ta-alt" lang="ta">குழுப் பயணம் செலவு குறைவு, நிர்ணயிக்கப்பட்ட தேதியில் புறப்படும், மேலும் நீங்கள் தனியாக எதையும் சமாளிக்க வேண்டியதில்லை — பயணம், வழிபாட்டு முறைகள், ஏதேனும் சிக்கல் என அனைத்தையும் வழிகாட்டி கவனித்துக் கொள்வார். தனிப்பட்ட பயணத்தில் உங்கள் தேதி, ஹோட்டல், வேகம் எல்லாம் உங்கள் விருப்பம்; மிகச் சிறிய குழந்தைகள், வயதான பெற்றோர், அல்லது மருத்துவத் தேவைகள் உள்ள குடும்பங்களுக்கு இது பொருத்தமானது. முதல் முறை செல்பவர்களுக்கு குழுப் பயணமே பெரும்பாலும் சிறந்தது — உங்களுக்கு அது பொருந்தும் என்றால் நாங்கள் வெளிப்படையாகச் சொல்வோம்.</p>
@@ -1939,7 +1950,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
       </div>
 
       <div class="faq-item">
-        <h3><button class="faq-q" type="button" id="q5" aria-expanded="false" aria-controls="a5">What is actually included in the package price?<span class="faq-ic" aria-hidden="true"></span></button></h3>
+        <h3><button class="faq-q" type="button" id="q5" aria-expanded="false" aria-controls="a5"><span class="faq-t">What is actually included in the package price?</span><span class="faq-ic" aria-hidden="true"></span></button></h3>
         <div class="faq-a" id="a5" role="region" aria-labelledby="q5"><div>
           <p>Return airfare from Chennai, the Umrah visa, hotel accommodation in Makkah and Madinah, airport and inter-city transfers, and guided ziyarat. What varies by tier is the hotel's distance from the Haram and how many share a room. Things like extra baggage, personal expenses and travel insurance are quoted separately so you can see them — we will walk through the full inclusion list before you pay anything.</p>
           <p class="ta-alt" lang="ta">சென்னையிலிருந்து விமானக் கட்டணம், உம்ரா விசா, மக்கா மற்றும் மதீனாவில் ஹோட்டல் தங்குமிடம், விமான நிலையம் மற்றும் நகரங்களுக்கு இடையிலான போக்குவரத்து, வழிகாட்டப்பட்ட ஜியாரத் — இவை எல்லாப் பேக்கேஜிலும் அடங்கும். பேக்கேஜுக்குப் பேக்கேஜ் மாறுவது ஹரமிலிருந்து ஹோட்டலின் தூரமும், ஒரு அறையில் எத்தனை பேர் தங்குகிறார்கள் என்பதும் மட்டுமே. கூடுதல் பேகேஜ், தனிப்பட்ட செலவுகள் போன்றவை தனியாகக் காட்டப்படும் — பணம் கட்டும் முன்பு முழுப் பட்டியலையும் விளக்குகிறோம்.</p>
@@ -1947,7 +1958,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
       </div>
 
       <div class="faq-item">
-        <h3><button class="faq-q" type="button" id="q6" aria-expanded="false" aria-controls="a6">I have never travelled abroad. Is that a problem?<span class="faq-ic" aria-hidden="true"></span></button></h3>
+        <h3><button class="faq-q" type="button" id="q6" aria-expanded="false" aria-controls="a6"><span class="faq-t">I have never travelled abroad. Is that a problem?</span><span class="faq-ic" aria-hidden="true"></span></button></h3>
         <div class="faq-a" id="a6" role="region" aria-labelledby="q6"><div>
           <p>It is the most common situation we deal with, and it is the reason this service exists in the form it does. If you have no passport, we start there. Before departure you get a briefing covering immigration, baggage, ihram and what happens on arrival. On the journey the guide is with the group throughout. You are not expected to know anything in advance except your intention.</p>
           <p class="ta-alt" lang="ta">இதுதான் நாங்கள் அதிகம் சந்திக்கும் நிலை; இந்தச் சேவை இப்படி உருவானதற்கே அதுதான் காரணம். பாஸ்போர்ட் இல்லையென்றால் அங்கிருந்தே தொடங்குகிறோம். புறப்படும் முன் குடிநுழைவு, பேக்கேஜ், இஹ்ராம், இறங்கியதும் என்ன நடக்கும் என அனைத்தையும் விளக்கும் ஒரு சந்திப்பு உண்டு. பயணம் முழுவதும் வழிகாட்டி குழுவுடனேயே இருப்பார். உங்கள் நிய்யத்தைத் தவிர வேறு எதுவும் உங்களுக்கு முன்கூட்டியே தெரிந்திருக்க வேண்டியதில்லை.</p>

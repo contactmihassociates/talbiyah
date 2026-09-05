@@ -401,3 +401,47 @@ back leaving no residue.
   description carry the keywords, so this is defensible, but if the page ever
   underperforms for "umrah packages chennai" the h1 is the first thing to look
   at.
+
+---
+
+## Iteration 9 — Visual polish
+
+**Audited** for typographic defects rather than taste: text clipped by its own
+box, ragged multi-line headings, and stranded last words.
+
+**One false alarm worth recording, because it has now cost three iterations.**
+The hero headline's line mask measured `scrollHeight 375` against a 268px box
+with `overflow:hidden`, and the third line — "everything else." — sat 102px
+below the mask's bottom edge. That reads as a whole line being clipped. It is
+not: 102px is `yPercent: 118` of an 88px line, the position the characters are
+*parked* at before the entrance animation runs. With the Browser pane hidden,
+`requestAnimationFrame` is frozen and they never move. Forcing
+`gsap.globalTimeline.progress(1)` puts every character 2px inside the mask on
+both edges. **If a measurement here looks like a serious layout break, force
+the timeline before believing it.**
+
+**Two real improvements:**
+
+1. **Stranded last words.** `text-wrap: pretty` on paragraphs. Measured by
+   counting paragraphs whose final line is under 18% of their average line
+   width, with the property on and forced off: **4 orphans → 1**, including
+   "…Nobody sent me anywhere else." and "…ask us for the current season's
+   dates."
+
+2. **The six FAQ questions were the worst typography on the page** — an 840px
+   first line against a 288px second, 49% ragged. `text-wrap: balance` alone
+   did nothing, and it is worth knowing why: the question text was a bare text
+   node next to the icon inside a `display:flex` button, so it formed an
+   *anonymous flex item*, which `text-wrap` cannot address. Wrapping it in a
+   real `<span class="faq-t">` with `flex:1` fixed both the typography and the
+   flex structure, which should have had a real item there anyway.
+
+   **Desktop:** all six questions now sit on one line, every button an
+   identical 840x76, text flush left, icon flush right at inset 0.
+   **At 390px:** only two still wrap, and those are balanced — 174/143 and
+   146/178, average raggedness 0% against 49% before.
+
+Verified the accordion still opens, still sets `aria-expanded`, and the
+button's accessible name is unchanged ("How long does an Umrah visa take?") —
+the wrapping span is inside the button, so the name is computed the same way.
+No horizontal overflow at 390px.
