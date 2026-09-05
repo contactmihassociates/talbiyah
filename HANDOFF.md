@@ -75,6 +75,7 @@ python -c "import io;s=io.open('index.html',encoding='utf-8').read();i=s.rindex(
 | 7 | Subresource Integrity on the three CDN scripts, a print stylesheet, and a fix for `preserveAspectRatio="xMidYEnd"` — an invalid value that silently letterboxed the hero skyline instead of anchoring it to the baseline, and threw 39 console errors. |
 | 8 | Tamil in the primary nav and on every form label. Found and fixed a scroll-lock bug: `body{overflow:hidden}` does not stop Lenis, so the page slid along behind the open mobile menu and during the preloader. |
 | 9 | Focus trap and `inert` for the mobile menu. Found and fixed a keyboard-scrolling failure: Lenis reverts any scroll it did not initiate, so PageDown, PageUp, Space, Home, End and the arrows did nothing at all. |
+| 10 | Scrollspy — `.here` and `aria-current` on the nav link whose section is under the middle of the viewport. |
 
 ---
 
@@ -94,8 +95,19 @@ In order of value:
    Google something new to index and returning families something to look at.
 5. Documents checklist as a PDF the office can send on WhatsApp.
 
-Verified working at last check: 89 ScrollTriggers, no failed requests, hero and
-loader, pinned horizontal journey, counters reading correctly before they roll,
-marquee pause, accordion, countdown at 25 days, enquiry form composing the
-right WhatsApp message, no horizontal overflow at 360px, one `h1` and no
-skipped heading levels, no unlabelled control.
+## Verified at last check
+
+96 ScrollTriggers · 2 valid JSON-LD blocks (TravelAgency, FAQPage) · no failed
+requests · 3 scripts carrying SRI hashes · 18 print rules · 8 gallery images ·
+11 ziyarat entries · marquee duplicated to 8 cards · countdown reading 25 days ·
+counters reading 15 / 1200 / 60 before they roll · 1 bracketed placeholder left
+(the registration number).
+
+Interactions exercised with real events, not synthetic ones: mobile menu opens
+and locks the scroll, focus moves into it and everything behind goes inert, the
+Tamil nav link lands on its section, the accordion opens one panel at a time,
+the enquiry form composes the right WhatsApp message and rejects a missing name
+or short number, PageDown/Home/End scroll, a space typed into a form field
+stays in the field, no horizontal overflow at 360px, one `h1` with no skipped
+heading levels, no unlabelled control, every standalone tap target at least
+44px.
