@@ -625,6 +625,7 @@ h1 .ch{display:inline-block;will-change:transform}
 .roll-col span{height:1em;line-height:1;display:block}
 .count-l{margin-top:1rem;font-size:.72rem;letter-spacing:.19em;text-transform:uppercase;color:rgba(250,247,240,.62)}
 .count-l em{display:block;font-style:normal;text-transform:none;letter-spacing:0;font-size:.82rem;color:rgba(250,247,240,.4);margin-top:.3rem}
+.count-n--todo{opacity:.32}
 
 /* ============================================================
    ZIYARAT
@@ -1339,17 +1340,24 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
 
     <!-- ========== COUNTERS ========== -->
     <div class="count-grid" style="margin-top:clamp(3.5rem,7vw,5.5rem)">
+      <!-- Only the first of these is a fact. "15 years" is printed on the
+           business card; the other two figures were never supplied by the
+           office, so they are placeholders rather than invented numbers —
+           see HANDOFF rule 3. Give each a data-count and the roll animation
+           picks it up automatically; the JS skips any .roll without one.
+           A founding year is deliberately not stated: the card gives a
+           duration, not a start date, and it may itself be a few years old. -->
       <div class="count rv">
         <p class="count-n"><span class="roll" data-count="15">15</span><span aria-hidden="true">+</span></p>
-        <p class="count-l">Years guiding<em>Since 2011</em></p>
+        <p class="count-l">Years guiding<em>Haj and Umrah, out of Chennai</em></p>
       </div>
       <div class="count rv">
-        <p class="count-n"><span class="roll" data-count="1200">1200</span><span aria-hidden="true">+</span></p>
-        <p class="count-l">Pilgrims guided<em>Across Haj and Umrah seasons</em></p>
+        <p class="count-n count-n--todo" aria-hidden="true">&mdash;</p>
+        <p class="count-l">Pilgrims guided<em class="ph">[Real figure needed from the office]</em></p>
       </div>
       <div class="count rv">
-        <p class="count-n"><span class="roll" data-count="60">60</span><span aria-hidden="true">+</span></p>
-        <p class="count-l">Group departures<em>Chennai to Jeddah and Madinah</em></p>
+        <p class="count-n count-n--todo" aria-hidden="true">&mdash;</p>
+        <p class="count-l">Group departures<em class="ph">[Real figure needed from the office]</em></p>
       </div>
     </div>
   </div>
