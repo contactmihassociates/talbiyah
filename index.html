@@ -395,9 +395,22 @@ html.loading,html.loading body{overflow:hidden}
   .nav{
     position:absolute;top:0;left:0;width:100%;height:100vh;height:100dvh;z-index:1;
     background:var(--navy-3);
-    flex-direction:column;justify-content:center;gap:1.6rem;
+    flex-direction:column;gap:1.6rem;
+    /* Seven 44px links plus their gaps need 462px. That fits a phone held
+       upright and does not fit one turned sideways, where the panel is about
+       360px tall. justify-content:center would push the overflow off both
+       ends — the first links ended up 411px above the top of the screen with
+       no way to reach them. The auto margins centre the list when there is
+       room and collapse to nothing when there is not, so it scrolls from the
+       top instead of being clipped. Top padding clears the brand and the
+       close button, which sit above this panel. */
+    justify-content:flex-start;overflow-y:auto;overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+    padding:5.5rem var(--gut) 2.5rem;
     transform:translateY(-100%);transition:transform .6s var(--ease);
   }
+  .nav a:first-of-type{margin-top:auto}
+  .nav a:last-of-type{margin-bottom:auto}
   .nav.open{transform:translateY(0)}
   .brand,.menu-btn{position:relative;z-index:2}
   .nav a{font-size:1.05rem}

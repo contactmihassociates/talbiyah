@@ -322,3 +322,38 @@ referenced text reads "Please tell us your name, so we know who is writing.";
 failing on the phone instead moves both attributes to the phone field and
 clears the name's; a successful submit leaves zero elements carrying either
 attribute.
+
+---
+
+## Iteration 7 — Mobile layout & touch
+
+**Audited** at 360x640, 412x915 and — the case nothing had tried — **640x360,
+a phone turned sideways.**
+
+**The landscape menu lost most of its links.** The mobile nav panel is
+`height:100dvh` with `justify-content:center` and `overflow-y:visible`. Seven
+44px links plus their gaps need 462px, which fits a phone held upright and does
+not fit one held sideways, where the panel is about 360px tall. Centring
+overflow pushes it off *both* ends: the first link measured at `top: -411px`,
+above the top of the screen, and with no scrolling there was no way to reach
+"The Guide", "Services" or "Packages" at all. Phones rotate, and this was a
+dead end when they did.
+
+Fixed by replacing `justify-content:center` with auto margins on the first and
+last link — they centre the list when there is room and collapse to nothing
+when there is not, so the panel scrolls from the top instead of clipping.
+Added `overflow-y:auto`, `overscroll-behavior:contain` so scrolling the menu
+does not chain to the page behind it, and top padding to clear the brand and
+close button that sit above the panel.
+
+**Measured after**, at 640x360: panel top 0, first link at `top: 88` (visible,
+clear of the header), content scrollable at 590px against a 360px viewport, and
+after scrolling to the bottom the last link sits at 320px — inside the screen.
+Every link reachable, where before three were not. At 360x640 nothing changed:
+all seven visible without scrolling, still optically centred.
+
+**Also checked, no action needed:** no unclipped horizontal overflow at 360,
+412 or 640; the sticky WhatsApp bar is 58px with a matching 58px body padding,
+so it covers nothing; six pairs of adjacent controls sit closer than 6px, but
+all are already 44px targets, and WCAG 2.5.8 treats adequate size and adequate
+spacing as alternatives rather than both being required.
