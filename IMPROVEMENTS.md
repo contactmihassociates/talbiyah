@@ -445,3 +445,56 @@ Verified the accordion still opens, still sets `aria-expanded`, and the
 button's accessible name is unchanged ("How long does an Umrah visa take?") —
 the wrapping span is inside the button, so the name is computed the same way.
 No horizontal overflow at 390px.
+
+---
+
+## Iteration 10 — Copy & content (audit only)
+
+**Nothing was changed.** Visible words are the owner's, per rule 0 in the
+handoff. This is a findings list.
+
+**The mechanical check first, because a single wrong digit in one of eighteen
+WhatsApp links would be invisible and expensive — everything agrees:**
+
+| | |
+|---|---|
+| `wa.me` links | 16, all `919710092070` |
+| `tel:` links | 5, all `+919791108230` |
+| Prices | `₹1,15,000` x3, `₹1,49,000` x3, no stray figures |
+| Departure date | "30 September" x4 plus `data-depart="2026-09-30"`, and the Tamil section agrees |
+| Terminology | Haj x41, Madinah x18, Makkah x15, ziyarat x34, Moulavi x25 — one spelling each, no drift |
+| Bracketed placeholders | one: `[Reg. no. — add yours]` |
+| Tamil parity | 6 `.ta-alt` blocks against 6 FAQ answers |
+
+**"Umra" appears 5 times against "Umrah" 60 — and it is correct.** Every one is
+"Umra Guide", the credential as printed on the business card. Recorded here so a
+future pass does not helpfully normalise a man's professional title.
+
+**Findings for the owner, in order of what they would cost:**
+
+1. **The `<title>` is 79 characters.** Google truncates around 60, so
+   "Your Journey is Our Responsibility" — the line the business is built
+   around — is probably cut off in results. Something like
+   "Talbiyah Haj & Umrah Service — Chennai" plus a shorter tail would survive.
+
+2. **The `<h1>` contains no search terms.** *"You answer the call. We carry
+   everything else."* is the best line on the page and I would not trade it for
+   keywords; the `<title>` and description carry those. Noting it only so that
+   if the page underperforms for "umrah packages chennai", this is the first
+   place to look — a subheading near the hero would fix it without touching
+   the headline.
+
+3. **The English runs long for the audience.** The five longest sentences in
+   the lede copy are 29, 27, 26, 24 and 22 words, and most of the people this
+   page is written for read Tamil first. The Tamil section is much plainer.
+   Worth a pass for shorter sentences in the English lede copy.
+
+4. **One casing slip:** the portrait's alt text says "Umra guide" where every
+   other instance says "Umra Guide". Alt text is still words a person reads,
+   so it is listed rather than edited.
+
+5. **Still outstanding from earlier sessions**, unchanged: the four
+   testimonials are drafts and not collected quotes, the 1200+/60+ counters are
+   unverified, the "Tamil, Urdu and English" claim assumes Urdu (and is
+   machine-readable in the JSON-LD as `availableLanguage`), and the pilgrim kit
+   list comes from the July poster while rendering inside the October block.
