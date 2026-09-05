@@ -205,7 +205,7 @@ p:last-child{margin-bottom:0}
   display:flex;align-items:center;gap:.7rem;
 }
 .eyebrow::after{content:"";flex:1;height:1px;background:var(--hair);max-width:110px}
-.dark .eyebrow{color:var(--gold)}
+.dark .eyebrow,#journey .eyebrow{color:var(--gold)}
 
 /* Thin gold hairline rule */
 .rule{height:1px;background:linear-gradient(90deg,transparent,var(--hair) 12%,var(--hair) 88%,transparent);border:0;margin:0}
@@ -247,7 +247,7 @@ p:last-child{margin-bottom:0}
   border-bottom:1px dashed rgba(158,42,43,.5);
   padding:0 .25em;border-radius:2px;font-weight:600;font-style:normal;
 }
-.dark .ph{background:rgba(201,162,39,.16);color:var(--gold);border-bottom-color:rgba(201,162,39,.55)}
+.dark .ph,.trust .ph{background:rgba(201,162,39,.16);color:var(--gold);border-bottom-color:rgba(201,162,39,.55)}
 
 /* ---------- Reveal (mask-based, subtle) ---------- */
 /* Visible by default. `html.anim` is added only when GSAP is loaded AND
@@ -532,7 +532,7 @@ h1 .ch{display:inline-block;will-change:transform}
 .ta-k:not(:first-child){margin-top:1.3rem}
 .ta-v{font-size:1.22rem;margin:0;color:var(--navy);font-weight:600}
 .ta-price{font-size:1.55rem;margin:0;color:var(--navy);font-weight:600}
-.ta-price span{font-size:.86rem;font-weight:400;color:rgba(11,27,63,.6)}
+.ta-price span{font-size:.86rem;font-weight:400;color:rgba(11,27,63,.72)}
 .ta-note{margin:.9rem 0 0;font-size:.88rem;color:rgba(11,27,63,.66)}
 .ta-inc{margin-top:1.4rem;border:1px solid var(--hair);padding:1.7rem 1.6rem;background:var(--ivory)}
 .ta-inc ul{list-style:none;margin:.9rem 0 0;padding:0;display:grid;gap:.6rem;grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
@@ -607,7 +607,7 @@ h1 .ch{display:inline-block;will-change:transform}
 .jr-step p{font-size:.92rem;color:rgba(250,247,240,.72);margin:0}
 .jr-hint{
   display:flex;align-items:center;gap:.7rem;margin-top:2.4rem;padding-inline:var(--gut);
-  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(250,247,240,.42);
+  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(250,247,240,.58);
 }
 .jr-hint svg{width:26px;height:9px;stroke:var(--gold);fill:none;stroke-width:1.2}
 @media(max-width:900px){
@@ -629,7 +629,7 @@ h1 .ch{display:inline-block;will-change:transform}
 .roll-col{display:flex;flex-direction:column;will-change:transform}
 .roll-col span{height:1em;line-height:1;display:block}
 .count-l{margin-top:1rem;font-size:.72rem;letter-spacing:.19em;text-transform:uppercase;color:rgba(250,247,240,.62)}
-.count-l em{display:block;font-style:normal;text-transform:none;letter-spacing:0;font-size:.82rem;color:rgba(250,247,240,.4);margin-top:.3rem}
+.count-l em{display:block;font-style:normal;text-transform:none;letter-spacing:0;font-size:.82rem;color:rgba(250,247,240,.58);margin-top:.3rem}
 
 /* ============================================================
    ZIYARAT
@@ -675,7 +675,7 @@ h1 .ch{display:inline-block;will-change:transform}
 .tst-q{width:26px;height:20px;stroke:var(--gold);fill:none;stroke-width:1.3;flex:none}
 .tst p{font-family:var(--serif);font-size:1.16rem;line-height:1.5;font-style:italic;margin:0;flex:1}
 .tst footer{font-size:.71rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink)}
-.tst footer span{display:block;letter-spacing:.04em;text-transform:none;color:rgba(11,27,63,.5);margin-top:.25rem;font-size:.78rem}
+.tst footer span{display:block;letter-spacing:.04em;text-transform:none;color:rgba(11,27,63,.68);margin-top:.25rem;font-size:.78rem}
 .no-motion .marquee-track,.js-off .marquee-track{animation:none}
 .js-off .marq-btn{display:none}
 
@@ -854,7 +854,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
 .form{display:grid;gap:1.15rem}
 .field{display:grid;gap:.5rem}
 .lb-ta{font-family:"Noto Sans Tamil",var(--sans);text-transform:none;letter-spacing:0;
-  color:rgba(250,247,240,.45);font-weight:400;margin-left:.45rem}
+  color:rgba(250,247,240,.58);font-weight:400;margin-left:.45rem}
 .field label{font:600 .67rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:rgba(250,247,240,.62)}
 .field input,.field select{
   width:100%;min-height:52px;padding:.85rem 1rem;border-radius:2px;
@@ -893,7 +893,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
 .ftr address{font-style:normal;font-size:.9rem;line-height:1.7}
 .ftr-brand{font-family:var(--serif);font-size:1.6rem;color:var(--ivory);line-height:1.15;margin:0 0 .5rem}
 .ftr-tag{font-family:var(--serif);font-style:italic;color:var(--gold);font-size:1.02rem;margin:0 0 1rem}
-.ftr-btm{display:flex;flex-wrap:wrap;gap:.7rem 1.6rem;justify-content:space-between;padding-top:2rem;border-top:1px solid rgba(250,247,240,.1);font-size:.76rem;color:rgba(250,247,240,.4)}
+.ftr-btm{display:flex;flex-wrap:wrap;gap:.7rem 1.6rem;justify-content:space-between;padding-top:2rem;border-top:1px solid rgba(250,247,240,.1);font-size:.76rem;color:rgba(250,247,240,.58)}
 
 .mbar{
   position:fixed;left:0;right:0;bottom:0;z-index:70;display:none;
