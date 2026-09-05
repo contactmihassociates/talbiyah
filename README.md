@@ -54,6 +54,25 @@ python -m http.server 8777
 
 ---
 
+## The two locations
+
+| | |
+|---|---|
+| Office | No.7, 13/1, Qaide Millath Street, Chennai 600 029 |
+| Masjid | Khurasani Peer Masjid (K.P.M.), LB Road, Adyar — Moulavi Sadath is Imam there |
+
+The masjid pin is `place_id ChIJmwkFGfNnUjoRauOLW8EFx98` (12.9988242,
+80.2564577). The "Open in Google Maps" link uses that id rather than a text
+search, so it cannot drift to a different mosque with a similar name. The
+map itself is still click-to-load — two buttons, one iframe slot, nothing
+fetched until a visitor asks — because the Google embed is several hundred
+KB and this page is read on 4G.
+
+Only the office address goes in the JSON-LD `PostalAddress`; the masjid is
+where he can be met, not where the business is registered.
+
+---
+
 ## Source of truth for the offer
 
 Everything about the current departure comes from the **2026 October Umrah
