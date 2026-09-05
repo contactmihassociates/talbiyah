@@ -24,6 +24,8 @@
 <meta name="twitter:image" content="https://REPLACE-WITH-YOUR-DOMAIN.com/og-image.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Noto+Sans+Tamil:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
@@ -66,6 +68,65 @@
       "description": "Umrah from Chennai with Oman Air, 30 September – 14 October 2026, Hilton accommodation on four-bed sharing."
     },
     { "@type": "Offer", "name": "Haj Package", "category": "Haj" }
+  ]
+}
+</script>
+
+<!-- FAQ rich-result schema. Regenerate this if the FAQ copy changes:
+     the questions and answers here must match the visible text exactly. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How long does an Umrah visa take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Once your documents are complete, an Umrah visa is usually issued within a few working days. Delays almost always come from an incomplete file — a passport too close to expiry, or photographs that do not meet the specification — which is exactly what we check before submitting. Haj is different: it runs on an annual application window through the Haj Committee of India and approved organisers, so it must be planned months ahead. Ask us for the current season's dates."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What documents do I need to give you?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A passport valid for at least six months beyond your travel date, recent colour photographs to the required specification, and a meningitis (ACWY) vaccination certificate. Depending on who is travelling, we may also need proof of relationship for family members, and identification for children on a parent's booking. We give you the full list in writing at registration — and we tell you which ones we can arrange for you."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can women travel without a mahram?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Saudi requirements on this have changed in recent years, and women now travel for Umrah in circumstances that were not previously permitted — often as part of an organised group. Because the rules are revised from time to time and the fiqh position matters as much as the visa rule, we would rather answer this for your specific situation than print a blanket answer here. Call or message Moulavi Sadath and he will go through both sides of it with you."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Group departure or a private trip?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A group departure costs less, travels on a fixed date, and means you are never navigating alone — the guide handles the transfers, the rituals and anything that goes wrong. A private booking lets you choose your own dates, hotel and pace, and suits families with very young children, elderly parents, or particular medical needs. Most first-time pilgrims are better served by the group; we will say so plainly if we think that is you."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is actually included in the package price?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Return airfare from Chennai, the Umrah visa, hotel accommodation in Makkah and Madinah, airport and inter-city transfers, and guided ziyarat. What varies by tier is the hotel's distance from the Haram and how many share a room. Things like extra baggage, personal expenses and travel insurance are quoted separately so you can see them — we will walk through the full inclusion list before you pay anything."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "I have never travelled abroad. Is that a problem?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is the most common situation we deal with, and it is the reason this service exists in the form it does. If you have no passport, we start there. Before departure you get a briefing covering immigration, baggage, ihram and what happens on arrival. On the journey the guide is with the group throughout. You are not expected to know anything in advance except your intention."
+      }
+    }
   ]
 }
 </script>
@@ -529,6 +590,27 @@ h1 .ch{display:inline-block;will-change:transform}
   color:rgba(250,247,240,.6);
 }
 
+/* Pause control — WCAG 2.2.2: anything that moves for more than five seconds
+   needs a way to stop it that does not depend on hovering. */
+.marquee-wrap{position:relative}
+.marq-btn{
+  position:absolute;top:-2.9rem;right:var(--gut);z-index:3;
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.5rem .95rem;min-height:38px;cursor:pointer;
+  background:transparent;border:1px solid var(--hair);border-radius:2px;
+  font:600 .64rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold-ink);transition:border-color .3s var(--ease),color .3s var(--ease);
+}
+.marq-btn:hover{border-color:var(--gold);color:var(--navy)}
+.marq-btn svg{width:13px;height:13px;fill:currentColor;flex:none}
+.marq-btn .ic-play{display:none}
+.marq-btn[aria-pressed="true"] .ic-pause{display:none}
+.marq-btn[aria-pressed="true"] .ic-play{display:block}
+.marquee.paused .marquee-track{animation-play-state:paused}
+@media(max-width:600px){
+  .marq-btn{position:static;margin:0 var(--gut) 1.1rem}
+}
+
 /* ============================================================
    FAQ
    ============================================================ */
@@ -582,7 +664,8 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
   transition:border-color .35s var(--ease),background .35s var(--ease);
 }
 .field input::placeholder{color:rgba(250,247,240,.34)}
-.field input:focus,.field select:focus{outline:0;border-color:var(--gold);background:rgba(250,247,240,.08)}
+.field input:focus,.field select:focus{border-color:var(--gold);background:rgba(250,247,240,.08)}
+.field input:focus-visible,.field select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .field select{appearance:none;cursor:pointer;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23C9A227' stroke-width='1.4'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.6rem}
@@ -1246,6 +1329,13 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
     <p class="lede rv" style="margin-top:1.2rem">Families from Chennai, Ambur, Kilakarai and Vaniyambadi who travelled with Moulavi Sadath, in their own words.</p>
   </div>
 
+  <div class="marquee-wrap">
+    <button class="marq-btn" id="marqBtn" type="button" aria-pressed="false"
+            aria-controls="marq" aria-label="Pause the scrolling testimonials">
+      <svg class="ic-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="4" y="3" width="2.6" height="10" rx="1"/><rect x="9.4" y="3" width="2.6" height="10" rx="1"/></svg>
+      <svg class="ic-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2 12.4 8 5 12.8z"/></svg>
+      <span class="marq-txt">Pause</span>
+    </button>
   <div class="marquee" role="region" aria-label="Pilgrim testimonials, scrolling">
     <div class="marquee-track" id="marq">
       <figure class="tst">
@@ -1269,6 +1359,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
         <footer>Rukkaiya Banu<span>Kilakarai, Ramanathapuram &middot; Umrah, December 2024</span></footer>
       </figure>
     </div>
+  </div>
   </div>
 </section>
 
@@ -2058,6 +2149,21 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     track.dataset.cloned = '1';
     if (RM) track.style.animation = 'none';
+
+    // Explicit pause control. Hover and focus already pause the track in CSS,
+    // but neither is reachable on a touch screen, so the button is the real
+    // WCAG 2.2.2 answer. Reduced motion: the track never moves, so hide it.
+    var btn = $('#marqBtn'), region = track.parentNode;
+    if (!btn) return;
+    if (RM) { btn.hidden = true; return; }
+    btn.addEventListener('click', function () {
+      var paused = region.classList.toggle('paused');
+      btn.setAttribute('aria-pressed', String(paused));
+      btn.setAttribute('aria-label', paused
+        ? 'Play the scrolling testimonials'
+        : 'Pause the scrolling testimonials');
+      $('.marq-txt', btn).textContent = paused ? 'Play' : 'Pause';
+    });
   }
 
   /* ====================================================================

@@ -1,0 +1,6 @@
+# Talbiyah Haj & Umrah Service
+User-agent: *
+Allow: /
+
+# Replace the domain below with the live one before publishing.
+Sitemap: https://REPLACE-WITH-YOUR-DOMAIN.com/sitemap.xml
