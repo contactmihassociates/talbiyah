@@ -8,20 +8,25 @@
 <title>Talbiyah Haj &amp; Umrah Service — Chennai | Your Journey is Our Responsibility</title>
 <meta name="description" content="Haj and Umrah from Chennai, guided in person for 15 years by Moulavi B. Mohamed Sadath. Visa, ticketing, passport, packages, group departures and guided ziyarat.">
 
-<!-- REPLACE https://REPLACE-WITH-YOUR-DOMAIN.com/ everywhere below with your live domain,
-     and add og-image.jpg (1200x630) next to this file, before going live. -->
+<!-- Every https://REPLACE-WITH-YOUR-DOMAIN.com/ below is set in one pass by
+     `python set-domain.py yourdomain.com`. Do that before going live: a wrong
+     canonical URL costs you the search listing, and a wrong og:image costs you
+     the preview card when the link is shared on WhatsApp. -->
 <link rel="canonical" href="https://REPLACE-WITH-YOUR-DOMAIN.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Talbiyah Haj &amp; Umrah Service">
 <meta property="og:title" content="Talbiyah Haj &amp; Umrah Service — Chennai">
 <meta property="og:description" content="Haj and Umrah from Chennai, guided in person for 15 years. Visa, ticketing, passport, packages and guided ziyarat.">
 <meta property="og:url" content="https://REPLACE-WITH-YOUR-DOMAIN.com/">
-<meta property="og:image" content="https://REPLACE-WITH-YOUR-DOMAIN.com/og-image.jpg">
+<meta property="og:image" content="https://REPLACE-WITH-YOUR-DOMAIN.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Talbiyah Haj &amp; Umrah Service, Chennai — Your Journey is Our Responsibility">
 <meta property="og:locale" content="en_IN">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Talbiyah Haj &amp; Umrah Service — Chennai">
 <meta name="twitter:description" content="Haj and Umrah from Chennai, guided in person for 15 years.">
-<meta name="twitter:image" content="https://REPLACE-WITH-YOUR-DOMAIN.com/og-image.jpg">
+<meta name="twitter:image" content="https://REPLACE-WITH-YOUR-DOMAIN.com/assets/og-image.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -45,7 +50,7 @@
   "slogan": "Your Journey is Our Responsibility",
   "description": "Haj and Umrah travel service in Chennai with 15 years of experience. Visa, ticketing, passport assistance, Haj and Umrah packages, group departures and guided ziyarat.",
   "url": "https://REPLACE-WITH-YOUR-DOMAIN.com/",
-  "image": "https://REPLACE-WITH-YOUR-DOMAIN.com/og-image.jpg",
+  "image": "https://REPLACE-WITH-YOUR-DOMAIN.com/assets/og-image.jpg",
   "telephone": "+91-97911-08230",
   "address": {
     "@type": "PostalAddress",
@@ -599,7 +604,8 @@ h1 .ch{display:inline-block;will-change:transform}
 .tst p{font-family:var(--serif);font-size:1.16rem;line-height:1.5;font-style:italic;margin:0;flex:1}
 .tst footer{font-size:.71rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink)}
 .tst footer span{display:block;letter-spacing:.04em;text-transform:none;color:rgba(11,27,63,.5);margin-top:.25rem;font-size:.78rem}
-.no-motion .marquee-track{animation:none}
+.no-motion .marquee-track,.js-off .marquee-track{animation:none}
+.js-off .marq-btn{display:none}
 
 /* ============================================================
    PACKAGE DATE BANNER, KIT LIST, GALLERY
@@ -1196,15 +1202,15 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
     <!-- ========== COUNTERS ========== -->
     <div class="count-grid" style="margin-top:clamp(3.5rem,7vw,5.5rem)">
       <div class="count rv">
-        <p class="count-n"><span class="roll" data-count="15"></span><span aria-hidden="true">+</span></p>
+        <p class="count-n"><span class="roll" data-count="15">15</span><span aria-hidden="true">+</span></p>
         <p class="count-l">Years guiding<em>Since 2011</em></p>
       </div>
       <div class="count rv">
-        <p class="count-n"><span class="roll" data-count="1200"></span><span aria-hidden="true">+</span></p>
+        <p class="count-n"><span class="roll" data-count="1200">1200</span><span aria-hidden="true">+</span></p>
         <p class="count-l">Pilgrims guided<em>Across Haj and Umrah seasons</em></p>
       </div>
       <div class="count rv">
-        <p class="count-n"><span class="roll" data-count="60"></span><span aria-hidden="true">+</span></p>
+        <p class="count-n"><span class="roll" data-count="60">60</span><span aria-hidden="true">+</span></p>
         <p class="count-l">Group departures<em>Chennai to Jeddah and Madinah</em></p>
       </div>
     </div>
@@ -1813,7 +1819,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     var ar = $('.hero-ar'); if (ar) ar.style.opacity = 1;
     var lp = $('#stitchPath'); if (lp) { lp.style.strokeDasharray = 'none'; lp.style.strokeDashoffset = 0; }
-    $$('.roll').forEach(function (r) { if (!r.textContent) r.textContent = r.dataset.count; });
+    $$('.roll').forEach(function (r) { r.textContent = r.dataset.count; });
     var mb = $('#mbar'); if (mb) mb.classList.add('up');
   }
   function killLoader(instant) {
@@ -2293,16 +2299,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
       roll.textContent = '';
       roll.appendChild(row);
-      gsap.set(cols.map(function (c) { return c.el; }), { yPercent: 0 });
+      // Park each column on its final digit, so the counter reads correctly
+      // from the moment it is built — before the scroll trigger fires, and if
+      // the trigger never fires at all. The roll then runs from the scramble
+      // back to that resting position.
+      cols.forEach(function (c) { gsap.set(c.el, { yPercent: -100 * c.steps }); });
 
       ScrollTrigger.create({
         trigger: roll, start: 'top 88%', once: true,
         onEnter: function () {
           cols.forEach(function (c, i) {
-            gsap.to(c.el, {
-              yPercent: -100 * c.steps,
-              duration: 1.5, ease: 'expo.out', delay: i * 0.09
-            });
+            gsap.fromTo(c.el,
+              { yPercent: 0 },
+              { yPercent: -100 * c.steps, duration: 1.5, ease: 'expo.out', delay: i * 0.09 });
           });
         }
       });
