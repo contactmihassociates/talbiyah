@@ -765,6 +765,8 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
 
 .form{display:grid;gap:1.15rem}
 .field{display:grid;gap:.5rem}
+.lb-ta{font-family:"Noto Sans Tamil",var(--sans);text-transform:none;letter-spacing:0;
+  color:rgba(250,247,240,.45);font-weight:400;margin-left:.45rem}
 .field label{font:600 .67rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:rgba(250,247,240,.62)}
 .field input,.field select{
   width:100%;min-height:52px;padding:.85rem 1rem;border-radius:2px;
@@ -881,6 +883,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
     <a href="#services">Services</a>
     <a href="#packages">Packages</a>
     <a href="#journey">The Journey</a>
+    <a href="#tamil" lang="ta">தமிழ்</a>
     <a href="#faq">FAQ</a>
     <a href="#contact">Contact</a>
   </nav>
@@ -1710,21 +1713,21 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
 
         <form class="form rv" id="enquiry" novalidate>
           <div class="field">
-            <label for="f-name">Your name</label>
+            <label for="f-name">Your name <span class="lb-ta" lang="ta">பெயர்</span></label>
             <input type="text" id="f-name" name="name" autocomplete="name" required placeholder="Full name">
           </div>
           <div class="form-row">
             <div class="field">
-              <label for="f-phone">Phone</label>
+              <label for="f-phone">Phone <span class="lb-ta" lang="ta">தொலைபேசி</span></label>
               <input type="tel" id="f-phone" name="phone" autocomplete="tel" inputmode="tel" required placeholder="10-digit mobile">
             </div>
             <div class="field">
-              <label for="f-month">Travel month</label>
+              <label for="f-month">Travel month <span class="lb-ta" lang="ta">பயண மாதம்</span></label>
               <input type="month" id="f-month" name="month">
             </div>
           </div>
           <div class="field">
-            <label for="f-pkg">Interested in</label>
+            <label for="f-pkg">Interested in <span class="lb-ta" lang="ta">எந்த பேக்கேஜ்</span></label>
             <select id="f-pkg" name="pkg">
               <option>Umrah — Standard</option>
               <option>Umrah — Economy</option>
@@ -1738,7 +1741,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
             </select>
           </div>
           <div class="field">
-            <label for="f-people">How many travelling</label>
+            <label for="f-people">How many travelling <span class="lb-ta" lang="ta">எத்தனை பேர்</span></label>
             <input type="number" id="f-people" name="people" min="1" max="60" inputmode="numeric" placeholder="e.g. 4">
           </div>
           <button class="btn btn--gold" type="submit">
