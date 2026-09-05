@@ -975,6 +975,10 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
 .form-note{font-size:.79rem;color:rgba(250,247,240,.48);margin:0}
 .form-note.is-err{color:#F0B4B4}
 .form-note a{color:var(--gold);text-underline-offset:3px}
+.form-nojs{display:none}
+body.js-off .form-nojs{display:block;border:1px solid rgba(201,162,39,.34);
+  padding:1rem 1.1rem;margin-top:1rem;color:rgba(250,247,240,.82)}
+body.js-off #enquiry .form-submit{display:none}
 .form input[aria-invalid="true"],.form select[aria-invalid="true"]{border-color:#C56A6B}
 .form .btn{width:100%;margin-top:.35rem}
 
@@ -2059,11 +2063,26 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
             <label for="f-people">How many travelling <span class="lb-ta" lang="ta">எத்தனை பேர்</span></label>
             <input type="number" id="f-people" name="people" min="1" max="60" inputmode="numeric" placeholder="e.g. 4">
           </div>
-          <button class="btn btn--gold" type="submit">
+          <button class="btn btn--gold form-submit" type="submit">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.1s-.7 1-.9 1.2c-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5s-.7-1.6-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6 1.9.8 2.7.9 3.6.8.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.7-.4z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
             Send on WhatsApp
           </button>
           <p class="form-note" role="status" id="formNote">Opens WhatsApp to +91 97100 92070 with your enquiry filled in.</p>
+          <!-- This form composes its WhatsApp message in JavaScript and has no
+               action attribute, so a submit without JavaScript would reload the
+               page, drop the enquiry, and leave the visitor believing they had
+               sent it.
+
+               Keyed to body.js-off rather than <noscript> on purpose: that
+               class is set in the markup and removed only once the script
+               actually runs, so this covers both a browser with JavaScript
+               turned off and one where the script never executed. <noscript>
+               only covers the first. -->
+          <p class="form-note form-nojs">
+            This form needs JavaScript to write out your message.
+            <a href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20would%20like%20to%20enquire%20about%20Umrah." target="_blank" rel="noopener">Message us on WhatsApp</a>
+            or call <a href="tel:+919791108230">+91 97911 08230</a> and we will take your details.
+          </p>
         </form>
       </div>
 

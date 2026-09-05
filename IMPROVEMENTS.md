@@ -538,3 +538,49 @@ reads as a table of contents:
 temporary `<h2>` ids added during the rejected approach all removed. The
 headings themselves are untouched — an `aria-label` on the section names the
 landmark, it does not replace the heading a visitor reads.
+
+---
+
+## Iteration 12 — Resilience, lap two: the page with no JavaScript
+
+**Two suspicions checked and cleared first**, both of which had looked like
+bugs during earlier testing:
+
+- **Deep links work.** Loading `index.html#packages` lands at scrollY 3617 with
+  the section at the top of the viewport, and nothing is hidden behind the
+  71px fixed header because the section's own 125px top padding clears it.
+  Earlier sightings of "the hash did nothing" were the hidden-pane artefact.
+- **The CSS preloader is correctly configured** — `loaderOut`, 1.85s delay,
+  0.8s duration, `fill: forwards`. It could not be *observed* clearing here:
+  with the pane throttled the animation reported `playState: running,
+  currentTime: 0` **20.8 seconds after load**. Animation clocks freeze in a
+  hidden tab, exactly as `requestAnimationFrame` does. Another measurement to
+  distrust in this environment.
+
+**One real defect: the enquiry form silently ate enquiries without
+JavaScript.** The form composes its WhatsApp message in script and has no
+`action`, so a submit fell back to a native GET — reloading the page, dropping
+everything typed, and leaving the visitor believing they had sent it. For a
+page whose entire purpose is producing enquiries, that is the worst possible
+silent failure.
+
+The submit button is now hidden in that state and replaced with the two ways
+to reach the office directly — WhatsApp and the phone number.
+
+**Keyed to `body.js-off` rather than `<noscript>`, deliberately.** `<noscript>`
+renders only when scripting is disabled in the browser; it does nothing when
+the script is present but never runs. `js-off` is written into the markup and
+removed only once the script actually executes, so it covers both. Worth
+recording because the first attempt did use `<noscript>` and the test could not
+even exercise it — removing `<script>` tags from a page does not make a browser
+behave as though scripting were off.
+
+**Measured:** with JS absent, `body.js-off` persists, the submit button
+computes `display:none`, and the fallback shows with both a `wa.me` link and a
+`tel:` link. With JS running, the class is cleared, the button is back, and the
+fallback is hidden.
+
+**Note on scope:** this adds words a visitor can read, which is normally the
+owner's call. It is included as a functional safeguard against silent data
+loss rather than as copy, and the wording is purely instructional. Reword it
+freely.
