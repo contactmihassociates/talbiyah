@@ -82,9 +82,19 @@ No bouncy easing anywhere — `power2`, `power3`, `expo` only. Everything heavy
 is gated behind `prefers-reduced-motion` and the `.no-motion` class.
 
 **Degradation** — the page must stay readable when a CDN is slow or blocked,
-which is common on Indian mobile networks. `boot()` polls 3.5s for GSAP then
-gives up and shows everything. `body.js-off` (removed by JS on load) keeps the
-FAQ answers open, the counters showing their numbers, and the marquee still.
+which is common on Indian mobile networks. The preloader runs on CSS alone, so
+it plays from the first paint and clears itself at 2.65s whether or not any
+script arrives. `boot()` then polls 3.5s of real elapsed time for GSAP before
+giving up and showing everything. `body.js-off` (removed once JS runs) keeps
+the FAQ answers open, the counters showing their numbers, and the marquee
+still.
+
+Entrance animations are an enhancement with a deadline: `html.anim` — the
+class that hides `.rv` and `.hero-ar` in the first place — is only added when
+GSAP arrives while the preloader is still covering the page. Arriving later
+means the visitor is already reading, so the page is left alone instead. This
+is why `.rv` is visible by default in the stylesheet; do not move that
+`opacity:0` back onto the bare class.
 
 **Images** — 820px wide, jpeg q74 + webp q72, `<picture>` with explicit
 width/height and `loading="lazy"`. About 560 KB for the gallery, none of it on

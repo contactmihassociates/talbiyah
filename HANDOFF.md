@@ -41,7 +41,13 @@ python -m http.server 8777      # then open http://localhost:8777
 pane serves local files as `data:` URLs, so images show alt text there. Append
 a `?v=N` query when reloading; `http.server` caches aggressively.
 
-Two gotchas that will waste your time otherwise:
+Three gotchas that will waste your time otherwise:
+
+- **A hidden Browser pane freezes `requestAnimationFrame`.** Nothing GSAP
+  drives will advance, every tween reads `progress: 0`, and it looks exactly
+  like a broken animation. `setInterval` is clamped to ~1s there too. To
+  check an animation's end state without a visible pane, drive the clock
+  yourself: `gsap.globalTimeline.progress(1, false)`.
 
 - **Lenis owns the scroll, and reverts anything it did not initiate.**
   `window.scrollTo()` and `scrollIntoView()` move the document and are then
@@ -78,6 +84,7 @@ python -c "import io;s=io.open('index.html',encoding='utf-8').read();i=s.rindex(
 | 10 | Scrollspy — `.here` and `aria-current` on the nav link whose section is under the middle of the viewport. |
 | 11 | Tamil rendering of all six FAQ answers and the guide's story (`.ta-alt`, labelled "தமிழில்"). JSON-LD deliberately left English-only. |
 | 12 | Fixed the Tamil size being lost to `.faq-a p` specificity; bilingual notice under the FAQ heading. Extended the departure guard: `[data-offer-dated]` on `#packages` and `#tamil` now get a "this departure has left" note once `data-depart` passes, so a flown trip is never priced as bookable. |
+| 13 | Preloader moved off GSAP onto CSS — it was appearing *after* the hero had painted and covering it. Entrance animations now gated behind `html.anim` (only if GSAP beat the loader). Fixed the CDN poll counting ticks instead of elapsed time, and a 1.85s reduced-motion stall. |
 
 ---
 
@@ -97,6 +104,26 @@ In order of value:
 4. **A page per departure** — photos and a short account of each group. Gives
    Google something new to index and returning families something to look at.
 5. Documents checklist as a PDF the office can send on WhatsApp.
+
+## Testing the degraded paths
+
+The most useful tool built so far is a probe that stalls the CDN from inside
+the page, because the slow-network behaviour is where the real bugs were.
+Rebuild it when you need it — insert a recording script as the first thing
+in `<head>`, swap the three `<script src>` tags for placeholders, and
+re-inject the real URLs after N milliseconds. Three scenarios matter:
+
+| Stall | Expect |
+|---|---|
+| none | `html.anim` on, ~98 ScrollTriggers, hero animates in behind the loader |
+| 3s | `html.anim` **off**, hero opacity stays 1 throughout, ~20 triggers, smooth scroll and the pinned journey still initialise |
+| never | everything visible, counters read `15 / 1200 / 60` as plain text, FAQ still opens, loader off-screen and swallowing no clicks |
+
+The rule the code follows: **entrance animations are an enhancement with a
+deadline.** If GSAP does not arrive before the CSS preloader finishes at
+2.65s, the page is left exactly as it is rather than hiding content the
+visitor is already reading. Anything that does not begin by hiding
+something runs regardless.
 
 ## Verified at last check
 
