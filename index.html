@@ -451,6 +451,24 @@ h1 .ch{display:inline-block;will-change:transform}
 .count-l em{display:block;font-style:normal;text-transform:none;letter-spacing:0;font-size:.82rem;color:rgba(250,247,240,.4);margin-top:.3rem}
 
 /* ============================================================
+   ZIYARAT
+   ============================================================ */
+.zy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:3rem 3.5rem;margin-top:3.2rem}
+.zy-city{
+  font-family:var(--sans);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;
+  font-weight:600;color:var(--gold-ink);padding-bottom:.9rem;margin-bottom:.4rem;
+  border-bottom:1px solid var(--hair);
+}
+.zy{padding:1.35rem 0;border-bottom:1px solid var(--hair)}
+.zy b{
+  display:block;font-family:var(--serif);font-size:1.3rem;font-weight:400;
+  line-height:1.25;margin-bottom:.4rem;
+}
+.zy p{margin:0;font-size:.9rem;color:rgba(11,27,63,.72);max-width:46ch}
+.zy-note{margin-top:2.6rem;font-size:.9rem;color:rgba(11,27,63,.72)}
+.zy-note a{color:var(--gold-ink);text-underline-offset:3px}
+
+/* ============================================================
    WHY US
    ============================================================ */
 .why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2.4rem 2rem;margin-top:3.2rem}
@@ -936,7 +954,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
           </div>
           <h3>Guided Ziyarat</h3>
           <p>The sites of Makkah and Madinah visited with context and an unhurried pace — not a bus window and a checklist.</p>
-          <a class="svc-link" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20would%20like%20to%20know%20about%20guided%20ziyarat." target="_blank" rel="noopener">Ask about ziyarat
+          <a class="svc-link" href="#ziyarat">Where the ziyarat goes
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
         </div>
       </article>
@@ -1121,6 +1139,72 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
 </section>
 
 <hr class="rule">
+
+<!-- ========== ZIYARAT ==========
+     What the guided ziyarat actually visits. Written for this site; adjust the
+     list to match what your coach covers in the current season. -->
+<section class="sec tint" id="ziyarat">
+  <div class="wrap">
+    <p class="eyebrow rv">Guided ziyarat</p>
+    <h2 class="rv">The places, and why they matter.</h2>
+    <p class="lede rv" style="margin-top:1.3rem">Ziyarat is where most groups are short-changed &mdash; a bus window, ten minutes, on to the next stop. Ours travels in our own coach, with Moulavi Sadath telling you what happened at each place before you get down, and time left to sit and pray. Access to some sites changes with Saudi regulations and the season; we tell you what is open before you travel, not after.</p>
+
+    <div class="zy-grid">
+      <div>
+        <h3 class="zy-city rv">In and around Makkah</h3>
+        <div class="zy">
+          <b>Jabal al-Nour</b>
+          <p>The hill holding the cave of Hira, where the first revelation came. Viewed and explained from the ground &mdash; the climb is long and steep, and nobody is pushed into it.</p>
+        </div>
+        <div class="zy">
+          <b>Jabal Thawr</b>
+          <p>The cave of the Hijrah, where the Prophet&nbsp;&#65018; and Abu Bakr sheltered on the way to Madinah.</p>
+        </div>
+        <div class="zy">
+          <b>Mina, Arafat &amp; Muzdalifah</b>
+          <p>The plains of Haj, crossed and explained &mdash; so that if you return for Haj, the ground is already familiar.</p>
+        </div>
+        <div class="zy">
+          <b>Masjid Aisha, Tan&rsquo;im</b>
+          <p>The miqat outside the Haram boundary, for those entering ihram again for a second Umrah.</p>
+        </div>
+        <div class="zy">
+          <b>Jannat al-Mu&rsquo;alla</b>
+          <p>The old burial ground of Makkah, visited from outside.</p>
+        </div>
+      </div>
+      <div>
+        <h3 class="zy-city rv">In and around Madinah</h3>
+        <div class="zy">
+          <b>Masjid an-Nabawi &amp; the Rawdah</b>
+          <p>The Prophet&rsquo;s Mosque&nbsp;&#65018;. We help with the Rawdah booking on the Nusuk app and explain the timings, which change often.</p>
+        </div>
+        <div class="zy">
+          <b>Jannat al-Baqi</b>
+          <p>The companions&rsquo; burial ground beside the mosque.</p>
+        </div>
+        <div class="zy">
+          <b>Masjid Quba</b>
+          <p>The first mosque built in Islam, and the prayer offered there.</p>
+        </div>
+        <div class="zy">
+          <b>Masjid al-Qiblatayn</b>
+          <p>Where the qiblah turned towards Makkah mid-prayer.</p>
+        </div>
+        <div class="zy">
+          <b>Uhud</b>
+          <p>The mountain and the resting place of the martyrs, with the account of the battle told on the spot.</p>
+        </div>
+        <div class="zy">
+          <b>The Seven Mosques &amp; the date farms</b>
+          <p>The trench of Khandaq, and a stop where dates and Madinah produce are bought.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="zy-note rv">Ziyarat is included in both October packages. For a private group, the route and the pace are yours to set &mdash; <a href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20would%20like%20to%20ask%20about%20the%20ziyarat%20route.">ask us on WhatsApp</a>.</p>
+  </div>
+</section>
 
 <!-- ========== WHY US ========== -->
 <section class="sec" id="why">
@@ -1435,6 +1519,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
           <li><a href="#services">Services</a></li>
           <li><a href="#packages">Packages</a></li>
           <li><a href="#journey">The Journey</a></li>
+          <li><a href="#ziyarat">Guided ziyarat</a></li>
           <li><a href="#departures">Photographs</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="#contact">Contact</a></li>
@@ -1448,7 +1533,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
           <li><a href="#services">Passport assistance</a></li>
           <li><a href="#packages">Umrah packages</a></li>
           <li><a href="#services">Group departures</a></li>
-          <li><a href="#services">Guided ziyarat</a></li>
+          <li><a href="#ziyarat">Guided ziyarat</a></li>
         </ul>
       </div>
     </div>

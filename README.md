@@ -125,6 +125,20 @@ width/height and `loading="lazy"`.
 Faces of real pilgrims appear in several. They are the agency's own published
 photos, but confirm the people in them are content to appear on the website.
 
+## Guided ziyarat section
+
+`#ziyarat` (between the journey timeline and Why us) lists what the ziyarat
+actually visits — five sites around Makkah, six around Madinah — each with one
+line on why it matters. It exists because "guided ziyarat" was listed as a
+service with no detail, and it is the clearest differentiator against agencies
+that run a bus-window tour.
+
+Written from scratch for this site. It deliberately carries no fiqh rulings and
+no hadith citations — it says what the coach does and what the guide explains,
+and notes that site access changes with Saudi regulations. Check the list
+against what your coach actually covers this season and cut anything it does
+not.
+
 ## Testimonials — still drafts
 
 Four cards with Tamil Nadu names and places (Triplicane, Adyar, Ambur,
