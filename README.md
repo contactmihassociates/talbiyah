@@ -25,10 +25,13 @@ python -m http.server 8777
 1. `python set-domain.py yourdomain.com` — rewrites the canonical link, the
    OpenGraph and Twitter tags, the JSON-LD, robots.txt and sitemap.xml (11
    references). Run it again any time to change the domain.
-2. **Replace the testimonials.** The four cards are copy written for the site,
-   not collected reviews. Real, named pilgrim quotes only — invented reviews
-   breach Google's policy and India's rules on misleading endorsements. There
-   is an HTML comment above the section saying the same.
+2. **Replace the testimonials.** The four cards are sample copy, not
+   collected reviews, and they now say so on the page: each carries a
+   "Sample — not a real review" flag, a dashed border, and a bracketed
+   `[Pilgrim's name]`. Real, named quotes only — invented reviews breach
+   Google's policy and India's rules on misleading endorsements. When a real
+   quote replaces one, delete that card's `.tst-flag` line and its
+   `tst--sample` class.
 3. **Add the registration number** — the trust strip still reads
    `[Reg. no. — add yours]`, the last bracketed placeholder on the page.
 4. **Fill in the two counters.** "Pilgrims guided" and "Group departures"
