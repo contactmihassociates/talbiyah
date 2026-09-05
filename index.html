@@ -655,6 +655,29 @@ h1 .ch{display:inline-block;will-change:transform}
 }
 
 /* ============================================================
+   TOUCH TARGETS
+   Measured at 360px on a coarse pointer: the service-card links were
+   14px tall, the footer links 18px, the contact numbers 25px. All are
+   standalone navigation targets, so they get the full 44px on touch
+   without changing anything for a mouse. Inline links inside a
+   sentence are deliberately left alone.
+   ============================================================ */
+@media (pointer:coarse){
+  .svc-link,
+  .ct-line a,
+  .ftr-cols ul a,
+  .ftr address a,
+  .nav a,
+  .brand{
+    display:inline-flex;align-items:center;min-height:44px;
+  }
+  .svc-link{gap:.5rem}
+  .ftr-cols ul{gap:0}
+  .ftr-cols ul li{margin:0}
+  .marq-btn{min-height:44px}
+}
+
+/* ============================================================
    FAQ
    ============================================================ */
 .faq{max-width:840px;margin-top:3rem}
