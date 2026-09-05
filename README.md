@@ -62,6 +62,13 @@ poster** (Oman Air), which lives in `umrah pictures/`:
 - the `#tamil` section
 - `makesOffer` in the JSON-LD
 
+If nobody gets to it in time the page does not lie: once `data-depart`
+passes, the strip asks for the next departure instead of advertising the
+old one, and `#packages` and `#tamil` — both marked `[data-offer-dated]` —
+are topped with a note saying the trip has left and the dates and prices
+below are last season's. That is a safety net, not a substitute for
+updating the four places above.
+
 ---
 
 ## How the page is built

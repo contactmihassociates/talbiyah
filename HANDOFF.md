@@ -77,6 +77,7 @@ python -c "import io;s=io.open('index.html',encoding='utf-8').read();i=s.rindex(
 | 9 | Focus trap and `inert` for the mobile menu. Found and fixed a keyboard-scrolling failure: Lenis reverts any scroll it did not initiate, so PageDown, PageUp, Space, Home, End and the arrows did nothing at all. |
 | 10 | Scrollspy — `.here` and `aria-current` on the nav link whose section is under the middle of the viewport. |
 | 11 | Tamil rendering of all six FAQ answers and the guide's story (`.ta-alt`, labelled "தமிழில்"). JSON-LD deliberately left English-only. |
+| 12 | Fixed the Tamil size being lost to `.faq-a p` specificity; bilingual notice under the FAQ heading. Extended the departure guard: `[data-offer-dated]` on `#packages` and `#tamil` now get a "this departure has left" note once `data-depart` passes, so a flown trip is never priced as bookable. |
 
 ---
 
