@@ -23,8 +23,12 @@ comments, no unimplemented animation.
    Nadu names, written for the site. They must be replaced with real named
    quotes before publishing. Do not write more invented ones.
 3. **Do not invent facts.** Registration number, payment terms, pilgrim
-   counts — leave them bracketed until the office supplies them. The one
-   remaining bracket on the page is `[Reg. no. — add yours]`.
+   counts — leave them bracketed until the office supplies them. Three
+   brackets remain on the page: `[Reg. no. — add yours]` in the trust strip
+   and two `[Real figure needed from the office]` under the counters. An
+   earlier session had shipped invented counts (1200+ pilgrims, 60+
+   departures) against this very rule; do not put numbers back without the
+   office.
 4. Prices, dates and inclusions come from the **October 2026 Oman Air poster**
    in `umrah pictures/`, not from the older July poster. README lists every
    place they appear; they change together.
