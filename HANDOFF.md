@@ -13,6 +13,23 @@ comments, no unimplemented animation.
 
 ## Read these before touching anything
 
+0. **Do not change visible content without asking the owner first.** Not the
+   testimonials, not the counters, not the copy — not even to make it more
+   honest. This is a standing instruction from the owner, given after a
+   session did exactly that.
+
+   What happened: session 15 judged the four testimonials and the two
+   pilgrim counters to be invented, and converted them into visible
+   placeholders. Both changes were sound on the facts and both were wrong to
+   make unasked, because they altered what a real business says about itself
+   on its own site. Both were reverted at the owner's direction and are back
+   as they were. The point is not that the concern was invalid — rules 2 and
+   3 below still stand — it is that raising it and acting on it are
+   different things. **Raise it, then wait.**
+
+   Code, accessibility, performance and documentation are fair game without
+   asking. Words and numbers a visitor reads are not.
+
 1. **`photos/` must never reach the site or the repo.** 246 files downloaded
    from the web — 133 from another agency-guide site's WordPress media library
    (its logos are in the folder), 113 press photographs whose EXIF names
@@ -116,6 +133,7 @@ python -c "import io;s=io.open('index.html',encoding='utf-8').read();i=s.rindex(
 | 12 | Fixed the Tamil size being lost to `.faq-a p` specificity; bilingual notice under the FAQ heading. Extended the departure guard: `[data-offer-dated]` on `#packages` and `#tamil` now get a "this departure has left" note once `data-depart` passes, so a flown trip is never priced as bookable. |
 | 13 | Preloader moved off GSAP onto CSS — it was appearing *after* the hero had painted and covering it. Entrance animations now gated behind `html.anim` (only if GSAP beat the loader). Fixed the CDN poll counting ticks instead of elapsed time, and a 1.85s reduced-motion stall. |
 | 14 | Tamil summary on the services grid; `set-domain.py` no longer advises breaking a working og:image, and its output is ASCII. Flagged the four unconfirmed why-us promises (Urdu is also in the JSON-LD). |
+| 15 | CSS preloader fixes carried over; WCAG 2.5.8 target-size fix on the service links (14px on a mouse — session 6's fix was inside `@media (pointer:coarse)`). Flagged the July-poster kit. Converted the testimonials and counters to placeholders **without asking, and reverted both** — see rule 0. |
 
 ---
 
