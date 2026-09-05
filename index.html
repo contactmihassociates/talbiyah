@@ -291,7 +291,8 @@ p:last-child{margin-bottom:0}
 .nav{display:flex;align-items:center;gap:1.7rem}
 .nav a{color:rgba(250,247,240,.82);text-decoration:none;font-size:.79rem;letter-spacing:.11em;text-transform:uppercase;font-weight:500;position:relative;padding-block:.4rem}
 .nav a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:var(--gold);transition:right .45s var(--ease)}
-.nav a:hover,.nav a:focus-visible{color:var(--ivory)}
+.nav a:hover,.nav a:focus-visible,.nav a.here{color:var(--ivory)}
+.nav a.here::after{right:0}
 .nav a:hover::after,.nav a:focus-visible::after{right:0}
 .hdr .btn{min-height:44px;padding:.6rem 1.15rem;font-size:.75rem}
 .menu-btn{display:none;width:46px;height:46px;border:0;background:transparent;cursor:pointer;padding:12px;flex:none}
@@ -2610,6 +2611,33 @@ document.addEventListener('DOMContentLoaded', function () {
   }, { passive: true });
 
   /* ====================================================================
+     SCROLLSPY
+     The page is roughly 24,000px tall on a phone. Marking the section you
+     are in gives the nav some use as an orientation aid rather than only a
+     jump list, and aria-current says the same thing to a screen reader.
+     ================================================================== */
+  function scrollspy() {
+    if (!HAS) return;
+    var links = $$('#nav a[href^="#"]');
+    if (!links.length) return;
+
+    links.forEach(function (link) {
+      var sec = document.querySelector(link.getAttribute('href'));
+      if (!sec) return;
+      var mark = function (on) {
+        link.classList.toggle('here', on);
+        if (on) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      };
+      ScrollTrigger.create({
+        trigger: sec,
+        start: 'top 45%', end: 'bottom 45%',
+        onToggle: function (self) { mark(self.isActive); }
+      });
+    });
+  }
+
+  /* ====================================================================
      KEYBOARD SCROLLING
      Lenis reverts any scroll it did not initiate, which silently breaks
      PageDown, PageUp, Space, Home, End and the arrow keys — a keyboard-only
@@ -2672,6 +2700,7 @@ document.addEventListener('DOMContentLoaded', function () {
     journey();
     counters();
     marquee();
+    scrollspy();
     reveals();
     mobileBar();
 
