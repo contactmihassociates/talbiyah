@@ -114,3 +114,60 @@ scrolling works. A 404 image keeps its reserved box and shows alt text — the
 **Measured after:** no "Invalid Date" on any input tried; 100 ScrollTriggers,
 countdown, marquee, FAQ, menu, map and form all working both normally and with
 an injected failure; `node --check` passes; no new console errors.
+
+---
+
+## Iteration 3 — Cross-browser & progressive enhancement
+
+The audience is mid-range Android in India, where old Chrome and old WebViews
+are common, so the question is what breaks on a browser two or three years
+behind — not on this one.
+
+**Audited:** the inline script scanned for any ES6+ syntax (a single unparsable
+token in one big inline script kills the whole page); every modern CSS feature
+inventoried against its support floor; each one checked for a fallback.
+
+**Already sound:**
+
+- **The script is ES5-clean.** No arrow functions, `let`/`const`, template
+  literals, spread, classes, `Promise` or `async`. The only two hits were
+  inside comments. An old WebView parses it fine.
+- `mask-image` carries its `-webkit-` prefix; `backdrop-filter` has an
+  `@supports not` fallback; `100dvh` is preceded by a `100vh` declaration.
+
+**Two real defects fixed — both cases of one unsupported selector taking
+working CSS down with it:**
+
+1. **No focus ring at all on older browsers.** The entire focus indicator was
+   declared on `:focus-visible`, which is Safari 15.4+ (March 2022) and Chrome
+   86+. A browser that cannot parse a selector discards the whole rule, so on
+   iOS 15.3 and earlier there was no visible focus anywhere on the page — a
+   WCAG 2.4.7 failure for exactly the users least likely to have updated. The
+   ring is now stated on `:focus`, which every browser understands, and capable
+   browsers quiet the pointer case with `:focus:not(:focus-visible)` — a
+   selector old browsers also discard, so they keep an always-on ring. That is
+   the correct direction to fail in. The two buttons that draw their border
+   with an inset shadow get that border restored in the reset rather than
+   cleared, or it would vanish while they are clicked.
+
+2. **`.nav a:hover, .nav a:focus-visible, .nav a.here` was one rule.** On a
+   browser without `:focus-visible` the whole group is dropped, taking the nav
+   hover colour *and* the scrollspy's current-section state with it — two
+   things that have nothing to do with focus. Split so an unsupported selector
+   can only cost its own rule. Same for the `::after` underline.
+
+**Considered and deliberately not changed:** `inset`, flexbox `gap`, `clamp()`
+and `min()` all need Chrome 87 / Safari 14.1, which is a reasonable floor for
+an auto-updating Android audience, and duplicating them as longhands would
+bloat the stylesheet for a vanishing tail. The standalone `rotate:` property
+(4 uses, Safari 14.1+) only affects decorative diamond bullets, which render as
+squares on older browsers — and a naive `transform: rotate()` fallback would
+double-rotate on modern ones, so it would need an `@supports not` block for a
+purely cosmetic gain.
+
+**Measured after:** keyboard focus produces `outline: solid 2px navy` plus a
+5px gold halo with `:focus-visible` matching, on both the skip link and a
+service link; pointer focus produces no ring; the ghost button keeps its
+resting inset border both focused and unfocused; the nav `.here` state still
+changes colour after the split; rules mentioning `:focus-visible` reduced from
+15 to 5, and none of the remaining five are grouped with a non-focus selector.
