@@ -661,6 +661,43 @@ h1 .ch{display:inline-block;will-change:transform}
 }
 
 /* ============================================================
+   PRINT
+   The office prints package details for walk-in customers, and
+   families print them for relatives who do not use a phone. So the
+   printed page is a plain document: black on white, no reveals left
+   half-hidden, no navigation, no photographs eating ink, and every
+   phone number and WhatsApp address written out in full.
+   ============================================================ */
+@media print{
+  @page{margin:16mm}
+  *{background:transparent!important;color:#000!important;box-shadow:none!important;
+    text-shadow:none!important;animation:none!important;transition:none!important}
+  html,body{font-size:11pt;line-height:1.45}
+  /* Reveals never fire without scrolling, so unhide everything. */
+  .rv,.hero-ar,.faq-a{opacity:1!important;transform:none!important;clip-path:none!important;
+    height:auto!important;overflow:visible!important}
+  #loader,#stitch,#stars,.skyline,.hdr,.mbar,.marquee-wrap,.gal,.map,.jr-hint,
+  .announce-cd,.form,.svc-trace,.menu-btn{display:none!important}
+  .sec,.trust,.announce,#journey,.ftr{padding-block:0 0!important;page-break-inside:avoid}
+  .wrap{max-width:none;padding-inline:0}
+  h1{font-size:22pt}
+  h2{font-size:16pt;margin-top:14pt}
+  h3{font-size:12pt}
+  .pkg,.zy,.count,.why,.faq-item,.ta-block,.ta-inc{page-break-inside:avoid;border-color:#999!important}
+  .jr-track{display:block!important;transform:none!important}
+  .jr-step{width:auto!important;page-break-inside:avoid}
+  #packages,#tamil,#contact{page-break-before:always}
+  /* Printing a wa.me link would dump the whole prefilled message onto the
+     page, so those say "WhatsApp" and the numbers are printed in full by
+     the contact block and the footer. Only a genuinely useful destination
+     is spelled out. */
+  a[href^="https://wa.me"]::after{content:" (WhatsApp 97100 92070)";font-size:9pt}
+  .ct-line a::after,.ftr a::after,.btn::after,.ta-cta a::after{content:none!important}
+  a[href^="https://www.google.com/maps"]::after{content:" (Google Maps)";font-size:9pt}
+  .btn{border:1px solid #999!important;padding:4pt 8pt!important}
+}
+
+/* ============================================================
    TOUCH TARGETS
    Measured at 360px on a coarse pointer: the service-card links were
    14px tall, the footer links 18px, the contact numbers 25px. All are
@@ -865,7 +902,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
   <!-- Skyline silhouettes: Madinah's green dome + minarets (far),
        Makkah's clock tower (mid), foreground colonnade (near).
        Three depth planes, each parallaxed at a different rate. -->
-  <svg class="skyline sky-far" viewBox="0 0 1500 420" preserveAspectRatio="xMidYEnd slice" aria-hidden="true">
+  <svg class="skyline sky-far" viewBox="0 0 1500 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
     <path d="M0 420V330h1500v90"/>
     <path d="M120 330V250a44 44 0 0 1 88 0v80"/>
     <path d="M164 206V186"/><circle cx="164" cy="176" r="9"/>
@@ -874,7 +911,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
     <path d="M300 330v-58h34v58M980 330v-58h34v58"/>
   </svg>
 
-  <svg class="skyline sky-mid" viewBox="0 0 1500 420" preserveAspectRatio="xMidYEnd slice" aria-hidden="true">
+  <svg class="skyline sky-mid" viewBox="0 0 1500 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
     <!-- Green dome of Al-Masjid an-Nabawi, Madinah -->
     <path d="M362 372V284"/>
     <path d="M362 284a74 74 0 0 1 148 0"/>
@@ -896,7 +933,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
     <path d="M1000 268h96M1000 316h96"/>
   </svg>
 
-  <svg class="skyline sky-near" viewBox="0 0 1500 300" preserveAspectRatio="xMidYEnd slice" aria-hidden="true">
+  <svg class="skyline sky-near" viewBox="0 0 1500 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
     <path d="M0 300v-46h1500v46"/>
     <g>
       <path d="M40 254v-72a34 34 0 0 1 68 0v72M148 254v-72a34 34 0 0 1 68 0v72M256 254v-72a34 34 0 0 1 68 0v72M364 254v-72a34 34 0 0 1 68 0v72M472 254v-72a34 34 0 0 1 68 0v72M580 254v-72a34 34 0 0 1 68 0v72M688 254v-72a34 34 0 0 1 68 0v72M796 254v-72a34 34 0 0 1 68 0v72M904 254v-72a34 34 0 0 1 68 0v72M1012 254v-72a34 34 0 0 1 68 0v72M1120 254v-72a34 34 0 0 1 68 0v72M1228 254v-72a34 34 0 0 1 68 0v72M1336 254v-72a34 34 0 0 1 68 0v72"/>
@@ -1782,9 +1819,21 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
   </a>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
+<!-- Subresource Integrity: if either CDN were ever compromised, the browser
+     refuses the altered file rather than running it on a page that collects
+     names and phone numbers. The hashes are tied to these exact versions —
+     changing a version number means recomputing its hash, e.g.
+       curl -sL <url> | openssl dgst -sha384 -binary | openssl base64 -A
+     A refused script is not fatal: boot() falls back to the unanimated page. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer
+        integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer
+        integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer
+        integrity="sha384-O55L/6rhHr9CFvrxqv5luxOCcmVaBmETbZbJDP+Do8T0pztTACsFBD/IXCNkj7DV"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
 /* ============================================================================
