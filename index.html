@@ -2142,8 +2142,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // itself, so the page slid along behind the open menu. Lenis has to be
     // told to stand down, and the class still handles the no-Lenis case
     // (reduced motion, or a CDN that never arrived).
+    // Everything outside the header goes inert while the panel is open, so a
+    // keyboard or screen-reader user cannot tab into the page hidden behind
+    // it. inert also blocks pointer events on those subtrees.
+    var behind = [$('#main'), $('.ftr'), $('#mbar')].filter(Boolean);
+
     function lock(on) {
       document.body.classList.toggle('is-locked', on);
+      behind.forEach(function (el) { el.inert = on; });
       if (!lenis) return;
       if (on) lenis.stop(); else lenis.start();
     }
@@ -2159,8 +2165,18 @@ document.addEventListener('DOMContentLoaded', function () {
       btn.setAttribute('aria-expanded', String(open));
       btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       lock(open);
+      if (open) { var first = $('a', nav); if (first) first.focus(); }
     });
     $$('#nav a').forEach(function (a) { a.addEventListener('click', close); });
+    // Tab off the end of the panel wraps back to the top of it.
+    nav.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab' || !nav.classList.contains('open')) return;
+      var links = $$('a', nav);
+      if (!links.length) return;
+      var first = links[0], last = links[links.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); btn.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); btn.focus(); }
+    });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && nav.classList.contains('open')) { close(); btn.focus(); }
     });
@@ -2592,6 +2608,37 @@ document.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('resize', function () {
     clearTimeout(trt); trt = setTimeout(traceLengths, 200);
   }, { passive: true });
+
+  /* ====================================================================
+     KEYBOARD SCROLLING
+     Lenis reverts any scroll it did not initiate, which silently breaks
+     PageDown, PageUp, Space, Home, End and the arrow keys — a keyboard-only
+     visitor cannot move down the page at all. Route those keys through
+     Lenis instead. Anything typed into a form, or a Space on a control that
+     Space is meant to activate, is left alone.
+     ================================================================== */
+  document.addEventListener('keydown', function (e) {
+    if (!lenis || e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (document.body.classList.contains('is-locked')) return;
+
+    var t = e.target;
+    if (t && t.closest && t.closest('input, textarea, select, [contenteditable]')) return;
+    if (e.key === ' ' && t && t.closest && t.closest('a, button, [role="button"]')) return;
+
+    var vh = window.innerHeight, page = vh * 0.9, to = null;
+    switch (e.key) {
+      case 'PageDown': to = lenis.scroll + page; break;
+      case 'PageUp':   to = lenis.scroll - page; break;
+      case ' ':        to = lenis.scroll + (e.shiftKey ? -page : page); break;
+      case 'ArrowDown': to = lenis.scroll + 90; break;
+      case 'ArrowUp':   to = lenis.scroll - 90; break;
+      case 'Home':      to = 0; break;
+      case 'End':       to = document.documentElement.scrollHeight; break;
+      default: return;
+    }
+    e.preventDefault();
+    lenis.scrollTo(to, { duration: e.key.indexOf('Arrow') === 0 ? 0.35 : 0.7 });
+  });
 
   // In-page links: hand the jump to Lenis when it is running.
   $$('a[href^="#"]').forEach(function (a) {

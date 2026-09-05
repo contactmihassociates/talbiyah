@@ -43,10 +43,13 @@ a `?v=N` query when reloading; `http.server` caches aggressively.
 
 Two gotchas that will waste your time otherwise:
 
-- **Lenis owns the scroll.** `window.scrollTo()` and `scrollIntoView()` move
-  the document but do not tick Lenis, so ScrollTrigger never updates and the
-  page looks blank in a screenshot. Drive it with real wheel events, or load
-  `index.html#section` to land there.
+- **Lenis owns the scroll, and reverts anything it did not initiate.**
+  `window.scrollTo()` and `scrollIntoView()` move the document and are then
+  snapped back, so ScrollTrigger never updates and the page looks blank in a
+  screenshot. Drive it with real wheel or key events, load
+  `index.html#section` to land there, or call `lenis.scrollTo()`. This is also
+  why keyboard scrolling needed its own handler — if you add another scroll
+  path, route it through Lenis.
 - **Screenshots of the preview pane are unreliable on tall pages.** Check the
   DOM (`getComputedStyle`, `getBoundingClientRect`) rather than trusting a
   blank image.
@@ -71,6 +74,7 @@ python -c "import io;s=io.open('index.html',encoding='utf-8').read();i=s.rindex(
 | 6 | Marquee pause button, FAQPage schema, robots.txt, sitemap.xml, departure countdown that retires itself, Tamil summary section, font-payload trim, contrast and heading-order fixes, WhatsApp popup fallback, 44px touch targets, no-JS integrity, `set-domain.py`. |
 | 7 | Subresource Integrity on the three CDN scripts, a print stylesheet, and a fix for `preserveAspectRatio="xMidYEnd"` — an invalid value that silently letterboxed the hero skyline instead of anchoring it to the baseline, and threw 39 console errors. |
 | 8 | Tamil in the primary nav and on every form label. Found and fixed a scroll-lock bug: `body{overflow:hidden}` does not stop Lenis, so the page slid along behind the open mobile menu and during the preloader. |
+| 9 | Focus trap and `inert` for the mobile menu. Found and fixed a keyboard-scrolling failure: Lenis reverts any scroll it did not initiate, so PageDown, PageUp, Space, Home, End and the arrows did nothing at all. |
 
 ---
 
