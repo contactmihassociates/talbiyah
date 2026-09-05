@@ -839,7 +839,17 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
 .map-facade{position:absolute;inset:0;display:grid;place-content:center;gap:1rem;justify-items:center;background:var(--navy-3);cursor:pointer;border:0;color:var(--ivory);font:inherit;padding:1.5rem;text-align:center}
 .map-facade svg{width:38px;height:38px;stroke:var(--gold);fill:none;stroke-width:1.1}
 .map-facade span{font-size:.71rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(250,247,240,.66)}
-.map-facade:hover span{color:var(--gold)}
+.map-facade span{font-size:.71rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(250,247,240,.66)}
+.map-pick{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center}
+.map-btn{
+  min-height:44px;padding:.6rem 1.15rem;border-radius:2px;cursor:pointer;
+  background:transparent;color:var(--ivory);box-shadow:inset 0 0 0 1px var(--hair);
+  font:600 .74rem/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;
+  transition:box-shadow .35s var(--ease),color .35s var(--ease),transform .35s var(--ease);
+}
+.map-btn:hover{box-shadow:inset 0 0 0 1px var(--gold);color:var(--gold);transform:translateY(-1px)}
+.map-links{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;margin-top:.9rem;font-size:.82rem}
+.map-links a{color:var(--gold)}
 
 .form{display:grid;gap:1.15rem}
 .field{display:grid;gap:.5rem}
@@ -1792,12 +1802,16 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
       <div>
         <p class="eyebrow rv">Contact</p>
         <h2 class="rv">Come and sit with us.</h2>
-        <p class="lede rv" style="margin-top:1.2rem">The office is on Qaide Millath Street. Message first if you would like Moulavi Sadath to be there in person.</p>
+        <p class="lede rv" style="margin-top:1.2rem">The office is on Qaide Millath Street. Message first if you would like Moulavi Sadath to be there in person &mdash; or meet him at Khurasani Peer Masjid on LB Road, Adyar, where he is Imam.</p>
 
         <div class="rv">
           <div class="ct-line">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
             <div><b>Office</b><address>No.7, 13/1, Qaide Millath Street,<br>Chennai &ndash; 600&nbsp;029</address></div>
+          </div>
+          <div class="ct-line">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V11l7-5 7 5v10"/><path d="M12 6V3"/><path d="M9.5 21v-5.5h5V21"/><path d="M3 21h18"/></svg>
+            <div><b>Or at the masjid</b><address>Khurasani Peer Masjid (K.P.M.),<br>LB Road, Adyar, Chennai &mdash; where<br>Moulavi Sadath is Imam</address></div>
           </div>
           <div class="ct-line">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.1s-.7 1-.9 1.2c-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5s-.7-1.6-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1"/><path d="M12 2.5a9.5 9.5 0 0 0-8.2 14.3L2.5 21.5l4.9-1.3A9.5 9.5 0 1 0 12 2.5z"/></svg>
@@ -1809,15 +1823,26 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
           </div>
         </div>
 
-        <!-- Click-to-load map: keeps ~700KB of Google Maps off the initial page load -->
+        <!-- Click-to-load map: keeps ~700KB of Google Maps off the initial
+             page load. Two pins now, one iframe slot — whichever is asked
+             for is the only one fetched. -->
         <div class="map rv">
-          <button class="map-facade" id="mapBtn" type="button">
+          <div class="map-facade" id="mapFacade">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
-            <span>Load map &mdash; Qaide Millath Street, Chennai 600 029</span>
-          </button>
+            <span>Two places you can find us</span>
+            <div class="map-pick">
+              <button class="map-btn" type="button"
+                      data-q="No.7, 13/1, Qaide Millath Street, Chennai 600029"
+                      data-title="Map to the Talbiyah office, Qaide Millath Street, Chennai 600 029">The office</button>
+              <button class="map-btn" type="button"
+                      data-q="Khurasani Peer Masjidh, LB Road, Adyar, Chennai"
+                      data-title="Map to Khurasani Peer Masjid, LB Road, Adyar, Chennai">The masjid</button>
+            </div>
+          </div>
         </div>
-        <p style="margin-top:.9rem;font-size:.82rem">
-          <a href="https://www.google.com/maps/search/?api=1&amp;query=No.7%2C%2013%2F1%2C%20Qaide%20Millath%20Street%2C%20Chennai%20600029" target="_blank" rel="noopener" style="color:var(--gold)">Open in Google Maps &rarr;</a>
+        <p class="map-links">
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=No.7%2C%2013%2F1%2C%20Qaide%20Millath%20Street%2C%20Chennai%20600029" target="_blank" rel="noopener">Office in Google Maps &rarr;</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Khurasani%20Peer%20Masjidh&amp;query_place_id=ChIJmwkFGfNnUjoRauOLW8EFx98" target="_blank" rel="noopener">Masjid in Google Maps &rarr;</a>
         </p>
       </div>
 
@@ -2651,20 +2676,23 @@ document.addEventListener('DOMContentLoaded', function () {
      Until the visitor asks for it, there is only a button.
      ================================================================== */
   (function map() {
-    var btn = $('#mapBtn');
-    if (!btn) return;
-    btn.addEventListener('click', function () {
-      var f = document.createElement('iframe');
-      f.src = 'https://www.google.com/maps?q=' +
-              encodeURIComponent('No.7, 13/1, Qaide Millath Street, Chennai 600029') +
-              '&output=embed';
-      f.title = 'Map to Talbiyah Haj & Umrah Service, Qaide Millath Street, Chennai 600 029';
-      f.loading = 'lazy';
-      f.referrerPolicy = 'no-referrer-when-downgrade';
-      f.setAttribute('allowfullscreen', '');
-      f.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0';
-      btn.parentNode.appendChild(f);
-      btn.remove();
+    var facade = $('#mapFacade');
+    if (!facade) return;
+    // Two pins, one slot: the office and Khurasani Peer Masjid on LB Road,
+    // where Moulavi Sadath is Imam. Only the one asked for is ever fetched.
+    $$('.map-btn', facade).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var f = document.createElement('iframe');
+        f.src = 'https://www.google.com/maps?q=' +
+                encodeURIComponent(btn.dataset.q) + '&output=embed';
+        f.title = btn.dataset.title;
+        f.loading = 'lazy';
+        f.referrerPolicy = 'no-referrer-when-downgrade';
+        f.setAttribute('allowfullscreen', '');
+        f.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0';
+        facade.parentNode.appendChild(f);
+        facade.remove();
+      });
     });
   })();
 
