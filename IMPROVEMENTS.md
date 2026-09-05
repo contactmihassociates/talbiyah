@@ -357,3 +357,47 @@ all seven visible without scrolling, still optically centred.
 so it covers nothing; six pairs of adjacent controls sit closer than 6px, but
 all are already 44px targets, and WCAG 2.5.8 treats adequate size and adequate
 spacing as alternatives rather than both being required.
+
+---
+
+## Iteration 8 — SEO & structured data
+
+**Audited** both JSON-LD blocks field by field against what the page actually
+publishes, plus the meta tags and the title.
+
+**Four additions, every one derived from something already on the page:**
+
+1. **`validThrough` on the two October offers.** They carried a price and
+   `InStock` availability with no expiry, so a search result could keep
+   advertising ₹1,15,000 for a departure that had already left. Set to
+   `2026-09-29`, the day before the flight — the structured-data equivalent of
+   what `data-depart` already does on the page.
+2. **`url` on all three offers**, pointing at `#packages`, so a rich result
+   lands on the cards rather than the top of the page.
+3. **`priceRange`** on the organisation, read straight off the package cards.
+4. **`og:locale:alternate` = `ta_IN`.** The page carries a full Tamil section,
+   the six FAQ answers in Tamil and the guide's story; the markup claimed
+   `en_IN` only.
+
+**Deliberately not added, because it would mean inventing facts:** `geo` (the
+office has no coordinates on file — the place_id in the README is the masjid,
+which is a different building), `openingHours`, `currenciesAccepted`,
+`paymentAccepted`, and above all `aggregateRating` / `review`. Rating markup
+would be fabricated, the testimonials backing it are still drafts, and
+fabricated review markup is a manual-action risk in Search Console on top of
+being untrue.
+
+**Verified:** both blocks still parse as valid JSON; `set-domain.py` picks up
+the three new placeholder URLs automatically — 11 references in `index.html`
+where there were 8, 14 across all files — and round-trips to a real domain and
+back leaving no residue.
+
+**Raised, not acted on** — both are visible copy, which is the owner's:
+
+- The `<title>` is 79 characters and Google truncates around 60, so
+  "Your Journey is Our Responsibility" is likely cut off in results.
+- The `<h1>` — *"You answer the call. We carry everything else."* — is good
+  writing and contains no search terms at all. The `<title>` and the
+  description carry the keywords, so this is defensible, but if the page ever
+  underperforms for "umrah packages chennai" the h1 is the first thing to look
+  at.

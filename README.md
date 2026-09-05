@@ -101,7 +101,9 @@ poster** (Oman Air), which lives in `umrah pictures/`:
 - the hero CTA link and every `wa.me` prefill mentioning the dates
 - the enquiry form's package `<option>` list
 - the `#tamil` section
-- `makesOffer` in the JSON-LD
+- `makesOffer` in the JSON-LD — including **`validThrough`**, which is set to
+  the day before departure so a search result stops advertising a price for a
+  trip that has already left, and `priceRange` on the organisation
 
 If nobody gets to it in time the page does not lie: once `data-depart`
 passes, the strip asks for the next departure instead of advertising the
