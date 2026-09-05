@@ -33,7 +33,9 @@ python -m http.server 8777
    `[Reg. no. — add yours]`, the last bracketed placeholder on the page.
 4. **Confirm the two counters** — 1200+ pilgrims and 60+ departures are
    estimates nobody has verified.
-5. Have **Moulavi Sadath read the Tamil section** once.
+5. Have **Moulavi Sadath read all the Tamil** once — the offer section, the
+   six FAQ answers, the guide's story, and the note that appears if a
+   departure date passes without the page being updated.
 6. Submit the sitemap in Google Search Console.
 
 ---
@@ -131,9 +133,9 @@ Worth doing, roughly in order of value:
 - **Real testimonials** — the single biggest credibility gap.
 - **A booking/payment section.** How much deposit, when the balance is due,
   what happens if a visa is refused. Nobody has supplied these facts.
-- **More Tamil.** The Tamil section covers the offer; the FAQ and the guide's
-  story are still English-only, and Tamil is the first language of most of the
-  audience.
+- **More Tamil.** The offer, all six FAQ answers and the guide's story are
+  bilingual now (`.ta-alt`). Still English-only: the services grid, the journey
+  timeline, the ziyarat list and the why-us block.
 - **A page per departure** — photos and a short account of each group, which
   gives Google something new to index and returning families something to look
   at.
