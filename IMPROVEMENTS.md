@@ -281,3 +281,44 @@ the actual cost.
 **Raised for deployment:** the HTML is 172 KB raw, 49 KB gzipped. If the host
 does not compress, every visitor pays 123 KB extra on 4G for nothing. Added as
 a pre-launch check in the README with the `curl` one-liner to verify it.
+
+---
+
+## Iteration 6 — Accessibility semantics
+
+Earlier sessions covered the mechanical items — contrast, heading order, focus
+rings, 44px targets, the focus trap, keyboard scrolling, `aria-current`. This
+pass looked at how the page *reads* rather than whether it passes a checklist.
+
+**Audited:** every SVG checked for whether a screen reader would announce it
+(including via ancestors); every text node containing Tamil or Arabic checked
+for a `lang` ancestor, so assistive tech switches voice instead of reading
+Tamil with an English engine; every `aria-hidden` container checked for
+focusable descendants; the accessible name of all 59 interactive controls
+compared for the case where the same name points at different destinations.
+
+**Clean on every one of those:**
+
+- All 75 SVGs are hidden from the accessibility tree, the two that looked
+  exposed being inside `<div id="stitch" aria-hidden="true">`.
+- No Tamil or Arabic text sits outside a `lang` boundary. The only hits were
+  comment text inside `<script>`.
+- Nothing focusable is buried inside an `aria-hidden` subtree.
+- All 59 controls have distinct accessible names — no two share a name while
+  going to different places.
+
+**One real gap, fixed: a validation error nobody could hear.** When the form
+rejected an entry it set `aria-invalid`, moved focus to the field, and wrote
+the reason into a paragraph at the far end of the form. A screen reader
+announced the label and "invalid" and stopped there — the *reason* was never
+connected to the field. The failing field now also gets
+`aria-describedby="formNote"`, so the explanation is read with it, and both
+attributes are cleared on the next attempt so the description never sticks to
+a field that is now fine.
+
+**Measured after:** submitting with no name sets `aria-invalid="true"` and
+`aria-describedby="formNote"` on the name field, moves focus there, and the
+referenced text reads "Please tell us your name, so we know who is writing.";
+failing on the phone instead moves both attributes to the phone field and
+clears the name's; a successful submit leaves zero elements carrying either
+attribute.
