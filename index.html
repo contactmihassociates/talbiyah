@@ -672,6 +672,16 @@ h1 .ch{display:inline-block;will-change:transform}
 .tst p{font-family:var(--serif);font-size:1.16rem;line-height:1.5;font-style:italic;margin:0;flex:1}
 .tst footer{font-size:.71rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink)}
 .tst footer span{display:block;letter-spacing:.04em;text-transform:none;color:rgba(11,27,63,.5);margin-top:.25rem;font-size:.78rem}
+/* Sample testimonials. These must never be mistaken for real reviews:
+   invented endorsements attributed to named people breach Google's policy
+   and India's rules on misleading endorsements. Delete .tst--sample and the
+   .tst-flag line from a card once a real, named quote replaces it. */
+.tst--sample{border-style:dashed;border-color:rgba(158,42,43,.42)}
+.tst-flag{
+  align-self:flex-start;margin:0;padding:.4rem .62rem;border-radius:2px;
+  font:700 .6rem/1 var(--sans);letter-spacing:.17em;text-transform:uppercase;
+  color:var(--crimson);background:rgba(158,42,43,.1);
+}
 .no-motion .marquee-track,.js-off .marquee-track{animation:none}
 .js-off .marq-btn{display:none}
 
@@ -1605,7 +1615,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
   <div class="wrap">
     <p class="eyebrow rv">In their words</p>
     <h2 class="rv">What returning pilgrims say.</h2>
-    <p class="lede rv" style="margin-top:1.2rem">Families from Chennai, Ambur, Kilakarai and Vaniyambadi who travelled with Moulavi Sadath, in their own words.</p>
+    <p class="lede rv" style="margin-top:1.2rem">These four cards are <strong>examples of the kind of quote to collect</strong> &mdash; they are not reviews, and the names, towns and dates on them are not real. Replace them with named words from returning pilgrims before this page goes live.</p>
   </div>
 
   <div class="marquee-wrap">
@@ -1617,25 +1627,29 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
     </button>
   <div class="marquee" role="region" aria-label="Pilgrim testimonials, scrolling">
     <div class="marquee-track" id="marq">
-      <figure class="tst">
+      <figure class="tst tst--sample">
+        <p class="tst-flag">Sample &mdash; not a real review</p>
         <svg class="tst-q" viewBox="0 0 26 20" aria-hidden="true"><path d="M11 2H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h5v2a4 4 0 0 1-4 4M24 2h-7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h5v2a4 4 0 0 1-4 4"/></svg>
         <p>I had no passport when I first walked into the office on Qaide Millath Street. Everything &mdash; passport, visa, tickets &mdash; was done from that one room, and I was told at each stage where my file had reached. Nobody sent me anywhere else.</p>
-        <footer>A. Abdul Raheem<span>Triplicane, Chennai &middot; Umrah, February 2025</span></footer>
+        <footer class="ph">[Pilgrim’s name]<span>[Town] &middot; [Umrah or Haj, month year]</span></footer>
       </figure>
-      <figure class="tst">
+      <figure class="tst tst--sample">
+        <p class="tst-flag">Sample &mdash; not a real review</p>
         <svg class="tst-q" viewBox="0 0 26 20" aria-hidden="true"><path d="M11 2H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h5v2a4 4 0 0 1-4 4M24 2h-7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h5v2a4 4 0 0 1-4 4"/></svg>
         <p>My mother is seventy-three and cannot walk long distances. Moulavi Sadath arranged a wheelchair at both airports and stayed with us through the tawaf. I was worried for weeks before we left, and I did not have to worry once we were there.</p>
-        <footer>Fathima Beevi<span>Adyar, Chennai &middot; Umrah, Ramadan 2024</span></footer>
+        <footer class="ph">[Pilgrim’s name]<span>[Town] &middot; [Umrah or Haj, month year]</span></footer>
       </figure>
-      <figure class="tst">
+      <figure class="tst tst--sample">
+        <p class="tst-flag">Sample &mdash; not a real review</p>
         <svg class="tst-q" viewBox="0 0 26 20" aria-hidden="true"><path d="M11 2H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h5v2a4 4 0 0 1-4 4M24 2h-7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h5v2a4 4 0 0 1-4 4"/></svg>
         <p>This was the third time our family has travelled with Talbiyah, and the second for Haj. That is the whole answer. The same person answers the phone, and he is on the same flight as you.</p>
-        <footer>K. Mohamed Ismail<span>Ambur, Vellore District &middot; Haj, 2023</span></footer>
+        <footer class="ph">[Pilgrim’s name]<span>[Town] &middot; [Umrah or Haj, month year]</span></footer>
       </figure>
-      <figure class="tst">
+      <figure class="tst tst--sample">
+        <p class="tst-flag">Sample &mdash; not a real review</p>
         <svg class="tst-q" viewBox="0 0 26 20" aria-hidden="true"><path d="M11 2H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h5v2a4 4 0 0 1-4 4M24 2h-7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h5v2a4 4 0 0 1-4 4"/></svg>
         <p>The ziyarat in Madinah was unhurried &mdash; he explained each place and gave us time to sit and pray, not ten minutes and back to the bus. Two months after returning I called about a passport renewal and he still helped.</p>
-        <footer>Rukkaiya Banu<span>Kilakarai, Ramanathapuram &middot; Umrah, December 2024</span></footer>
+        <footer class="ph">[Pilgrim’s name]<span>[Town] &middot; [Umrah or Haj, month year]</span></footer>
       </figure>
     </div>
   </div>
