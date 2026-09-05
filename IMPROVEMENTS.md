@@ -171,3 +171,60 @@ service link; pointer focus produces no ring; the ghost button keeps its
 resting inset border both focused and unfocused; the nav `.here` state still
 changes colour after the split; rules mentioning `:focus-visible` reduced from
 15 to 5, and none of the remaining five are grouped with a non-focus selector.
+
+---
+
+## Iteration 4 — Security & privacy
+
+**Already sound, and worth recording:** all 17 `target="_blank"` links carry
+`rel="noopener"`; there is not a single inline `on*=` handler anywhere; no
+`<iframe>` exists in the source (the map is built at runtime only when a
+visitor asks for it); the three CDN scripts already carry SRI hashes; and the
+site sets no cookies, uses no storage and loads no analytics, so the form's
+claim that "nothing is stored on this website" is literally true.
+
+**Added: a Content-Security-Policy**, declared in a `<meta>` because the page
+is static and may be hosted somewhere response headers are not ours to set.
+
+It cannot stop an injected *inline* script — the page's own CSS and JS are
+inline, so `'unsafe-inline'` is unavoidable without a build step, and hashing
+the inline script would break on every hand edit of a file with no build
+pipeline. What it does stop is the realistic attack: a `<script src>` pointing
+at a host that is not on the list, an injected `<iframe>`, a `<base>` tag
+rewriting where every relative link goes, or the enquiry form being quietly
+re-pointed at someone else's server. `base-uri 'none'`, `object-src 'none'`
+and `form-action 'self'` cost nothing here and close those doors.
+
+**Verified it actually enforces**, rather than being silently malformed —
+which is the usual way a meta CSP fails. With the policy in place the browser
+logged and blocked all three attempts:
+
+- `https://example.com/evil.js` — *"violates ... script-src ... The action has
+  been blocked."*
+- framing `https://example.com/` — *"violates ... frame-src
+  https://www.google.com. The request has been blocked."*
+- `<base href="https://example.com/">` — *"violates ... base-uri 'none'."*
+
+And the legitimate page is untouched: GSAP, ScrollTrigger and Lenis all load,
+100 ScrollTriggers build, Cormorant Garamond resolves, inline styles still
+apply (GSAP depends on that), the countdown, marquee, FAQ and enquiry form all
+work, 13 gallery images load, and the click-to-load Google Maps iframe still
+creates and loads.
+
+Also added `<meta name="referrer" content="strict-origin-when-cross-origin">`.
+Modern browsers already default to this; older ones sent the full URL to every
+outbound link, and this page has seventeen.
+
+**Raised, not acted on — Google Fonts.** Two stylesheets and the font files
+are fetched from `fonts.googleapis.com` / `fonts.gstatic.com` on every page
+load, which discloses each visitor's IP address to Google before they have
+done anything. Self-hosting the four families would remove that entirely, at
+the cost of adding font binaries to the repo and losing nothing else, since
+the CSP already pins the origins. This is the owner's call — it touches
+infrastructure and has a legal dimension under the DPDP Act that is not mine
+to decide — so it is recorded here rather than done.
+
+**If a service is ever added** (analytics, a booking widget, a chat box) its
+origin must be added to the matching CSP directive or the browser will refuse
+to load it. That refusal is the policy working, not a bug; there is a comment
+in the `<head>` saying so.
