@@ -74,6 +74,22 @@ Three gotchas that will waste your time otherwise:
   image is lying. Screenshots are reliable again once the tab is fronted
   and any smooth scroll has settled.
 
+Two false alarms that cost time here, so you do not repeat them:
+
+- **`scrollWidth > clientWidth` is not horizontal overflow.** On desktop
+  `documentElement.clientWidth` excludes the vertical scrollbar (1265) while
+  `scrollWidth` reports the full 1280 — a 15px difference that is only the
+  scrollbar. `body` already has `overflow-x:hidden`. To find genuine
+  overflow, list elements whose `right` exceeds `clientWidth` **and** that
+  have no ancestor with `overflow-x` hidden/clip/auto/scroll. The marquee
+  track, the journey track and the stitch SVG all extend far to the right by
+  design and are clipped.
+- **A `.rv` element with no ScrollTrigger is not necessarily orphaned.** The
+  reveal triggers are `once: true`, so ScrollTrigger kills them after they
+  fire and they leave `getAll()`. Finding elements at opacity 0 with no
+  trigger usually just means rAF was frozen, the trigger fired, and the
+  tween never advanced. Front the tab and re-check before believing it.
+
 Validate after any edit:
 
 ```bash
@@ -99,6 +115,7 @@ python -c "import io;s=io.open('index.html',encoding='utf-8').read();i=s.rindex(
 | 11 | Tamil rendering of all six FAQ answers and the guide's story (`.ta-alt`, labelled "தமிழில்"). JSON-LD deliberately left English-only. |
 | 12 | Fixed the Tamil size being lost to `.faq-a p` specificity; bilingual notice under the FAQ heading. Extended the departure guard: `[data-offer-dated]` on `#packages` and `#tamil` now get a "this departure has left" note once `data-depart` passes, so a flown trip is never priced as bookable. |
 | 13 | Preloader moved off GSAP onto CSS — it was appearing *after* the hero had painted and covering it. Entrance animations now gated behind `html.anim` (only if GSAP beat the loader). Fixed the CDN poll counting ticks instead of elapsed time, and a 1.85s reduced-motion stall. |
+| 14 | Tamil summary on the services grid; `set-domain.py` no longer advises breaking a working og:image, and its output is ASCII. Flagged the four unconfirmed why-us promises (Urdu is also in the JSON-LD). |
 
 ---
 
@@ -111,10 +128,11 @@ In order of value:
 2. **Booking and payment.** Deposit, balance date, what happens if a visa is
    refused. A buyer asks this before enquiring and the page cannot answer it.
    Needs facts from the office — do not guess.
-3. **More Tamil, continued.** The FAQ, the guide's story and the offer are now
-   bilingual (`.ta-alt`). Still English-only: the services grid, the journey
-   timeline, the ziyarat list and the why-us block. Have Moulavi Sadath read
-   the Tamil already on the page before adding more.
+3. **More Tamil, continued.** The offer, the FAQ, the guide's story and the
+   services are bilingual now (`.ta-alt`). Still English-only: the journey
+   timeline, the ziyarat list and the why-us block. Do the why-us block only
+   after the office confirms those four claims — see README's pre-launch list.
+   Have Moulavi Sadath read the Tamil already on the page before adding more.
 4. **A page per departure** — photos and a short account of each group. Gives
    Google something new to index and returning families something to look at.
 5. Documents checklist as a PDF the office can send on WhatsApp.
@@ -141,11 +159,19 @@ something runs regardless.
 
 ## Verified at last check
 
-96 ScrollTriggers · 2 valid JSON-LD blocks (TravelAgency, FAQPage) · no failed
-requests · 3 scripts carrying SRI hashes · 18 print rules · 8 gallery images ·
+99 ScrollTriggers · 2 valid JSON-LD blocks (TravelAgency, FAQPage) · no console
+errors · no failed requests · 3 scripts carrying SRI hashes · 8 gallery images ·
 11 ziyarat entries · marquee duplicated to 8 cards · countdown reading 25 days ·
-counters reading 15 / 1200 / 60 before they roll · 1 bracketed placeholder left
-(the registration number).
+counters reading 15 / 1200 / 60 before they roll · 8 `.ta-alt` blocks · 1
+bracketed placeholder left (the registration number).
+
+Checked this session: every `.rv` covered by a reveal trigger and none with an
+unreachable start; the journey pin holds at 1280 (pin 6070 → 7798, 2688px
+track, seven steps, horizontal travel confirmed by real wheel events); no
+genuine horizontal overflow at 360, 390 or 1280; the enquiry form rejects a
+missing name and a short number and otherwise composes the right WhatsApp
+message; `set-domain.py` still rewrites all 11 references, normalises
+`https://www.` input, is idempotent and rejects junk.
 
 Interactions exercised with real events, not synthetic ones: mobile menu opens
 and locks the scroll, focus moves into it and everything behind goes inert, the
