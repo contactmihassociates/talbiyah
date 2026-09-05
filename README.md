@@ -52,7 +52,11 @@ python -m http.server 8777
      the JSON-LD as `availableLanguage: ["en","ta","ur"]`, so it is
      machine-readable. Correct both together or drop `"ur"` from both.
    - *"What is included is said out loud before you pay"*
-7. Submit the sitemap in Google Search Console.
+7. **Confirm the pilgrim kit still applies.** The seven-item list (travel
+   bag, passport holder, prayer mat, ihram & cap, socks, slippers, water
+   bottle) comes from the **July** poster, but it is rendered inside the
+   October packages block, where it reads as a promise about that trip.
+8. Submit the sitemap in Google Search Console.
 
 ---
 
