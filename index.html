@@ -148,7 +148,7 @@
   --navy-2:#122753;
   --navy-3:#081533;
   --gold:#C9A227;
-  --gold-ink:#8A6E14;      /* AA-safe gold for text on ivory (4.57:1) */
+  --gold-ink:#806612;      /* AA on ivory (5.13:1) and on the tint (4.74:1) */
   --emerald:#0F5132;
   --ivory:#FAF7F0;
   --ivory-2:#F3EEE3;
@@ -717,6 +717,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
 @media(max-width:520px){.form-row{grid-template-columns:1fr}}
 .form-note{font-size:.79rem;color:rgba(250,247,240,.48);margin:0}
 .form-note.is-err{color:#F0B4B4}
+.form-note a{color:var(--gold);text-underline-offset:3px}
 .form input[aria-invalid="true"],.form select[aria-invalid="true"]{border-color:#C56A6B}
 .form .btn{width:100%;margin-top:.35rem}
 
@@ -729,7 +730,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
 .ftr-tr{font-family:var(--serif);font-style:italic;font-size:clamp(1.02rem,1.8vw,1.2rem);color:rgba(250,247,240,.62);margin:.7rem 0 0}
 .ftr-cols{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2.4rem;padding-block:3rem}
 @media(max-width:760px){.ftr-cols{grid-template-columns:1fr;gap:2.2rem}}
-.ftr h4{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;font-family:var(--sans);font-weight:700;color:var(--gold);margin:0 0 1.1rem}
+.ftr h3{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;font-family:var(--sans);font-weight:700;color:var(--gold);margin:0 0 1.1rem}
 .ftr ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.65rem}
 .ftr a{color:rgba(250,247,240,.66);text-decoration:none;font-size:.9rem}
 .ftr a:hover{color:var(--gold)}
@@ -1707,7 +1708,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
         </address>
       </div>
       <div>
-        <h4>Quick links</h4>
+        <h3>Quick links</h3>
         <ul>
           <li><a href="#about">The Guide</a></li>
           <li><a href="#services">Services</a></li>
@@ -1721,7 +1722,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
         </ul>
       </div>
       <div>
-        <h4>Services</h4>
+        <h3>Services</h3>
         <ul>
           <li><a href="#services">Umrah &amp; Haj visa</a></li>
           <li><a href="#services">Air ticketing</a></li>
@@ -2443,8 +2444,14 @@ document.addEventListener('DOMContentLoaded', function () {
       lines.push('', 'Sent from the Talbiyah website.');
 
       note.textContent = 'Opening WhatsApp with your enquiry written out…';
-      window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(lines.join('\n')),
-                  '_blank', 'noopener');
+      // A blocked popup would swallow the enquiry silently, so fall back to
+      // handing the visitor the link instead of leaving them with nothing.
+      var url = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(lines.join('\n'));
+      var win = window.open(url, '_blank', 'noopener');
+      if (!win || win.closed || typeof win.closed === 'undefined') {
+        note.innerHTML = 'Your browser blocked the new window. ' +
+          '<a href="' + url + '" target="_blank" rel="noopener">Tap here to open WhatsApp</a>.';
+      }
     });
   })();
 
