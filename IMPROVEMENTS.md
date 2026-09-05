@@ -498,3 +498,43 @@ future pass does not helpfully normalise a man's professional title.
    unverified, the "Tamil, Urdu and English" claim assumes Urdu (and is
    machine-readable in the JSON-LD as `availableLanguage`), and the pilgrim kit
    list comes from the July poster while rendering inside the October block.
+
+---
+
+## Iteration 11 — Accessibility, from the accessibility tree
+
+Lap two. Earlier accessibility passes checked *attributes*; this one read the
+**tree those attributes produce**, which is what assistive technology actually
+receives — and it showed something attribute-checking could not.
+
+**Most of the page was missing from the landmark list.** A `<section>` with no
+accessible name is not exposed as a landmark at all. Five sections had an
+`aria-label` and appeared; seven did not, so a screen-reader user pulling up
+the region list of a 24,000px page saw "Why pilgrims trust Talbiyah", "Details
+in Tamil", "The journey", "What pilgrims say" and "Photographs from recent
+departures" — and no way to jump to the **packages, services, ziyarat, why-us,
+FAQ or contact**, which is most of what anyone comes here for. Landmark
+navigation is a primary way of moving around a long page, and it was skipping
+the important parts.
+
+**Tried `aria-labelledby` pointing at each section's `<h2>` first, and rejected
+it after measuring.** A landmark name is announced on its own, out of context,
+and `<br>` contributes no space to an accessible name, so the labels came out
+as *"The name on your paperworkis the man walking beside you"* and *"Everything
+between your intentionand your first sight of the Haram"* — headline copy,
+run together, far too long to scan in a region list.
+
+Used short `aria-label`s instead, worded to mirror the navigation, which is the
+pattern the page already used for its five labelled sections. The list now
+reads as a table of contents:
+
+    Upcoming group departure · Why pilgrims trust Talbiyah · The guide ·
+    Services · Umrah packages and prices · Details in Tamil · The journey ·
+    Guided ziyarat · Why families come back · What pilgrims say ·
+    Photographs from recent departures · Questions and answers ·
+    Contact and enquiry
+
+**Measured after:** 13 named landmarks, 0 unnamed, no duplicate ids, and the
+temporary `<h2>` ids added during the rejected approach all removed. The
+headings themselves are untouched — an `aria-label` on the section names the
+landmark, it does not replace the heading a visitor reads.
