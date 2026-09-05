@@ -50,7 +50,13 @@ python -m http.server 8777
    bag, passport holder, prayer mat, ihram & cap, socks, slippers, water
    bottle) comes from the **July** poster, but it is rendered inside the
    October packages block, where it reads as a promise about that trip.
-8. Submit the sitemap in Google Search Console.
+8. **Check the host serves the HTML compressed.** `index.html` is 172 KB raw
+   and 49 KB gzipped — a 72% saving that costs a visitor on 4G real seconds if
+   the host has compression switched off. Verify with
+   `curl -sI -H 'Accept-Encoding: gzip' https://yourdomain.com/ | grep -i content-encoding`;
+   it should say `gzip` or `br`. Netlify, Cloudflare Pages and GitHub Pages do
+   this by default; a bare nginx or Apache may not.
+9. Submit the sitemap in Google Search Console.
 
 ---
 

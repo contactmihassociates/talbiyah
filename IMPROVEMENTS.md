@@ -228,3 +228,56 @@ to decide — so it is recorded here rather than done.
 origin must be added to the matching CSP directive or the browser will refuse
 to load it. That refusal is the policy working, not a bug; there is a comment
 in the `<head>` saying so.
+
+---
+
+## Iteration 5 — Performance
+
+**Measured** with the Navigation, Resource and Paint timing APIs, plus a sweep
+of every element's computed `will-change`.
+
+**Already sound:** only 13 resources on first load; images are lazy, sized and
+webp; the particle canvas already stops itself with an `IntersectionObserver`
+*and* on `visibilitychange`, cancelling its frame rather than idling; the two
+render-blocking stylesheets are both Google Fonts, and they resolve behind the
+CSS preloader, which covers the page for 2.65s regardless.
+
+**The real find: 79 elements were each sitting on their own compositor layer.**
+The stylesheet declares `will-change` on seven selectors, which sounds
+sparing — but those selectors matched 79 elements:
+
+    39 x h1 .ch            headline characters
+    26 x [data-piece]      journey icon fragments
+     8 x .roll-col         counter digit columns
+     4 x .skyline          hero parallax planes
+     1 x .jr-track         horizontal journey
+     1 x .marquee-track    testimonials
+
+`will-change` promotes an element and *holds it there* — the whole point of the
+property, and the reason MDN warns against applying it broadly. But 73 of those
+79 are one-shot animations: the headline staggers in once at load, each journey
+icon assembles once behind `once: true`, each counter rolls once. They finish in
+the first seconds and then sit in GPU memory for the rest of the visit. On the
+mid-range Android this page is written for, that is memory taken from nothing.
+
+Removed from those three; kept on the four skyline planes, the journey track
+and the marquee track, which genuinely animate continuously. GSAP's `force3D`
+already promotes an element for the duration of a tween and releases it after,
+which is exactly the behaviour the one-shot cases wanted.
+
+**Measured after: 79 promoted elements → 6.** The hero headline still animates
+(verified with the Browser pane fronted — with it hidden, `requestAnimationFrame`
+freezes and every tween reads as unstarted, which is the trap the handoff notes
+describe; forcing `gsap.globalTimeline.progress(1)` confirmed the end state
+either way). 100 ScrollTriggers unchanged, no console errors.
+
+**Considered and skipped:** replacing the 77 individual reveal triggers with
+`ScrollTrigger.batch()` would cut the trigger count to about 25, but
+ScrollTrigger already shares one scroll listener and does a cached numeric
+comparison per trigger, so the per-frame saving is small against a real risk of
+changing reveal behaviour. Not worth it while the compositor problem above was
+the actual cost.
+
+**Raised for deployment:** the HTML is 172 KB raw, 49 KB gzipped. If the host
+does not compress, every visitor pays 123 KB extra on 4G for nothing. Added as
+a pre-launch check in the README with the `curl` one-liner to verify it.
