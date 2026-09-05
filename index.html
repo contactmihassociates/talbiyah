@@ -1878,7 +1878,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var l = $('#loader');
     if (!l) return;
     l.classList.add('done');
-    if (instant || !HAS) { l.style.display = 'none'; document.body.classList.remove('is-locked'); }
+    if (instant || !HAS) {
+      l.style.display = 'none';
+      document.body.classList.remove('is-locked');
+      if (lenis) lenis.start();
+    }
   }
 
   /* ====================================================================
@@ -1891,7 +1895,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var loader = $('#loader');
     if (!loader || RM || !HAS) { killLoader(true); done(); return; }
 
+    // Same trap as the mobile menu: the class alone will not hold Lenis, and
+    // a visitor who scrolls during the loader misses the hero intro entirely.
     document.body.classList.add('is-locked');
+    if (lenis) lenis.stop();
     var paths = $$('#loader svg path');
     paths.forEach(function (p) {
       var len = p.getTotalLength();
@@ -2131,17 +2138,27 @@ document.addEventListener('DOMContentLoaded', function () {
     var onScroll = function () { hdr.classList.toggle('stuck', window.scrollY > 40); };
     window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
+    // body{overflow:hidden} does not stop Lenis — it drives the scroll
+    // itself, so the page slid along behind the open menu. Lenis has to be
+    // told to stand down, and the class still handles the no-Lenis case
+    // (reduced motion, or a CDN that never arrived).
+    function lock(on) {
+      document.body.classList.toggle('is-locked', on);
+      if (!lenis) return;
+      if (on) lenis.stop(); else lenis.start();
+    }
+
     function close() {
       nav.classList.remove('open');
       btn.setAttribute('aria-expanded', 'false');
       btn.setAttribute('aria-label', 'Open menu');
-      document.body.classList.remove('is-locked');
+      lock(false);
     }
     btn.addEventListener('click', function () {
       var open = nav.classList.toggle('open');
       btn.setAttribute('aria-expanded', String(open));
       btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-      document.body.classList.toggle('is-locked', open);
+      lock(open);
     });
     $$('#nav a').forEach(function (a) { a.addEventListener('click', close); });
     document.addEventListener('keydown', function (e) {

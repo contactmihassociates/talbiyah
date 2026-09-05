@@ -70,6 +70,7 @@ python -c "import io;s=io.open('index.html',encoding='utf-8').read();i=s.rindex(
 | 5 | Guided-ziyarat section — eleven sites, written from scratch after looking at what a competitor covers (nothing copied). |
 | 6 | Marquee pause button, FAQPage schema, robots.txt, sitemap.xml, departure countdown that retires itself, Tamil summary section, font-payload trim, contrast and heading-order fixes, WhatsApp popup fallback, 44px touch targets, no-JS integrity, `set-domain.py`. |
 | 7 | Subresource Integrity on the three CDN scripts, a print stylesheet, and a fix for `preserveAspectRatio="xMidYEnd"` — an invalid value that silently letterboxed the hero skyline instead of anchoring it to the baseline, and threw 39 console errors. |
+| 8 | Tamil in the primary nav and on every form label. Found and fixed a scroll-lock bug: `body{overflow:hidden}` does not stop Lenis, so the page slid along behind the open mobile menu and during the preloader. |
 
 ---
 
