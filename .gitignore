@@ -3,3 +3,6 @@
 2-clean.png
 gemini-watermark-cleaned.zip
 file.enc
+
+# Source photo library — originals stay local, optimised copies live in assets/
+umrah pictures/

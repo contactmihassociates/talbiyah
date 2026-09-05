@@ -55,9 +55,16 @@
   "areaServed": { "@type": "City", "name": "Chennai" },
   "knowsAbout": ["Haj packages","Umrah packages","Umrah visa","Air ticketing","Passport assistance","Guided ziyarat","Group departures"],
   "makesOffer": [
-    { "@type": "Offer", "name": "Umrah Package — Economy", "category": "Umrah" },
-    { "@type": "Offer", "name": "Umrah Package — Standard", "category": "Umrah" },
-    { "@type": "Offer", "name": "Umrah Package — Premium", "category": "Umrah" },
+    {
+      "@type": "Offer", "name": "Umrah Package — Standard, October 2026", "category": "Umrah",
+      "price": "115000", "priceCurrency": "INR", "availability": "https://schema.org/InStock",
+      "description": "Umrah from Chennai with Oman Air, 30 September – 14 October 2026. Flight, Umrah visa, hotels near the Haram in Makkah and Madinah, airport transfers, South Indian food, Zamzam water, guide and travel insurance."
+    },
+    {
+      "@type": "Offer", "name": "Umrah Package — Hilton, October 2026", "category": "Umrah",
+      "price": "149000", "priceCurrency": "INR", "availability": "https://schema.org/InStock",
+      "description": "Umrah from Chennai with Oman Air, 30 September – 14 October 2026, Hilton accommodation on four-bed sharing."
+    },
     { "@type": "Offer", "name": "Haj Package", "category": "Haj" }
   ]
 }
@@ -186,7 +193,7 @@ p:last-child{margin-bottom:0}
 #loader.done{animation:none}
 .loader-in{display:grid;justify-items:center;gap:1.5rem;text-align:center}
 #loader svg{width:clamp(88px,18vw,124px);height:auto}
-#loader svg path{stroke:var(--gold);stroke-width:1.25;fill:none;vector-effect:non-scaling-stroke}
+#loader svg path{stroke:var(--gold);stroke-width:1.35;fill:none;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
 .loader-ar{font-family:var(--arabic);font-size:clamp(1.9rem,6vw,2.7rem);color:var(--gold);opacity:0;line-height:1.4}
 .loader-cap{font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;color:rgba(250,247,240,.5);opacity:0}
 .js-off #loader{display:none}
@@ -473,6 +480,38 @@ h1 .ch{display:inline-block;will-change:transform}
 .no-motion .marquee-track{animation:none}
 
 /* ============================================================
+   PACKAGE DATE BANNER, KIT LIST, GALLERY
+   ============================================================ */
+.pkg-when{
+  display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;
+  margin-top:2.4rem;padding:1rem 1.3rem;
+  border:1px solid rgba(201,162,39,.34);background:rgba(201,162,39,.07);
+}
+.pkg-when svg{width:22px;height:22px;flex:none;fill:none;stroke:var(--gold);stroke-width:1.3;stroke-linecap:round}
+.pkg-when b{font-family:var(--serif);font-size:1.25rem;font-weight:400;color:var(--ivory)}
+.pkg-when span{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(250,247,240,.6)}
+.kit{margin-top:3rem;border-top:1px solid rgba(201,162,39,.24);padding-top:1.6rem}
+.kit-h{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.kit ul{list-style:none;display:flex;flex-wrap:wrap;gap:.55rem;margin:0;padding:0}
+.kit li{
+  font-size:.82rem;padding:.42rem .9rem;color:rgba(250,247,240,.82);
+  border:1px solid rgba(250,247,240,.16);border-radius:2px;
+}
+.pkg-note{margin-top:2rem;font-size:.86rem;color:rgba(250,247,240,.6);max-width:60ch}
+.gal{columns:1;column-gap:1.1rem;margin-top:3.2rem}
+@media(min-width:620px){.gal{columns:2}}
+@media(min-width:1020px){.gal{columns:3}}
+.gal figure{
+  break-inside:avoid;margin:0 0 1.1rem;
+  border:1px solid rgba(201,162,39,.26);background:rgba(255,255,255,.02);
+}
+.gal img{display:block;width:100%;height:auto}
+.gal figcaption{
+  padding:.7rem .9rem;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(250,247,240,.6);
+}
+
+/* ============================================================
    FAQ
    ============================================================ */
 .faq{max-width:840px;margin-top:3rem}
@@ -598,8 +637,13 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
 <div id="loader" role="status" aria-live="polite" aria-label="Loading">
   <div class="loader-in">
     <svg viewBox="0 0 128 128" aria-hidden="true">
-      <path id="star1" d="M64 6 122 64 64 122 6 64Z"/>
-      <path id="star2" d="M23 23h82v82H23z"/>
+      <!-- The same mihrab arch as the header mark. Paths are drawn in this
+           order by the preloader timeline: threshold, outer arch, inner
+           arch, then the crown. -->
+      <path id="mark1" d="M8 116h112"/>
+      <path id="mark2" d="M24 114V58C24 35 40 18 64 9c24 9 40 26 40 49v56"/>
+      <path id="mark3" d="M43 114V63c0-14 8-25 21-30 13 5 21 16 21 30v51"/>
+      <path id="mark4" d="M64 45l10 12-10 12-10-12z"/>
     </svg>
     <p class="loader-ar" lang="ar" dir="rtl">لَبَّيْك</p>
     <p class="loader-cap">Talbiyah</p>
@@ -691,7 +735,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
     <h1 data-split aria-label="You answer the call. We carry everything else.">You answer the call. We carry everything else.</h1>
     <p class="lede rv">Fifteen years of Haj and Umrah out of Chennai — visa, ticketing, passport, packages and guided ziyarat, arranged and accompanied in person by Moulavi Alhaj B. Mohamed Sadath.</p>
     <div class="btn-row rv">
-      <a class="btn btn--gold" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20saw%20your%20website%20and%20would%20like%20to%20enquire%20about%20the%20July%202026%20Umrah%20journey." target="_blank" rel="noopener">
+      <a class="btn btn--gold" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20saw%20your%20website%20and%20would%20like%20to%20enquire%20about%20the%20October%202026%20Umrah%20journey." target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.1s-.7 1-.9 1.2c-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5s-.7-1.6-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6 1.9.8 2.7.9 3.6.8.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.7-.4z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
         Enquire on WhatsApp
       </a>
@@ -725,10 +769,10 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
   <div class="wrap">
     <p class="announce-tag">Booking open</p>
     <p class="announce-txt">
-      <b>July 2026 — Umrah group departure from Chennai,</b> led in person by Moulavi B. Mohamed Sadath.
-      <span class="announce-ta" lang="ta">ஜூலை 2026 உம்ரா பயணம் — பயண அழைப்பு</span>
+      <b>30 September &ndash; 14 October 2026 &mdash; Umrah from Chennai with Oman Air,</b> led in person by Moulavi B. Mohamed Sadath.
+      <span class="announce-ta" lang="ta">அக்டோபர் 2026 உம்ரா பயண அழைப்பு &mdash; ஓமான் ஏர் மூலம்</span>
     </p>
-    <a class="btn btn--gold" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20would%20like%20details%20of%20the%20July%202026%20Umrah%20group%20departure." target="_blank" rel="noopener">Ask about July 2026</a>
+    <a class="btn btn--gold" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20would%20like%20details%20of%20the%2030%20September%20-%2014%20October%202026%20Umrah%20departure." target="_blank" rel="noopener">Ask about October 2026</a>
   </div>
 </aside>
 
@@ -768,7 +812,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
 
       <div>
         <p class="eyebrow rv">The guide</p>
-        <h2 class="rv">Not a desk agent.<br>Someone who travels with you.</h2>
+        <h2 class="rv">The name on your paperwork<br>is the man walking beside you.</h2>
         <p class="lede rv" style="margin-top:1.4rem">For fifteen years, Moulavi B. Mohamed Sadath has arranged Haj and Umrah for families across Chennai — and gone with them. The paperwork is handled before you leave; the questions are answered while you are there.</p>
 
         <ul class="creds rv">
@@ -901,61 +945,79 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
   </div>
 </section>
 
-<!-- ========== PACKAGES ========== -->
+<!-- ========== PACKAGES ==========
+     Prices, dates and inclusions are taken from the October 2026 Oman Air
+     poster. Update all three cards together when the next season's poster
+     is printed. -->
 <section class="sec dark khatam" id="packages">
   <div class="wrap">
     <p class="eyebrow rv">Umrah packages</p>
-    <h2 class="rv">Three tiers. One standard of care.</h2>
-    <p class="lede rv" style="margin-top:1.3rem">The difference between them is distance from the Haram and how many share a room — never how closely you are looked after. Haj packages are arranged separately; ask us for the current season.</p>
+    <h2 class="rv">October 2026. Two packages, one standard of care.</h2>
+    <p class="lede rv" style="margin-top:1.3rem">The difference between them is the hotel &mdash; never how closely you are looked after. Both travel on the same flight, with Moulavi Sadath alongside the group throughout.</p>
+
+    <p class="pkg-when rv">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+      <b>30 September &ndash; 14 October 2026</b><span>Departing Chennai with Oman Air &middot; 15 days</span>
+    </p>
 
     <div class="pkg-grid">
-
-      <article class="pkg rv">
-        <h3>Economy</h3>
-        <p class="pkg-sub">For larger families &amp; groups</p>
-        <p class="pkg-price">Price on request<small>Depends on season &amp; airfare</small></p>
-        <ul>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Return airfare from Chennai</li>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Hotel within 1.5&nbsp;km of the Haram, with shuttle</li>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>5&ndash;6 sharing per room</li>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>4 nights Makkah &middot; 3 nights Madinah</li>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Umrah visa, transfers &amp; group ziyarat</li>
-        </ul>
-        <a class="btn btn--ghost" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20am%20interested%20in%20the%20Economy%20Umrah%20package.%20Please%20share%20the%20details%20and%20price." target="_blank" rel="noopener">Enquire on WhatsApp</a>
-      </article>
 
       <article class="pkg pkg--feat rv">
         <p class="pkg-flag">Most chosen</p>
         <h3>Standard</h3>
         <p class="pkg-sub">The usual family choice</p>
-        <p class="pkg-price">Price on request<small>Depends on season &amp; airfare</small></p>
+        <p class="pkg-price">&#8377;1,15,000<small>Per person, all inclusive</small></p>
         <ul>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Return airfare from Chennai</li>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Hotel within walking distance, about 700&nbsp;m</li>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>3&ndash;4 sharing per room</li>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>5 nights Makkah &middot; 4 nights Madinah</li>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Umrah visa, transfers &amp; guided ziyarat</li>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Breakfast and dinner, South Indian meals</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Oman Air return flight from Chennai</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Umrah visa</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Hotel near the Haram &mdash; Makkah &amp; Madinah</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>All airport and inter-city transfers</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>South Indian food throughout</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Zamzam water &amp; baggage included</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Guided ziyarat in Makkah and Madinah</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Travel insurance</li>
         </ul>
-        <a class="btn btn--gold" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20am%20interested%20in%20the%20Standard%20Umrah%20package.%20Please%20share%20the%20details%20and%20price." target="_blank" rel="noopener">Enquire on WhatsApp</a>
+        <a class="btn btn--gold" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20am%20interested%20in%20the%20Standard%20package%20%28Rs%201%2C15%2C000%29%20for%20the%20October%202026%20Umrah.%20Please%20share%20the%20details." target="_blank" rel="noopener">Enquire on WhatsApp</a>
       </article>
 
       <article class="pkg rv">
-        <h3>Premium</h3>
-        <p class="pkg-sub">Closest, quietest, fewest to a room</p>
+        <h3>Hilton</h3>
+        <p class="pkg-sub">Closest to the Haram</p>
+        <p class="pkg-price">&#8377;1,49,000<small>Per person &middot; four-bed sharing</small></p>
+        <ul>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Everything in the Standard package</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Hilton accommodation, four to a room</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Shorter walk to the Haram in Makkah</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Same flight and same group as Standard</li>
+        </ul>
+        <a class="btn btn--ghost" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20am%20interested%20in%20the%20Hilton%20package%20%28Rs%201%2C49%2C000%29%20for%20the%20October%202026%20Umrah.%20Please%20share%20the%20details." target="_blank" rel="noopener">Enquire on WhatsApp</a>
+      </article>
+
+      <article class="pkg rv">
+        <h3>Haj &amp; private groups</h3>
+        <p class="pkg-sub">Arranged for your own dates</p>
         <p class="pkg-price">Price on request<small>Depends on season &amp; airfare</small></p>
         <ul>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Return airfare from Chennai, preferred routing</li>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Hotel closest to the Haram, within 300&nbsp;m</li>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Double or twin occupancy</li>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>6 nights Makkah &middot; 4 nights Madinah</li>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Private transfers &amp; personal ziyarat</li>
-          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>All three meals, South Indian menu</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Haj, on the annual application window</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Private Umrah on dates you choose</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Family bookings with young children or elderly parents</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>The same visa, ticketing and passport help</li>
         </ul>
-        <a class="btn btn--ghost" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20am%20interested%20in%20the%20Premium%20Umrah%20package.%20Please%20share%20the%20details%20and%20price." target="_blank" rel="noopener">Enquire on WhatsApp</a>
+        <a class="btn btn--ghost" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20would%20like%20to%20ask%20about%20Haj%2C%20or%20a%20private%20Umrah%20on%20our%20own%20dates." target="_blank" rel="noopener">Enquire on WhatsApp</a>
       </article>
 
     </div>
+
+    <!-- The kit handed to every pilgrim, as listed on the departure poster -->
+    <div class="kit rv">
+      <p class="kit-h">Given to every pilgrim before departure</p>
+      <ul>
+        <li>Travel bag</li><li>Passport holder</li><li>Prayer mat</li>
+        <li>Ihram &amp; cap</li><li>Socks</li><li>Slippers</li><li>Water bottle</li>
+      </ul>
+    </div>
+
+    <p class="pkg-note rv">Seats are limited and released in the order they are confirmed. Message us for the current availability and the payment schedule.</p>
 
     <!-- ========== COUNTERS ========== -->
     <div class="count-grid" style="margin-top:clamp(3.5rem,7vw,5.5rem)">
@@ -1126,6 +1188,85 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
   </div>
 </section>
 
+
+<!-- ========== GALLERY ==========
+     Photographs from the agency's own departures. Swap in newer ones after
+     each group returns — keep them optimised (820px wide, webp + jpg). -->
+<section class="sec dark khatam" id="departures" aria-label="Photographs from recent departures">
+  <div class="wrap">
+    <p class="eyebrow rv">From recent departures</p>
+    <h2 class="rv">Our own groups, our own coach,<br>our own guide beside them.</h2>
+    <p class="lede rv" style="margin-top:1.2rem">Not stock photographs. Every picture below is from a Talbiyah departure out of Chennai.</p>
+
+    <div class="gal rv">
+      <figure>
+        <picture>
+          <source srcset="assets/madinah-plaza.webp" type="image/webp">
+          <img src="assets/madinah-plaza.jpg" width="820" height="1025"
+               loading="lazy" decoding="async" alt="The Talbiyah group gathered in the plaza outside the Prophet’s Mosque in Madinah.">
+        </picture>
+        <figcaption>Outside the Prophet&rsquo;s Mosque</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source srcset="assets/group-madinah.webp" type="image/webp">
+          <img src="assets/group-madinah.jpg" width="820" height="1093"
+               loading="lazy" decoding="async" alt="Pilgrims in the group’s pink Talbiyah shoulder scarves walking together in Madinah.">
+        </picture>
+        <figcaption>The group, Madinah</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source srcset="assets/masjid-nabawi-detail.webp" type="image/webp">
+          <img src="assets/masjid-nabawi-detail.jpg" width="820" height="615"
+               loading="lazy" decoding="async" alt="Gold calligraphy on a wall inside Masjid an-Nabawi.">
+        </picture>
+        <figcaption>Masjid an-Nabawi</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source srcset="assets/ziyarat-bus.webp" type="image/webp">
+          <img src="assets/ziyarat-bus.jpg" width="768" height="1024"
+               loading="lazy" decoding="async" alt="The coach used for ziyarat, with the Talbiyah Haj &amp; Umrah Service board in the windscreen.">
+        </picture>
+        <figcaption>Our own ziyarat coach</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source srcset="assets/ziyarat-desert.webp" type="image/webp">
+          <img src="assets/ziyarat-desert.jpg" width="820" height="1093"
+               loading="lazy" decoding="async" alt="The group on ziyarat outside the city, the guide leading from the front.">
+        </picture>
+        <figcaption>On ziyarat with the guide</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source srcset="assets/family-ihram.webp" type="image/webp">
+          <img src="assets/family-ihram.jpg" width="820" height="820"
+               loading="lazy" decoding="async" alt="A father and his sons in ihram, waiting to travel on to Makkah.">
+        </picture>
+        <figcaption>In ihram, before Makkah</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source srcset="assets/pilgrim-kit.webp" type="image/webp">
+          <img src="assets/pilgrim-kit.jpg" width="820" height="820"
+               loading="lazy" decoding="async" alt="A pilgrim at the airport carrying the Talbiyah travel bag given to every traveller.">
+        </picture>
+        <figcaption>The bag every pilgrim gets</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source srcset="assets/family-departure.webp" type="image/webp">
+          <img src="assets/family-departure.jpg" width="820" height="820"
+               loading="lazy" decoding="async" alt="A family wearing their Talbiyah lanyards at the airport before departure.">
+        </picture>
+        <figcaption>Before departure</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
 <!-- ========== FAQ ========== -->
 <section class="sec" id="faq">
   <div class="wrap">
@@ -1243,7 +1384,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
               <option>Umrah — Standard</option>
               <option>Umrah — Economy</option>
               <option>Umrah — Premium</option>
-              <option>July 2026 group departure</option>
+              <option>October 2026 departure (30 Sep &ndash; 14 Oct)</option>
               <option>Haj package</option>
               <option>Visa only</option>
               <option>Air ticket only</option>
@@ -1294,6 +1435,7 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
           <li><a href="#services">Services</a></li>
           <li><a href="#packages">Packages</a></li>
           <li><a href="#journey">The Journey</a></li>
+          <li><a href="#departures">Photographs</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
@@ -1395,7 +1537,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     var tl = gsap.timeline({ onComplete: function () { killLoader(true); done(); } });
-    tl.to(paths, { strokeDashoffset: 0, duration: 0.85, ease: 'power2.inOut', stagger: 0.14 })
+    tl.to(paths, { strokeDashoffset: 0, duration: 0.8, ease: 'power2.inOut', stagger: 0.1 })
       .to('.loader-ar',  { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.45')
       .fromTo('.loader-ar', { y: 12 }, { y: 0, duration: 0.6, ease: 'power2.out' }, '<')
       .to('.loader-cap', { opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.35')

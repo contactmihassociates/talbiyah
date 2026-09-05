@@ -79,35 +79,78 @@ images do not resolve there and the portrait shows its alt text — open
 not exercised in the browser; every heavy timeline is gated behind the `RM`
 flag and the `.no-motion` CSS class.
 
-## Content filled in — and what is still the owner's to confirm
+## Live offer — October 2026 (source of truth)
 
-Session 3 wrote the remaining copy so the page reads as a finished site:
+Prices, dates and inclusions come from the **2026 October Umrah poster** in
+`umrah pictures/` (Oman Air, travel 30 September – 14 October 2026), not from
+the earlier July poster. The two disagreed; the October one is the departure
+still to come.
 
-- **Testimonials** — four written cards with Tamil Nadu names and places
-  (Triplicane and Adyar in Chennai, Ambur in Vellore district, Kilakarai in
-  Ramanathapuram). **These are drafts, not collected reviews.** Replace each
-  quote with the words of a real pilgrim who agreed to be named before the page
-  is published — invented reviews breach Google's policy and India's consumer
-  protection rules on misleading endorsements. An HTML comment above the section
-  says the same thing.
-- **Package tiers** — sample inclusions: Economy 1.5 km with shuttle, 5–6
-  sharing, 4+3 nights; Standard ~700 m walking, 3–4 sharing, 5+4 nights,
-  breakfast and dinner; Premium within 300 m, twin, 6+4 nights, all meals.
-  Check every one against what you actually sell this season.
-- **Counters** — "Since 2011" (fifteen years back from 2026); the 1200+ pilgrims
-  and 60+ departures figures are still estimates to confirm.
-- **Registration number** in the trust strip is deliberately left as
-  `[Reg. no. — add yours]`. A registration number is a legal identifier and is
-  not something to invent — paste in the real one.
-- **`og:image` absolute URL** in the head and the JSON-LD `url` still need the
-  live domain.
+- **Standard ₹1,15,000** per person — Oman Air return from Chennai, Umrah visa,
+  hotel near the Haram in Makkah and Madinah, all transfers, South Indian food,
+  Zamzam water, baggage, guided ziyarat, travel insurance.
+- **Hilton ₹1,49,000** per person, four-bed sharing — same flight, same group.
+- **Haj & private groups** — price on request.
+- Departure banner, hero CTA, every WhatsApp prefill and the enquiry form's
+  package list all name the October dates.
+- The kit strip under the packages (travel bag, passport holder, prayer mat,
+  ihram & cap, socks, slippers, water bottle) is from the July poster.
+- JSON-LD `makesOffer` carries both prices as real `Offer` entries in INR.
+
+**When the next poster is printed**, update together: the three `.pkg` cards,
+the `.pkg-when` banner, the `.announce` strip, the hero CTA link, the enquiry
+form's `<option>` list, and the JSON-LD offers.
+
+## Photographs
+
+`assets/` carries eight photos chosen from `umrah pictures/`, resized to 820px
+and saved as webp + jpg (~560 KB for the set, all lazy-loaded below the fold):
+
+    madinah-plaza          the group outside the Prophet's Mosque
+    group-madinah          pink Talbiyah shoulder scarves, walking together
+    masjid-nabawi-detail   gold calligraphy inside Masjid an-Nabawi
+    ziyarat-bus            the coach with the Talbiyah board in the windscreen
+    ziyarat-desert         on ziyarat outside the city with the guide
+    family-ihram           a father and sons in ihram
+    pilgrim-kit            the Talbiyah travel bag at the airport
+    family-departure       a family with lanyards before departure
+
+They sit in a new `#departures` section (navy, gold hairline frames, CSS-column
+masonry) between the testimonials and the FAQ. The branded ones — the coach
+board, the pink scarves, the travel bag — are the ones doing the persuading;
+prefer photos like those when swapping in newer ones. Regenerate with the same
+recipe: 820px wide, jpeg q74 + webp q72, `<picture>` with explicit
+width/height and `loading="lazy"`.
+
+Faces of real pilgrims appear in several. They are the agency's own published
+photos, but confirm the people in them are content to appear on the website.
+
+## Testimonials — still drafts
+
+Four cards with Tamil Nadu names and places (Triplicane, Adyar, Ambur,
+Kilakarai). **Written copy, not collected reviews.** Replace each with the words
+of a real pilgrim who agreed to be named before publishing — invented reviews
+breach Google's policy and India's rules on misleading endorsements. An HTML
+comment above the section says the same.
+
+## Still the owner's to supply
+- **Registration number** in the trust strip (`[Reg. no. — add yours]`). A legal
+  identifier is not something to invent.
+- **`og:image` absolute URL** in the head and the JSON-LD `url`, once the domain
+  exists.
+- The 1200+ pilgrims and 60+ departures counters are estimates to confirm.
 
 ## Brand mark
-The header logo was the same 8-point Khatam star used for the preloader and the
-page's background texture. It is now a mihrab arch — two nested hairlines over a
-threshold rule with a small diamond at the crown — so the mark reads as its own
-thing rather than a repeat of the texture. Stroke weight was raised to 3.4 user
-units so it stays legible at 34px.
+The logo was the same 8-point Khatam star used for the preloader and the page's
+background texture. Both the header mark and the preloader are now a mihrab arch
+— two nested hairlines over a threshold rule with a diamond at the crown. The
+preloader draws its four paths in order (threshold, outer arch, inner arch,
+crown) with stroke-dashoffset.
+
+## Local preview
+`.claude/launch.json` runs `python -m http.server 8777`. Open the page over
+http, not as a `file://` URL — relative `assets/` paths do not resolve in the
+preview pane's snapshot mode.
 
 ## Tuning the motion
 Every timeline in the `<script>` block carries a comment naming its durations
