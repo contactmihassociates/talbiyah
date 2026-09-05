@@ -31,11 +31,8 @@ python -m http.server 8777
    is an HTML comment above the section saying the same.
 3. **Add the registration number** — the trust strip still reads
    `[Reg. no. — add yours]`, the last bracketed placeholder on the page.
-4. **Fill in the two counters.** "Pilgrims guided" and "Group departures"
-   show a muted dash and a bracketed label, because nobody supplied real
-   figures and the earlier invented ones (1200+ / 60+) were removed. Put the
-   real number in `data-count` on the `.roll` span and the roll animation
-   picks it up; the JS skips any `.roll` without one.
+4. **Confirm the two counters** — 1200+ pilgrims and 60+ departures are
+   estimates nobody has verified.
 5. Have **Moulavi Sadath read all the Tamil** once — the offer section, the
    six FAQ answers, the guide's story, and the note that appears if a
    departure date passes without the page being updated.
