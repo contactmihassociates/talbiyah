@@ -99,9 +99,12 @@ poster** (Oman Air), which lives in `umrah pictures/`:
 - the hero CTA link and every `wa.me` prefill mentioning the dates
 - the enquiry form's package `<option>` list
 - the `#tamil` section
-- `makesOffer` in the JSON-LD — including **`validThrough`**, which is set to
-  the day before departure so a search result stops advertising a price for a
-  trip that has already left, and `priceRange` on the organisation
+- `makesOffer` in the JSON-LD — including **`validThrough`**, which must equal
+  the departure date, not the day before it. The page itself keeps advertising
+  through departure day (the countdown says "Today" and the strip still reads
+  "Booking open"), and the structured data has to agree or a search result
+  calls the offer expired while the page says it is open. `priceRange` on the
+  organisation moves with the prices too.
 
 If nobody gets to it in time the page does not lie: once `data-depart`
 passes, the strip asks for the next departure instead of advertising the

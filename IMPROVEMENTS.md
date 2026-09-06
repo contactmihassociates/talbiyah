@@ -697,3 +697,32 @@ hidden since the panels all print open and the icon says nothing.
 **Measured after:** zero elements anywhere in the print render carry a
 non-white background — every dark section, package card and the Tamil block
 print black on white — and the hero's gradient is gone from a visual check.
+
+---
+
+## Iteration 3 — The stale-offer path
+
+An earlier session built a mechanism that retires the page's own offer once the
+departure date passes. **Nobody had ever tested its boundaries.** Three dated
+copies were built and loaded — the day before departure, departure day, and one
+day after.
+
+**It works, at every boundary:**
+
+| `data-depart` relative to today | Result |
+|---|---|
+| Tomorrow | "1 DAY TO DEPARTURE" — correct singular — strip still "Booking open" |
+| Today | "TODAY", still "Booking open" |
+| Yesterday | Countdown hidden; tag becomes "Next departure"; the strip rewrites itself to "The next Umrah group from Chennai is being arranged", in English *and* Tamil; the CTA becomes "Ask about the next departure"; and both `[data-offer-dated]` sections — packages and the Tamil block — are topped with a bilingual note saying the trip has left and the prices below are last season's |
+
+Both marked sections get their note; nothing marked is missed.
+
+**One real inconsistency found, and it was mine.** Last cycle I added
+`validThrough` to the two October offers and set it to `2026-09-29`, "the day
+before departure". But the page keeps advertising *through* departure day —
+the countdown reads "Today" and the strip still says "Booking open" — so for
+those last two days the structured data called the offer expired while the page
+called it open. Search results and the page would have disagreed at exactly the
+moment the last seats were being sold. Corrected to `2026-09-30` on both
+offers, and the README now states the rule as "must equal the departure date,
+not the day before it" so it does not drift back.
