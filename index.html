@@ -845,6 +845,19 @@ h1 .ch{display:inline-block}
   @page{margin:16mm}
   *{background:transparent!important;color:#000!important;box-shadow:none!important;
     text-shadow:none!important;animation:none!important;transition:none!important}
+  /* The reset above uses * only, which does not reach pseudo-elements — so the
+     hero's dark overlay and the Khatam star texture were still printing. The
+     overlay in particular floods most of the first page with ink. */
+  .hero::after,.khatam::before{content:none!important}
+  /* The small markers and rules are drawn with gold backgrounds, which the
+     reset does not touch either. Gold on paper is pale grey and a 1px rule in
+     pale grey is not there at all, so give them ink. */
+  .hero-meta span::before,.creds li::before,.jr-step::after,
+  .zy li::before,.ta-inc li::before{background:#000!important}
+  .eyebrow::after,.portrait figcaption::before,
+  .trust-item+.trust-item::before{background:#767676!important}
+  /* The accordion prints fully open, so its +/- icon says nothing. */
+  .faq-ic{display:none!important}
   html,body{font-size:11pt;line-height:1.45}
   /* Reveals never fire without scrolling, so unhide everything. */
   .rv,.hero-ar,.faq-a{opacity:1!important;transform:none!important;clip-path:none!important;

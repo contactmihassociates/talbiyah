@@ -639,3 +639,61 @@ currentTime: 0` twenty-one seconds after load. Before believing any measurement
 that looks like a layout break: force an explicit viewport with
 `resize_window`, check `document.visibilityState`, and settle animation end
 states with `gsap.globalTimeline.progress(1, false)`.
+
+---
+
+# Second cycle — areas never examined
+
+The first thirteen iterations covered the ten standard areas and were closed
+out honestly. This cycle takes ten areas that had never been looked at,
+several of them things earlier sessions *added* and nobody ever verified.
+
+---
+
+## Iteration 1 — Link & anchor integrity
+
+**Clean.** Recorded because a single wrong link here is invisible and costs a
+booking.
+
+- 26 in-page anchors, **0 broken** — every `href="#..."` resolves to a real id.
+- 16 `wa.me` links, every one carrying a `text=` prefill, and every message
+  decoded and read: they are specific and correct per placement (visa, tickets,
+  passports, next departure, Standard at ₹1,15,000, Hilton at ₹1,49,000, Haj or
+  private dates, the ziyarat route, and the Tamil one in Tamil).
+- 6 `tel:` links, all `+919791108230`.
+- 0 insecure `http:` links, 0 empty or missing `href`.
+- Both Google Maps URLs are well-formed in the DOM — the office by text query,
+  the masjid by `query_place_id`, so it cannot drift to a similarly named
+  mosque. (Grepping the *source* shows `&amp;query`, which is correct HTML
+  authoring; read the DOM, not the file, when checking URLs.)
+
+---
+
+## Iteration 2 — Print output
+
+A print stylesheet was added in session 7 and **had never been rendered once**.
+Since a print preview cannot be triggered here, the `@media print` block was
+rewritten to `@media screen` in a throwaway copy and looked at directly.
+
+**Mostly correct already:** loader, flight path, particle canvas, header,
+sticky bar, gallery, marquee, map, form and menu button all hidden; body forced
+to black on transparent; all 77 reveals visible so nothing prints blank; all
+six FAQ answers open; the horizontal journey collapses to `display:block` with
+no transform, so it stacks down the page instead of printing as a clipped
+strip; 11pt body and 22pt h1 as intended.
+
+**One real defect: the hero printed a dark ink flood.** The reset used `*`,
+which does not reach pseudo-elements, so `.hero::after` — a
+`linear-gradient(rgba(8,21,51,.72) …)` overlay — survived into print and
+covered most of the first page in dark navy. The Khatam star texture on
+`.khatam::before` survived for the same reason. Both are now `content:none` in
+print.
+
+The same gap left every small marker painted in gold, which on paper is pale
+grey and, for a 1px rule, effectively invisible. The diamonds and bullets are
+now ink black, the hairline rules mid-grey, and the accordion's +/− icon is
+hidden since the panels all print open and the icon says nothing.
+
+**Measured after:** zero elements anywhere in the print render carry a
+non-white background — every dark section, package card and the Tamil block
+print black on white — and the hero's gradient is gone from a visual check.
