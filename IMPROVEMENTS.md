@@ -890,3 +890,50 @@ promoted layers, both JSON-LD blocks valid, 13 landmarks, 13 gallery figures, 3
 band figures, marquee at 8, 8 blockquotes, countdown reading 24 days, zero
 placeholders, FAQ opens, menu opens, form sends, no overflow, **all 39 Tamil
 elements in Noto Sans Tamil**, no console errors.
+
+---
+
+# Third cycle — what genuinely remained
+
+Two full cycles were closed out honestly. This one is deliberately short: five
+areas that really had never been examined, several of them things built in
+earlier sessions and never verified. If they came up thin, the plan was to say
+so and stop.
+
+---
+
+## Iteration 1 — Favicon and app icons
+
+**The page had none at all.** No `rel="icon"`, no `apple-touch-icon`, nothing.
+Three consequences, all of them visible to a real visitor:
+
+- Every single visit fired a request for `/favicon.ico` that 404'd.
+- The browser tab showed a blank globe — on a business site, that reads as
+  unfinished.
+- "Add to home screen" on Android, which is exactly how a returning family
+  would keep this page, produced a generic square.
+
+Drew all three from the site's own mihrab mark rather than inventing artwork.
+No SVG rasteriser is installed, so the four paths from the header mark were
+flattened by hand in the same 128-unit coordinate space as the markup — the
+icon and the header logo cannot drift apart.
+
+- **Inline SVG data-URI** as the primary icon: no extra request, scales to any
+  size. It **drops the inner arch**, which merges with the outer one below
+  about 48px and turns the mark into a blob; verified by rendering down to
+  16px, the real tab size, where the simplified version reads as a clean arch
+  with a crown dot and a threshold rule.
+- `favicon-32.png` (1.0 KB) as the fallback for browsers without SVG favicon
+  support, so the 404 is gone for them too.
+- `apple-touch-icon.png` at 180px (8.1 KB), keeping the full mark since it is
+  displayed large enough for the inner arch to read.
+
+Generated a 512px icon as well, then **deleted it** — nothing referenced it, and
+an unreferenced asset is the exact problem flagged at the end of the last
+cycle. A web manifest to use it would be scope creep on a page with no offline
+story; Android Chrome falls back to the apple-touch-icon.
+
+**Measured:** all three icons resolve — the data-URI decodes to a valid image
+under the existing `img-src 'self' data:` CSP, the PNGs load at 32x32 and
+180x180 — no failed requests, no console errors, and `assets/` has no
+unreferenced file other than the documented alternate portrait.
