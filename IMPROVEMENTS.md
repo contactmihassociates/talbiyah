@@ -1014,3 +1014,35 @@ Amiri. Latin is untouched: "Handgloves 123" measures 477.8px both with and
 without Amiri in the stack, because Plus Jakarta Sans covers Latin entirely and
 nothing falls through. The dedicated Arabic lines still resolve to Amiri
 directly, and all three paragraphs carrying the honorific were checked.
+
+---
+
+## Iterations 4 and 5 — Sitemap freshness, and what a wrong URL shows
+
+**`<lastmod>` said 2026-09-05 while the page had changed on the 6th.** Bumped,
+but the more useful outcome is the note now in both the sitemap and the README:
+lastmod earns its keep at exactly one moment — a **season change**, when it
+tells Google to re-crawl a page whose prices and dates just moved. Google
+ignores lastmod values it finds unreliable, so a date left stale for months is
+worse than no date at all. It is now in the README's list of things that move
+together each season.
+
+**There was no 404 page.** A mistyped or stale URL got the host's default —
+on GitHub Pages, a generic error page carrying the repository name, which is a
+poor thing for a stranger looking for a Chennai travel agency to land on.
+
+Added `404.html`, built by lifting the real tokens, the icon block and the
+mihrab mark straight out of `index.html` so it cannot drift from the site it
+belongs to. Navy ground, gold mark, Cormorant headline, one line explaining
+what happened, and the only two things a lost visitor wants: the main page and
+WhatsApp. `noindex`, since a 404 has no business in search results. GitHub
+Pages, Netlify and Cloudflare Pages all pick up `404.html` automatically.
+
+**Measured:** renders at 1280 with no overflow, both call-to-action buttons
+45px tall (over the 44px floor), the mark strokes in gold, the headline
+resolves to Cormorant Garamond, the Arabic line resolves to Amiri, the favicon
+is inherited, and `robots` is `noindex`.
+
+**Considered and skipped:** giving the 404 its own CSP. It loads no scripts,
+reflects nothing from the request, and anyone able to alter the file already
+has write access, at which point a meta CSP is not the defence.

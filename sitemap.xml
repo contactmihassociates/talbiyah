@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Single-page site. Replace REPLACE-WITH-YOUR-DOMAIN.com with the live
-     domain, and update <lastmod> whenever the page changes materially. -->
+<!-- Single-page site. `set-domain.py` replaces REPLACE-WITH-YOUR-DOMAIN.com
+     here and everywhere else.
+
+     <lastmod> matters most at exactly one moment: when the season's prices and
+     dates change. That is the point to bump it, because it tells Google to
+     re-crawl a page whose most important numbers just moved. Google ignores
+     lastmod values it finds unreliable, so a date left stale for months is
+     worse than none — either keep it honest at each season change or drop the
+     element. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://REPLACE-WITH-YOUR-DOMAIN.com/</loc>
-    <lastmod>2026-09-05</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>

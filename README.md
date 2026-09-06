@@ -99,6 +99,8 @@ poster** (Oman Air), which lives in `umrah pictures/`:
 - the hero CTA link and every `wa.me` prefill mentioning the dates
 - the enquiry form's package `<option>` list
 - the `#tamil` section
+- `<lastmod>` in `sitemap.xml` — the one moment it earns its keep is a season
+  change, because it tells Google to re-crawl a page whose prices just moved
 - `makesOffer` in the JSON-LD — including **`validThrough`**, which must equal
   the departure date, not the day before it. The page itself keeps advertising
   through departure day (the countdown says "Today" and the strip still reads
