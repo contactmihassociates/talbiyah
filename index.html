@@ -485,7 +485,7 @@ h1 .ch{display:inline-block}
 }
 .announce-txt{flex:1;min-width:min(100%,260px);font-size:.98rem;line-height:1.5}
 .announce-txt b{font-weight:700}
-.announce-ta{font-family:"Noto Sans Tamil",var(--sans);font-size:.9rem;color:rgba(250,247,240,.72);display:block;margin-top:.15rem}
+.announce-ta{font-family:"Noto Sans Tamil",var(--sans);font-size:.9rem;color:rgba(250,247,240,.72);display:block;margin-top:.15rem;line-height:1.65}
 .announce .btn{min-height:46px;padding:.7rem 1.3rem;font-size:.75rem}
 
 /* ============================================================
@@ -605,6 +605,14 @@ h1 .ch{display:inline-block}
 .pkg li{display:flex;gap:.8rem;font-size:.9rem;line-height:1.5;color:rgba(250,247,240,.85)}
 .pkg li svg{width:15px;height:15px;flex:none;margin-top:.32em;stroke:var(--gold);fill:none;stroke-width:1.6}
 .pkg .btn{width:100%}
+
+/* Any Tamil on the page, wherever it appears, is set in the Tamil face.
+   Plus Jakarta Sans has no Tamil glyphs, so an element that inherits it falls
+   back to whatever the device happens to carry — different metrics, different
+   weight, and shaping that varies by platform. The nav link and its footer
+   twin were doing exactly that, which are the two places a Tamil reader is
+   most likely to look first. */
+[lang="ta"]{font-family:"Noto Sans Tamil",var(--sans)}
 
 /* ============================================================
    TAMIL SUMMARY
@@ -1902,7 +1910,7 @@ body.js-off #enquiry .form-submit{display:none}
           <img src="assets/group-meal.jpg" width="760" height="1013"
                loading="lazy" decoding="async" alt="Members of the group sitting on the ground sharing a meal served from a large dish.">
         </picture>
-        <figcaption>A meal shared on the road</figcaption>
+        <figcaption>Eating together, from one dish</figcaption>
       </figure>
       <figure>
         <picture>

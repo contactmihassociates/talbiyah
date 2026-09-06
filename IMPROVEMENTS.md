@@ -760,3 +760,77 @@ pixel dimensions so the `width`/`height` attributes stay honest.
 
 The README now records the numbers and why they were chosen, and the
 instruction to regenerate from source rather than from `assets/`.
+
+---
+
+## Iteration 5 — The social card
+
+`assets/og-image.jpg` had never been opened. It is a close portrait of Moulavi
+Sadath against a composited office interior.
+
+**Technically sound, so nothing changed:** exactly 1200x630 (1.905:1, the ratio
+the platforms want), 79 KB — far under any limit — and carrying
+`og:image:alt`. Rendered both the way platforms actually show it: the 1.91:1
+large card, and the **square centre crop WhatsApp uses in chat lists**. The
+face is centred and survives the square crop, which is the failure mode worth
+checking, since a face pushed to one side gets guillotined there.
+
+**Raised for the owner, not acted on:** the image carries no brand mark at
+all — no name, no tagline, no number. The `og:title` supplies the name beside
+it, so a shared link is not anonymous, but the picture itself does no work.
+That is a design decision about the business's public face, not a code fix.
+
+---
+
+## Iteration 6 — CSS token hygiene
+
+Near-clean, and it caught a flaw in my own tooling worth recording.
+
+- 20 custom properties defined. **One genuinely unused:** `--navy-2`
+  (`#122753`). Left in place — it is a defined step of the brand palette, and
+  deleting a documented colour is worse than carrying twenty bytes.
+- `--ghost` looked unused and is not a token at all: my regex matched
+  `.btn--ghost:focus`, where the `:` belongs to the pseudo-class. **A
+  `(--[a-z0-9-]+)\s*:` pattern will always mis-read BEM class names.**
+- `--rx`, `--ry` and `--len` appear undefined in CSS because they are set from
+  JavaScript at runtime — the pointer tilt and the border trace. All three have
+  fallbacks (`var(--rx,0deg)`, `var(--len,1200)`), so the page is correct
+  before the script touches them.
+
+---
+
+## Iteration 7 — Tamil rendering
+
+The audience reads Tamil first, and the shaping of that text had never been
+checked. Found by looking at the computed font of every element containing
+Tamil characters.
+
+**Two links were rendering Tamil in a font with no Tamil glyphs.** The nav
+entry point `தமிழ்` and its footer twin `தமிழில் விவரங்கள்` both inherited
+Plus Jakarta Sans, so the browser substituted whatever Tamil face the device
+happened to carry — different metrics, different weight, and shaping that
+varies by platform. Those two links are precisely where a Tamil reader looks
+first: they are how the Tamil section is found at all.
+
+Fixed at the root with `[lang="ta"]{font-family:"Noto Sans Tamil",var(--sans)}`
+rather than patching the two selectors, so any Tamil added later is covered.
+
+Also loosened `.announce-ta` from 1.50 to 1.65 line-height. Tamil sits taller
+and deeper than Latin at the same size, and 1.5 was the tightest on the page —
+nothing was clipping yet, but it had no room.
+
+**Measured after:** 39 elements containing Tamil, **all** in Noto Sans Tamil,
+0 clipped, 0 overflowing at 360px, no horizontal scroll.
+
+---
+
+## Correction — gallery caption
+
+The caption on the shared-meal photograph read "A meal shared on the road".
+The owner pointed out it is not a road. Changed to "Eating together, from one
+dish", which describes what is actually in the frame and asserts no location.
+The alt text was already correct and untouched.
+
+**The lesson is mine to keep:** I wrote that caption from a thumbnail and
+inferred a setting from grey paving. Captions should describe what is visible,
+not where it might be.
