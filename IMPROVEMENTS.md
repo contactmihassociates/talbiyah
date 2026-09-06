@@ -834,3 +834,59 @@ The alt text was already correct and untouched.
 **The lesson is mine to keep:** I wrote that caption from a thumbnail and
 inferred a setting from grey paving. Captions should describe what is visible,
 not where it might be.
+
+---
+
+## Iteration 8 — Form input detail
+
+**One real defect, and it is specific to this audience.** The name field
+carried no autocorrect protection, so Android rewrites South Indian and Muslim
+names as they are typed — Sadath to Sadat, Rukkaiya to Rukaiya — and the
+office receives the corrupted spelling without the visitor noticing they were
+overruled. On a form whose entire output is a person's name and number, that is
+the field that matters most.
+
+Added `autocorrect="off" spellcheck="false"` to the name and phone fields, and
+`autocapitalize="words"` to the name, since Android keyboards default a text
+field to sentence case. `enterkeyhint="next"` on both so the keyboard's action
+key says something useful.
+
+Everything else was already right: `autocomplete="name"` and `"tel"`,
+`inputmode="tel"` and `"numeric"`, `type="tel"`, all five labels linked by
+`for`, and the `maxlength` values added last cycle.
+
+**Verified** the form still composes correctly and the name survives intact:
+"B. Mohamed Sadath" arrives spelled as typed.
+
+---
+
+## Iterations 9 and 10 — Duplicate content and markup validity
+
+**Duplicate content: measured, not a problem.** The marquee clones four
+testimonial cards to make the loop seamless, so that text appears twice in the
+DOM. It is **1,097 characters of 18,980 — 5.8% of the page**, and the clones
+are `aria-hidden` and out of the tab order. Removing the duplication would
+break the loop for no real gain. Left alone.
+
+**Markup validity: clean on everything the DOM can answer** — no boolean
+attribute carrying a value (`required="required"` and friends), no `loading` on
+a non-image, no `<figcaption>` outside a `<figure>`, no stray `<li>`, no input
+outside its form, no empty link, no duplicate `name` within an element type.
+
+**One real finding: the testimonials were not marked as quotations.** Each card
+was a `<figure>` holding a bare `<p>` and a `<footer>`, so nothing in the markup
+said "this is a quotation from a named person" — and every one of those eight
+figures had no caption at all, which is why the audit flagged
+`figuresNoCaption: 8`. They are now `<blockquote>` plus `<figcaption>`, the
+structure the HTML spec gives for exactly this case.
+
+Styling was moved with the elements and verified identical: Cormorant Garamond,
+italic, 18.56px, `margin:0`, `flex-grow:1` on the quote; uppercase gold-ink
+caption with its block span; card geometry unchanged at 368x332.
+**Figures without a caption: 8 → 0.**
+
+**Full regression after all three:** 101 ScrollTriggers, 1 journey pin, 6
+promoted layers, both JSON-LD blocks valid, 13 landmarks, 13 gallery figures, 3
+band figures, marquee at 8, 8 blockquotes, countdown reading 24 days, zero
+placeholders, FAQ opens, menu opens, form sends, no overflow, **all 39 Tamil
+elements in Noto Sans Tamil**, no console errors.
