@@ -1072,6 +1072,16 @@ body.js-off #enquiry .form-submit{display:none}
   #loader{animation-delay:.2s!important}
   #loader svg path{stroke-dashoffset:0!important}
   .loader-ar,.loader-cap{opacity:1!important}
+
+  /* The pinned horizontal journey is skipped under reduced motion — correctly,
+     it is scroll-jacking — but skipping it left the track as a 2688px flex row
+     inside an overflow:hidden section with nothing to scroll it. Three of the
+     seven steps were simply unreachable: Makkah, Madinah and Return. Asking
+     for less motion cost the visitor content, which is exactly backwards.
+     Stack it, the same way the layout already does below 900px. */
+  .jr-track{flex-direction:column;gap:0;padding-inline:0}
+  .jr-step{width:100%;padding:1.9rem 0 2rem}
+  .jr-hint{display:none}   /* "Scroll to follow the journey" — no longer true */
 }
 </style>
 </head>

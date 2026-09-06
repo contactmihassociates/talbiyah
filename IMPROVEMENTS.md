@@ -937,3 +937,42 @@ story; Android Chrome falls back to the apple-touch-icon.
 under the existing `img-src 'self' data:` CSP, the PNGs load at 32x32 and
 180x180 — no failed requests, no console errors, and `assets/` has no
 unreferenced file other than the documented alternate portrait.
+
+---
+
+## Iteration 2 — Reduced motion, actually rendered
+
+Every session so far has *reasoned* about the `prefers-reduced-motion` guards.
+None had run that path. Built a copy with the CSS block rewritten to
+`@media screen` **and** `window.matchMedia` patched before the script boots, so
+the real `RM` branch executes rather than a simulation of it.
+
+**Most of it was already right:** `html.no-motion` set, the preloader retired
+early (its delay is overridden to 0.2s so a reduced-motion visitor is not held
+at a navy panel for 1.85s), all 77 reveals visible, the headline left unsplit,
+the hero Arabic at full opacity, the particle canvas `display:none`, the plane
+hidden, the marquee animation `none` with its pause button correctly hidden,
+Lenis never initialised, and the journey unpinned. Of 101 ScrollTriggers only 7
+survive, and **every one is callback-only** — the scrollspy, which toggles a
+class and moves nothing. That is exactly the right thing to keep.
+
+**One real bug, and it had the failure pointing the wrong way.** Skipping the
+pinned horizontal journey is correct — it is scroll-jacking. But skipping it
+left the track as a **2688px flex row inside an `overflow:hidden` section with
+nothing to scroll it**, and `overflow-x` on the viewport was `visible`. Three of
+the seven steps sat entirely off-screen with no way to reach them: **Makkah,
+Madinah and Return** — the destination itself. A visitor who asked for less
+motion silently lost content.
+
+Fixed by stacking the track under reduced motion exactly as the layout already
+does below 900px, and hiding the "Scroll to follow the journey" hint, which is
+no longer true there.
+
+**Measured after — reduced motion:** track `flex-direction: column`,
+`scrollWidth` equal to `clientWidth` (1265, no overflow), **0 steps off-screen**,
+all seven headings present from Registration to Return, hint hidden.
+
+**Measured after — normal motion, to prove no leak:** track still `row` at
+2688px, 1 pin, 101 triggers, hint visible, and driving the horizontal tween to
+`progress(1)` puts `x` at −1448 — exactly the expected `overflow + 40` — with
+the last step's right edge at 1240 in a 1280 viewport. No console errors.
