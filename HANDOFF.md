@@ -39,9 +39,12 @@ comments, no unimplemented animation.
 2. **The testimonials are drafts, not real reviews.** Four cards with Tamil
    Nadu names, written for the site. They must be replaced with real named
    quotes before publishing. Do not write more invented ones.
-3. **Do not invent facts.** Registration number, payment terms, pilgrim
-   counts — leave them bracketed until the office supplies them. The one
-   remaining bracket on the page is `[Reg. no. — add yours]`.
+3. **Do not invent facts.** Payment terms, pilgrim counts and anything else
+   the office has not stated — leave them out or bracketed rather than
+   guessing. There are now **no bracketed placeholders left on the page**: the
+   owner removed the last one (the registration number) on 6 September 2026,
+   choosing to show "Registered — Travel service, Chennai" without a number
+   rather than display a number at all.
 4. Prices, dates and inclusions come from the **October 2026 Oman Air poster**
    in `umrah pictures/`, not from the older July poster. README lists every
    place they appear; they change together.
@@ -183,7 +186,8 @@ something runs regardless.
 errors · no failed requests · 3 scripts carrying SRI hashes · 8 gallery images ·
 11 ziyarat entries · marquee duplicated to 8 cards · countdown reading 25 days ·
 counters reading 15 / 1200 / 60 before they roll · 8 `.ta-alt` blocks · 1
-bracketed placeholder left (the registration number).
+bracketed placeholders left — the last, the registration number, was removed
+at the owner's request on 6 September 2026.
 
 Checked this session: every `.rv` covered by a reveal trigger and none with an
 unreachable start; the journey pin holds at 1280 (pin 6070 → 7798, 2688px
