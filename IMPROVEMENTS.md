@@ -726,3 +726,37 @@ called it open. Search results and the page would have disagreed at exactly the
 moment the last seats were being sold. Corrected to `2026-09-30` on both
 offers, and the README now states the rule as "must equal the departure date,
 not the day before it" so it does not drift back.
+
+---
+
+## Iteration 4 — Image quality against bytes
+
+The sixteen photographs were compressed to a quality *number* and never looked
+at. Measured PSNR of every delivered file against its original.
+
+**They were over-encoded.** Every webp sat between 42 and 49 dB — comfortably
+above the ~38 dB where loss becomes visible on photographs at this size. That
+is bytes spent on fidelity no visitor can perceive, paid for on 4G.
+
+Ran a sweep at q62/55/48/42 on the four largest before choosing: **q48 for
+webp, q68 for jpeg**, which holds every one of the sixteen at 39.8 dB or better
+while cutting a quarter of the weight.
+
+**Regenerated from the originals in `umrah pictures/`, not by recompressing the
+existing assets** — that would compound the loss — keeping each file's exact
+pixel dimensions so the `width`/`height` attributes stay honest.
+
+**Measured:**
+
+- **webp payload 1204 KB → 922 KB, 23% smaller** — 282 KB off what a real
+  visitor downloads, since every browser here takes the webp path.
+- jpeg fallback 1913 KB → 1760 KB.
+- Worst-case quality 39.83 dB (`airport-waiting`), best 42.36 dB.
+- Checked visually as well as numerically: 1:1 crops of the two worst cases,
+  before against after, are indistinguishable — faces, lanyards, the printed
+  documents in a boy's hands, fabric texture, no banding or blocking.
+- All 16 still load, all 16 serve webp, **zero dimension mismatches** against
+  the HTML attributes, no failed requests.
+
+The README now records the numbers and why they were chosen, and the
+instruction to regenerate from source rather than from `assets/`.

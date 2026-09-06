@@ -140,9 +140,16 @@ means the visitor is already reading, so the page is left alone instead. This
 is why `.rv` is visible by default in the stylesheet; do not move that
 `opacity:0` back onto the bare class.
 
-**Images** — 820px wide, jpeg q74 + webp q72, `<picture>` with explicit
-width/height and `loading="lazy"`. About 560 KB for the gallery, none of it on
-the first screen. Regenerate new ones the same way.
+**Images** — 760–820px wide, **jpeg q68 + webp q48**, `<picture>` with explicit
+width/height and `loading="lazy"`. About 920 KB of webp across sixteen
+photographs, none of it on the first screen.
+
+Those quality numbers were chosen by measurement, not taste. The first pass
+used q74/q72, which measured 42–49 dB PSNR against the originals — far above
+the ~38 dB where loss becomes visible, so it was spending bytes nobody could
+see. q68/q48 holds every image at 39.8 dB or better and is 23% smaller on the
+webp path. **Regenerate from the originals in `umrah pictures/`, never by
+recompressing what is already in `assets/`**, or the loss compounds.
 
 ---
 
