@@ -180,6 +180,14 @@ prefer that kind when swapping in newer pictures.
 Captions are new copy written to fit the pictures; change the wording freely.
 Confirm the people in them are content to appear on the site.
 
+**Four unused files sit in `assets/`** — `sadath-alt-560/840.jpg/.webp`, 175 KB
+in total. They are an alternate portrait of Moulavi Sadath that no version of
+the page has ever referenced. They are kept deliberately, not by oversight: an
+unreferenced file is never requested, so they cost a visitor nothing, and they
+are there to swap in if the current portrait is ever replaced. To use one,
+point the `<picture>` in the guide section at it and keep the `width`/`height`
+attributes in step.
+
 **`photos/` is off limits.** It holds 246 files downloaded from the web: 133
 are another site's WordPress media library (its logos are in there), and 113
 are press photographs whose EXIF names **AFP**, **AP**, `Mosa'ab Elshamy` and
