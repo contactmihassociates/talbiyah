@@ -976,3 +976,41 @@ all seven headings present from Registration to Return, hint hidden.
 2688px, 1 pin, 101 triggers, hint visible, and driving the horizontal tween to
 `progress(1)` puts `x` at −1448 — exactly the expected `overflow + 40` — with
 the last step's right edge at 1240 in a 1280 viewport. No console errors.
+
+---
+
+## Iteration 3 — Arabic rendering
+
+In cycle 1 I subset Amiri to twelve glyphs with a `text=` parameter to save
+most of an Arabic webfont, and never checked the result. Arabic needs
+contextual shaping — initial, medial, final and isolated forms, plus mark
+positioning — and a naive subset breaks all of it.
+
+**The subset is sound.** Measured rather than eyeballed:
+
+- **Shaping is active.** The talbiyah phrase renders at 118.8px joined against
+  **236.1px** as the sum of its characters measured individually. The letters
+  are connecting, so the positional variants came through.
+- **Harakat combine rather than occupy space.** With and without the vowel
+  marks both measure 118.8px — they are stacking on the letters, not sitting
+  beside them.
+- **The subset covers everything.** Twelve Arabic codepoints appear on the
+  page; twelve were requested; **none missing**.
+
+**One real defect: the honorific was rendering in the wrong font.** ﷺ (U+FDFA)
+appears in three English paragraphs after "the Prophet". Those are set in Plus
+Jakarta Sans, which has no such glyph, so it fell through to whatever the
+device happened to carry — measurably not Amiri (63.7px against Amiri's 67.5px)
+even though Amiri was already downloaded *and* already had the glyph in the
+subset. A different face from the rest of the page's Arabic, and a tofu box on
+builds that ship without U+FDFA. For this audience, that character is not
+decoration.
+
+Fixed by putting Amiri into the `--sans` stack after Plus Jakarta Sans. Font
+fallback is per-glyph, so this costs nothing elsewhere.
+
+**Measured after:** ﷺ in the page stack now measures 67.5px — identical to
+Amiri. Latin is untouched: "Handgloves 123" measures 477.8px both with and
+without Amiri in the stack, because Plus Jakarta Sans covers Latin entirely and
+nothing falls through. The dedicated Arabic lines still resolve to Amiri
+directly, and all three paragraphs carrying the honorific were checked.

@@ -206,7 +206,13 @@
   --crimson:#9E2A2B;
 
   --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
-  --sans:"Plus Jakarta Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  /* Amiri sits in the stack so the honorific after "the Prophet" is set in
+     the face the page already downloads. Plus Jakarta Sans has no U+FDFA,
+     and without this the glyph came from whatever the device happened to
+     carry — a different face from the rest of the page's Arabic, and a
+     tofu box on builds that ship without it. Font fallback is per-glyph,
+     so Latin text is untouched; Plus Jakarta Sans covers it entirely. */
+  --sans:"Plus Jakarta Sans","Amiri","Segoe UI",system-ui,-apple-system,sans-serif;
   --arabic:"Amiri","Traditional Arabic",serif;
 
   --wrap:1180px;
