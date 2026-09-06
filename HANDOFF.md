@@ -63,6 +63,13 @@ a `?v=N` query when reloading; `http.server` caches aggressively.
 
 Three gotchas that will waste your time otherwise:
 
+- **Reduced motion and print can now be rendered, not just reasoned about.**
+  Neither can be triggered in this environment, so build a throwaway copy:
+  rewrite the `@media` block (`(prefers-reduced-motion:reduce)` or `print`) to
+  `@media screen`, and for reduced motion also patch `window.matchMedia` in the
+  head so the script's own `RM` branch runs. That is how the journey bug below
+  was found; reading the guards would never have shown it.
+
 - **A hidden Browser pane freezes `requestAnimationFrame`.** Nothing GSAP
   drives will advance, every tween reads `progress: 0`, and it looks exactly
   like a broken animation. `setInterval` is clamped to ~1s there too. To
@@ -140,6 +147,7 @@ python -c "import io;s=io.open('index.html',encoding='utf-8').read();i=s.rindex(
 | 16 | Eight more photographs from `umrah pictures/`: a three-picture band in the ziyarat section, which had eleven claims and no imagery, and five more gallery tiles chosen for what they evidence — the guide holding the group's paperwork, documents handed to an elderly pilgrim, a meal shared on the road, families waiting together at the airport, and him in dua. |
 | 17 | A thirteen-iteration audit loop, logged in [IMPROVEMENTS.md](IMPROVEMENTS.md). Fixed: one throw could stop the enquiry form registering (now isolated behind `safe()`); "Travel month: Invalid Date" reaching the office from browsers without `type=month`; no focus ring at all on Safari below 15.4; 79 elements each holding a compositor layer, now 6; three menu links unreachable in landscape; most sections missing from the screen-reader landmark list; the enquiry form silently eating enquiries with JavaScript off; an enforcing CSP; offers with no expiry date. |
 | 18 | A second audit cycle over ten areas never previously examined — logged in [IMPROVEMENTS.md](IMPROVEMENTS.md). Fixed: the print stylesheet flooded page one with the hero's dark gradient (the `*` reset never reached pseudo-elements); the photographs were over-encoded, costing 282 KB of webp for fidelity measurement says is invisible; Tamil in the nav and footer rendered in a font with no Tamil glyphs; Android was autocorrecting pilgrims' names before they reached the office; the testimonials were not marked as quotations; and `validThrough` disagreed with the page on the last two selling days. The owner removed the registration-number placeholder and corrected a gallery caption. |
+| 19 | A third audit cycle — five areas that genuinely remained, logged in [IMPROVEMENTS.md](IMPROVEMENTS.md). Fixed: the site had **no favicon at all** (icons now drawn from the mihrab mark, inline SVG plus PNGs); **reduced motion cost the visitor three steps of the journey** — skipping the pin left a 2688px track clipped with nothing to scroll it, so Makkah, Madinah and Return were unreachable; the ﷺ honorific rendered in a system fallback rather than the Amiri already loaded. Added a branded `404.html` and refreshed the sitemap. Verified the cycle-1 Amiri subset: shaping active, harakat combining, all twelve codepoints covered. |
 
 ---
 
