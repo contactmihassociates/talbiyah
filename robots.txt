@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Replace the domain below with the live one before publishing.
-Sitemap: https://REPLACE-WITH-YOUR-DOMAIN.com/sitemap.xml
+Sitemap: https://www.talbiyah.in/sitemap.xml

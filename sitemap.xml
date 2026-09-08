@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Single-page site. `set-domain.py` replaces REPLACE-WITH-YOUR-DOMAIN.com
+<!-- Single-page site. `set-domain.py` replaces www.talbiyah.in
      here and everywhere else.
 
      <lastmod> matters most at exactly one moment: when the season's prices and
@@ -10,7 +10,7 @@
      element. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://REPLACE-WITH-YOUR-DOMAIN.com/</loc>
+    <loc>https://www.talbiyah.in/</loc>
     <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>

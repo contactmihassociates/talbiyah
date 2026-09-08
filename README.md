@@ -22,9 +22,11 @@ python -m http.server 8777
 
 ## Before it goes live
 
-1. `python set-domain.py yourdomain.com` — rewrites the canonical link, the
-   OpenGraph and Twitter tags, the JSON-LD, robots.txt and sitemap.xml (11
-   references). Run it again any time to change the domain.
+1. ~~`python set-domain.py yourdomain.com`~~ — **done on 8 September 2026**:
+   the site points at `www.talbiyah.in`, with the `www.` kept because Vercel
+   redirects the apex to it (a 308), so that is the canonical host. Re-run the
+   script if the domain or the canonical host ever changes; it rewrites all 14
+   references in one pass.
 2. **Replace the testimonials.** The four cards are copy written for the site,
    not collected reviews. Real, named pilgrim quotes only — invented reviews
    breach Google's policy and India's rules on misleading endorsements. There
