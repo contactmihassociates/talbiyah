@@ -27,16 +27,21 @@ python -m http.server 8777
    redirects the apex to it (a 308), so that is the canonical host. Re-run the
    script if the domain or the canonical host ever changes; it rewrites all 14
    references in one pass.
-2. **Replace the testimonials.** The four cards are copy written for the site,
+2. **Make the apex redirect permanent.** `talbiyah.in` currently answers with a
+   **307 Temporary Redirect** to `www.talbiyah.in`; it should be **308
+   Permanent**. A temporary redirect tells Google to keep the apex indexed
+   instead of consolidating on the canonical host. In Vercel: the `talbiyah.in`
+   domain entry → Edit → 307 → 308.
+3. **Replace the testimonials.** The four cards are copy written for the site,
    not collected reviews. Real, named pilgrim quotes only — invented reviews
    breach Google's policy and India's rules on misleading endorsements. There
    is an HTML comment above the section saying the same.
-3. **Confirm the two counters** — 1200+ pilgrims and 60+ departures are
+4. **Confirm the two counters** — 1200+ pilgrims and 60+ departures are
    estimates nobody has verified.
-4. Have **Moulavi Sadath read all the Tamil** once — the offer section, the
+5. Have **Moulavi Sadath read all the Tamil** once — the offer section, the
    six FAQ answers, the guide's story, and the note that appears if a
    departure date passes without the page being updated.
-5. **Confirm the four "Why us" promises.** They were written from the card
+6. **Confirm the four "Why us" promises.** They were written from the card
    and the posters, not from anything the office said, and they commit the
    business to specific things:
    - *"Nothing is subcontracted to a stranger"* — is the whole file really
@@ -46,17 +51,17 @@ python -m http.server 8777
      the JSON-LD as `availableLanguage: ["en","ta","ur"]`, so it is
      machine-readable. Correct both together or drop `"ur"` from both.
    - *"What is included is said out loud before you pay"*
-6. **Confirm the pilgrim kit still applies.** The seven-item list (travel
+7. **Confirm the pilgrim kit still applies.** The seven-item list (travel
    bag, passport holder, prayer mat, ihram & cap, socks, slippers, water
    bottle) comes from the **July** poster, but it is rendered inside the
    October packages block, where it reads as a promise about that trip.
-7. **Check the host serves the HTML compressed.** `index.html` is 172 KB raw
+8. **Check the host serves the HTML compressed.** `index.html` is 172 KB raw
    and 49 KB gzipped — a 72% saving that costs a visitor on 4G real seconds if
    the host has compression switched off. Verify with
    `curl -sI -H 'Accept-Encoding: gzip' https://yourdomain.com/ | grep -i content-encoding`;
    it should say `gzip` or `br`. Netlify, Cloudflare Pages and GitHub Pages do
    this by default; a bare nginx or Apache may not.
-8. Submit the sitemap in Google Search Console.
+9. Submit the sitemap in Google Search Console.
 
 ---
 

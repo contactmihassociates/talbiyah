@@ -5,17 +5,27 @@ project documentation; this file is only "where things stand and what to do
 next". Keep both current.
 
 **Last updated:** 8 September 2026
-**Repo:** https://github.com/contactmihassociates/talbiyah (branch `main`)
-**Live:** https://www.talbiyah.in — on Vercel, deployed from `main`. The apex
-308-redirects to `www`, so **www is the canonical host**; `set-domain.py` has
-been run with `www.talbiyah.in` and there are no placeholders left.
+**Repo:** https://github.com/contactmihassociates/talbiyah (branch `main`) —
+**private**, so cloning or pushing needs an account with access.
+**Live:** https://www.talbiyah.in — on Vercel, `www.talbiyah.in` attached to
+Production and showing Valid Configuration. **www is the canonical host**;
+`set-domain.py` has been run with `www.talbiyah.in` and no placeholders remain.
+The apex `talbiyah.in` redirects to it — see the open item below about making
+that redirect permanent.
 **State:** the page is complete, working and published. Nothing is stubbed, no
 `TODO` comments, no unimplemented animation.
 
 Verified live on 8 September 2026: HTTPS with a Let's Encrypt certificate for
-`www.talbiyah.in`, HTML served gzipped (184 KB → 53 KB on the wire), the
-OG image, both icons, `robots.txt` and `sitemap.xml` all 200, the apex
-redirecting, and a wrong URL returning a real 404 status with our own page.
+`www.talbiyah.in` (issued 08:59 UTC, valid to 7 December), HTML served gzipped
+(184 KB → 53 KB on the wire), the OG image, both icons, `robots.txt` and
+`sitemap.xml` all 200, the apex redirecting, and a wrong URL returning a real
+404 status with our own page rather than the host's.
+
+**Open item — the apex redirect is a 307, and should be a 308.** 307 means
+"temporary", which tells Google to keep indexing `talbiyah.in` rather than
+consolidating everything on `www`. The canonical tag already points at `www` so
+the harm is limited, but the two signals disagree. Fix in Vercel: the
+`talbiyah.in` entry → Edit → change 307 Temporary to 308 Permanent.
 
 ---
 
