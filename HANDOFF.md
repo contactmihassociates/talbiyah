@@ -4,10 +4,18 @@ For whoever — or whatever — picks this up next. [README.md](README.md) is th
 project documentation; this file is only "where things stand and what to do
 next". Keep both current.
 
-**Last updated:** 5 September 2026
+**Last updated:** 8 September 2026
 **Repo:** https://github.com/contactmihassociates/talbiyah (branch `main`)
-**State:** the page is complete and working. Nothing is stubbed, no `TODO`
-comments, no unimplemented animation.
+**Live:** https://www.talbiyah.in — on Vercel, deployed from `main`. The apex
+308-redirects to `www`, so **www is the canonical host**; `set-domain.py` has
+been run with `www.talbiyah.in` and there are no placeholders left.
+**State:** the page is complete, working and published. Nothing is stubbed, no
+`TODO` comments, no unimplemented animation.
+
+Verified live on 8 September 2026: HTTPS with a Let's Encrypt certificate for
+`www.talbiyah.in`, HTML served gzipped (184 KB → 53 KB on the wire), the
+OG image, both icons, `robots.txt` and `sitemap.xml` all 200, the apex
+redirecting, and a wrong URL returning a real 404 status with our own page.
 
 ---
 

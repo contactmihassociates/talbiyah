@@ -2,5 +2,5 @@
 User-agent: *
 Allow: /
 
-# Replace the domain below with the live one before publishing.
+# Set by set-domain.py. Re-run it if the canonical host ever changes.
 Sitemap: https://www.talbiyah.in/sitemap.xml
