@@ -96,6 +96,24 @@ function clean(s, max) {
   return String(s == null ? '' : s).replace(/\s+/g, ' ').trim().slice(0, max);
 }
 
+// Turn the handful of failures that actually happen into instructions.
+function hintFor(err) {
+  const m = String((err && err.message) || '');
+  if (/private store|private access/i.test(m)) {
+    return 'The Blob store was created with private access, but a public ' +
+           'photo gallery needs public image URLs. In Vercel: Storage -> the ' +
+           'Blob store -> Settings, and switch access to public. If that ' +
+           'cannot be changed, delete the store and create a new one choosing ' +
+           'public, then redeploy.';
+  }
+  if (/token|forbidden|unauthor|denied/i.test(m)) {
+    return 'This looks like a storage permission problem. In Vercel: Storage ' +
+           '-> the Blob store -> Connections -> the talbiyah row -> add a ' +
+           'read-write token env var, then redeploy.';
+  }
+  return undefined;
+}
+
 /* -------------------------------------------------------------- the handler */
 
 export default async function handler(req, res) {
@@ -109,11 +127,7 @@ export default async function handler(req, res) {
     return res.status(500).json({
       error: 'server_error',
       message: (err && err.message) || 'Something went wrong.',
-      hint: /token|auth|forbidden|unauthor/i.test(String(err && err.message))
-        ? 'This looks like a storage permission problem. In Vercel: Storage -> ' +
-          'your Blob store -> Connections -> the talbiyah row -> add a ' +
-          'read-write token env var, then redeploy.'
-        : undefined
+      hint: hintFor(err)
     });
   }
 }
