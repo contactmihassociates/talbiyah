@@ -124,6 +124,50 @@ updating the four places above.
 
 ---
 
+## Adding photographs (admin.html)
+
+Open **/admin.html**, sign in, add photographs, give each a title and a
+caption, then press *Download gallery files*. You get `gallery.json` plus one
+`.jpg` per photograph.
+
+    gallery.json          -> next to index.html
+    the .jpg files        -> assets/gallery/
+
+Publish, and they appear in their own block inside the departures section,
+each with its title and caption. The hand-picked gallery above it is
+separate and unaffected. An empty or missing `gallery.json` simply shows
+nothing, and a photograph whose file is missing removes its own card.
+
+Photographs are shrunk to 1400px wide in the browser before download, so a
+4MB phone picture lands at roughly 200KB.
+
+**The login is a latch, not a lock.** It runs in the browser, so it can be
+skipped by anyone who wants to. It is acceptable only because this page
+cannot change the live site on its own — it writes files to the user's own
+computer and nothing else. The password is stored as a SHA-256 hash so the
+password itself is not readable in the file, and `admin.html` is disallowed
+in robots.txt. Do not reuse that password anywhere that matters. If real
+protection is ever needed, that means a host with server-side auth and
+storage (Netlify Identity + Forms, Cloudflare Pages Functions, Firebase),
+not a change to this page.
+
+---
+
+## Dated notices
+
+A one-off event (an orientation, an open evening) is an `<aside>` carrying
+`data-until` with an ISO instant, e.g.
+
+    <aside class="event" data-until="2026-09-19T16:30:00+05:30">
+
+`eventNotice()` removes the whole block once that moment passes — the poster
+is not even requested afterwards — and counts the tag down to Today/Tomorrow
+before it. That is the only place the deadline lives. This is different from
+the departure strip, which *rewords* itself to ask about the next departure;
+a finished orientation has no useful next state, so it goes.
+
+---
+
 ## How the page is built
 
 **Motion** — all of it in the single `<script>` at the bottom, each timeline
