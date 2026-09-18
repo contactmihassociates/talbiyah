@@ -37,8 +37,16 @@ const MAX_BYTES = 3 * 1024 * 1024; // a resized photo is ~250KB; this is slack
 
 /* ----------------------------------------------------------------- helpers */
 
+// Storage auth has two valid shapes on Vercel now: an explicit
+// BLOB_READ_WRITE_TOKEN, or OIDC, which a connected store sets up with no
+// token at all (BLOB_STORE_ID is the sign of it). Insisting on the token
+// alone would refuse a perfectly good OIDC connection, so accept either and
+// let a real storage failure surface as a real error further down.
+function storageLinked() {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
+}
 function configured() {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN && process.env.ADMIN_PASSWORD);
+  return Boolean(storageLinked() && process.env.ADMIN_PASSWORD);
 }
 
 // Constant-time compare, so a wrong password cannot be narrowed down by
@@ -97,11 +105,14 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(204).end();
 
   if (!configured()) {
+    const missing = [];
+    if (!storageLinked()) missing.push('the Blob store is not connected to this project');
+    if (!process.env.ADMIN_PASSWORD) missing.push('ADMIN_PASSWORD is not set');
     return res.status(503).json({
       error: 'not_configured',
-      message: 'Publishing is not switched on yet. In Vercel: create a Blob ' +
-               'store and connect it to this project, then add an ' +
-               'ADMIN_PASSWORD environment variable and redeploy.'
+      missing,
+      message: 'Publishing is not switched on yet: ' + missing.join(', ') +
+               '. Fix that in the Vercel dashboard, then redeploy.'
     });
   }
 
