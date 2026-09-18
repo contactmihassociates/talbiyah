@@ -95,7 +95,7 @@
   "description": "Haj and Umrah travel service in Chennai with 15 years of experience. Visa, ticketing, passport assistance, Haj and Umrah packages, group departures and guided ziyarat.",
   "url": "https://www.talbiyah.in/",
   "image": "https://www.talbiyah.in/assets/og-image.jpg",
-  "telephone": "+91-97911-08230",
+  "telephone": "+91-97100-92070",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "No.7, 13/1, Qaide Millath Street",
@@ -105,8 +105,7 @@
     "addressCountry": "IN"
   },
   "contactPoint": [
-    { "@type": "ContactPoint", "telephone": "+91-97100-92070", "contactType": "customer service", "contactOption": "TollFree", "availableLanguage": ["en","ta","ur"] },
-    { "@type": "ContactPoint", "telephone": "+91-97911-08230", "contactType": "reservations" }
+    { "@type": "ContactPoint", "telephone": "+91-97100-92070", "contactType": "customer service", "availableLanguage": ["en","ta","ur"] }
   ],
   "founder": { "@type": "Person", "name": "Moulavi Alhaj B. Mohamed Sadath", "jobTitle": "Umra Guide" },
   "employee": { "@type": "Person", "name": "Moulavi Alhaj B. Mohamed Sadath", "jobTitle": "Umra Guide" },
@@ -506,6 +505,39 @@ h1 .ch{display:inline-block}
 .announce-txt b{font-weight:700}
 .announce-ta{font-family:"Noto Sans Tamil",var(--sans);font-size:.9rem;color:rgba(250,247,240,.72);display:block;margin-top:.15rem;line-height:1.65}
 .announce .btn{min-height:46px;padding:.7rem 1.3rem;font-size:.75rem}
+
+/* ============================================================
+   DATED EVENT NOTICE
+   A one-off invitation that removes itself once the event has
+   finished. The deadline lives in one place only: data-until on
+   the <aside>. See the eventNotice() block in the motion layer.
+   ============================================================ */
+.event{background:var(--navy-3);color:var(--ivory);position:relative;overflow:hidden;
+  border-block:1px solid rgba(201,162,39,.22)}
+.event .wrap{padding-block:clamp(2.4rem,5vw,3.6rem)}
+.event-grid{display:grid;grid-template-columns:minmax(0,.62fr) minmax(0,1fr);
+  gap:clamp(1.6rem,4vw,3.2rem);align-items:center}
+@media(max-width:820px){.event-grid{grid-template-columns:1fr;gap:1.8rem}}
+.event-poster{margin:0;position:relative}
+.event-poster img{width:100%;height:auto;border-radius:2px;display:block;
+  box-shadow:0 18px 44px -26px rgba(0,0,0,.75)}
+.event-tag{display:inline-flex;align-items:center;gap:.55rem;margin:0 0 1rem;
+  font:700 .63rem/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;
+  color:var(--navy-3);background:var(--gold);padding:.45rem .8rem;border-radius:2px}
+.event h2{font-size:clamp(1.8rem,4.2vw,2.8rem);margin:0 0 .5rem}
+.event-lede{font-size:1.02rem;color:rgba(250,247,240,.8);margin:0 0 1.6rem;max-width:48ch}
+.event-facts{margin:0 0 1.5rem;padding:0;display:grid;gap:0;
+  border-top:1px solid rgba(201,162,39,.24)}
+.event-facts>div{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:.4rem 1rem;
+  padding:.85rem 0;border-bottom:1px solid rgba(201,162,39,.16)}
+@media(max-width:520px){.event-facts>div{grid-template-columns:1fr;gap:.15rem}}
+.event-facts dt{font:700 .63rem/1.5 var(--sans);letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin:0}
+.event-facts dd{margin:0;font-family:var(--serif);font-size:1.16rem;line-height:1.35;color:var(--ivory)}
+.event-facts dd small{display:block;font:400 .82rem/1.5 var(--sans);color:rgba(250,247,240,.62);margin-top:.2rem}
+.event-ta{font-family:"Noto Sans Tamil",var(--sans);font-size:.95rem;line-height:1.9;
+  color:rgba(250,247,240,.72);margin:0 0 1.6rem}
+.event .btn-row{margin-top:0}
 
 /* ============================================================
    TRUST STRIP
@@ -974,6 +1006,8 @@ body:not(.js-off) .faq-item.is-open .faq-a{height:auto}
 .ct-line b{display:block;font:600 .67rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:rgba(250,247,240,.5);margin-bottom:.45rem}
 .ct-line a,.ct-line address{font-family:var(--serif);font-size:1.28rem;font-style:normal;color:var(--ivory);text-decoration:none;line-height:1.4}
 .ct-line a:hover{color:var(--gold)}
+.ct-alt{display:block;margin-top:.35rem}
+.ct-alt a{font-family:var(--sans);font-size:.82rem;letter-spacing:.02em;color:var(--gold)}
 
 .map{position:relative;margin-top:2rem;aspect-ratio:16/10;border:1px solid rgba(201,162,39,.24);border-radius:2px;overflow:hidden;background:var(--navy-3)}
 .map iframe{width:100%;height:100%;border:0;display:block}
@@ -1214,9 +1248,9 @@ body.js-off #enquiry .form-submit{display:none}
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.1s-.7 1-.9 1.2c-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5s-.7-1.6-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6 1.9.8 2.7.9 3.6.8.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.7-.4z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
         Enquire on WhatsApp
       </a>
-      <a class="btn btn--ghost" href="tel:+919791108230">
+      <a class="btn btn--ghost" href="tel:+919710092070">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6.6 3h3l1.5 4-2 1.4a13 13 0 0 0 6.5 6.5l1.4-2 4 1.5v3a2 2 0 0 1-2.2 2A17.5 17.5 0 0 1 4.6 5.2 2 2 0 0 1 6.6 3z"/></svg>
-        97911 08230
+        97100 92070
       </a>
     </div>
     <p class="hero-meta rv">
@@ -1254,6 +1288,51 @@ body.js-off #enquiry .form-submit{display:none}
     </p>
     <p class="announce-cd" id="announceCd" hidden></p>
     <a class="btn btn--gold" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20would%20like%20details%20of%20the%2030%20September%20-%2014%20October%202026%20Umrah%20departure." target="_blank" rel="noopener">Ask about October 2026</a>
+  </div>
+</aside>
+
+<!-- ========== DATED EVENT ==========
+     The ONLY place the deadline lives is data-until below. Once that moment
+     passes the whole aside is removed by eventNotice() in the motion layer,
+     so a finished event never sits on the page as if it were still coming.
+     To run another event, change data-until and the copy together; to pull
+     it early, delete this whole block. -->
+<aside class="event" id="event" aria-labelledby="eventH"
+       data-until="2026-09-19T16:30:00+05:30">
+  <div class="wrap event-grid">
+
+    <figure class="event-poster rv">
+      <picture>
+        <source type="image/webp" srcset="assets/orientation-2026-09-19-480.webp 480w, assets/orientation-2026-09-19-820.webp 820w" sizes="(max-width:820px) 88vw, 34vw">
+        <img src="assets/orientation-2026-09-19-480.jpg"
+             srcset="assets/orientation-2026-09-19-480.jpg 480w, assets/orientation-2026-09-19-820.jpg 820w"
+             sizes="(max-width:820px) 88vw, 34vw"
+             width="820" height="1230" loading="lazy" decoding="async"
+             alt="Poster for the Talbiyah Umrah Orientation Programme on Saturday 19 September 2026, 2:30 to 4:30 PM, at Indian Palace, Moore Street, Mannady, Chennai. Session by Mohamed Sadath. Phone 97100 92070.">
+      </picture>
+    </figure>
+
+    <div>
+      <p class="event-tag" id="eventTag">Free orientation</p>
+      <h2 id="eventH" class="rv">Umrah Orientation Programme</h2>
+      <p class="event-lede rv">An open session on what the journey actually asks of you &mdash; the paperwork, the rites, and what to expect on the ground. Come and ask anything before you decide.</p>
+
+      <dl class="event-facts rv">
+        <div><dt>Date</dt><dd>Saturday, 19 September 2026</dd></div>
+        <div><dt>Time</dt><dd>2:30 PM &ndash; 4:30 PM</dd></div>
+        <div><dt>Venue</dt><dd>Indian Palace<small>Moore Street, Mannady&nbsp;&ndash;&nbsp;1, Chennai</small></dd></div>
+        <div><dt>Session by</dt><dd>Mohamed Sadath, Manbayee<small>Founder, Talbiyah Haj &amp; Umrah Service</small></dd></div>
+      </dl>
+
+      <p class="event-ta rv" lang="ta">உம்ரா பயிற்சி கூட்டம் &mdash; 19 செப்டம்பர் 2026, சனிக்கிழமை, பிற்பகல் 2:30 முதல் 4:30 வரை. இண்டியன் பேலஸ், மூர் தெரு, மண்ணடி &ndash; 1, சென்னை. நுழைவு இலவசம்.</p>
+
+      <div class="btn-row rv">
+        <a class="btn btn--gold" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20would%20like%20to%20attend%20the%20Umrah%20Orientation%20Programme%20on%20Saturday%2019%20September%202026%20at%20Indian%20Palace%2C%20Mannady." target="_blank" rel="noopener"
+           aria-label="Tell us on WhatsApp that you are coming to the Umrah Orientation Programme">Tell us you are coming</a>
+        <a class="btn btn--ghost" href="tel:+919710092070">97100&nbsp;92070</a>
+      </div>
+    </div>
+
   </div>
 </aside>
 
@@ -1578,7 +1657,7 @@ body.js-off #enquiry .form-submit{display:none}
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
         முன்பதிவுக்கு: 97100 92070
       </a>
-      <a class="btn btn--ghost" href="tel:+919791108230">97911 08230</a>
+      <a class="btn btn--ghost" href="tel:+919710092070">97100 92070</a>
     </div>
   </div>
 </section>
@@ -2042,13 +2121,15 @@ body.js-off #enquiry .form-submit{display:none}
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V11l7-5 7 5v10"/><path d="M12 6V3"/><path d="M9.5 21v-5.5h5V21"/><path d="M3 21h18"/></svg>
             <div><b>Or at the masjid</b><address>Khurasani Peer Masjid (K.P.M.),<br>LB Road, Adyar, Chennai &mdash; where<br>Moulavi Sadath is Imam</address></div>
           </div>
-          <div class="ct-line">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.1s-.7 1-.9 1.2c-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5s-.7-1.6-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1"/><path d="M12 2.5a9.5 9.5 0 0 0-8.2 14.3L2.5 21.5l4.9-1.3A9.5 9.5 0 1 0 12 2.5z"/></svg>
-            <div><b>WhatsApp</b><a href="https://wa.me/919710092070?text=Assalamu%20alaikum." target="_blank" rel="noopener">+91 97100 92070</a></div>
-          </div>
+          <!-- One number, two ways to reach it. Shown once rather than
+               repeated under two labels. -->
           <div class="ct-line">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3h3l1.5 4-2 1.4a13 13 0 0 0 6.5 6.5l1.4-2 4 1.5v3a2 2 0 0 1-2.2 2A17.5 17.5 0 0 1 4.6 5.2 2 2 0 0 1 6.6 3z"/></svg>
-            <div><b>Telephone</b><a href="tel:+919791108230">+91 97911 08230</a></div>
+            <div>
+              <b>Phone &amp; WhatsApp</b>
+              <a href="tel:+919710092070">+91 97100 92070</a>
+              <span class="ct-alt"><a href="https://wa.me/919710092070?text=Assalamu%20alaikum." target="_blank" rel="noopener" aria-label="Message +91 97100 92070 on WhatsApp">Message on WhatsApp &rarr;</a></span>
+            </div>
           </div>
         </div>
 
@@ -2140,7 +2221,7 @@ body.js-off #enquiry .form-submit{display:none}
           <p class="form-note form-nojs">
             This form needs JavaScript to write out your message.
             <a href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20would%20like%20to%20enquire%20about%20Umrah." target="_blank" rel="noopener">Message us on WhatsApp</a>
-            or call <a href="tel:+919791108230">+91 97911 08230</a> and we will take your details.
+            or call <a href="tel:+919710092070">+91 97100 92070</a> and we will take your details.
           </p>
         </form>
       </div>
@@ -2165,8 +2246,8 @@ body.js-off #enquiry .form-submit{display:none}
         <p class="ftr-tag">Your Journey is Our Responsibility</p>
         <address>
           No.7, 13/1, Qaide Millath Street,<br>Chennai &ndash; 600&nbsp;029, Tamil Nadu<br>
-          <a href="https://wa.me/919710092070?text=Assalamu%20alaikum." target="_blank" rel="noopener">WhatsApp +91 97100 92070</a><br>
-          <a href="tel:+919791108230">Phone +91 97911 08230</a>
+          +91 97100 92070<br>
+          <a href="tel:+919710092070">Call</a> &middot; <a href="https://wa.me/919710092070?text=Assalamu%20alaikum." target="_blank" rel="noopener">WhatsApp</a>
         </address>
       </div>
       <div>
@@ -2209,7 +2290,7 @@ body.js-off #enquiry .form-submit{display:none}
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.1s-.7 1-.9 1.2c-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.6-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5s-.7-1.6-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6 1.9.8 2.7.9 3.6.8.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.7-.4z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
     WhatsApp
   </a>
-  <a class="m-cl" href="tel:+919791108230">
+  <a class="m-cl" href="tel:+919710092070">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6.6 3h3l1.5 4-2 1.4a13 13 0 0 0 6.5 6.5l1.4-2 4 1.5v3a2 2 0 0 1-2.2 2A17.5 17.5 0 0 1 4.6 5.2 2 2 0 0 1 6.6 3z"/></svg>
     Call
   </a>
@@ -2501,6 +2582,45 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
   }
+
+  /* ====================================================================
+     DATED EVENT NOTICE
+     One-off invitations carry data-until (an ISO instant with the IST
+     offset). Past that moment the notice is removed outright rather than
+     reworded: unlike a departure, there is no useful "next one" to point
+     at, and an orientation that finished yesterday is just noise.
+
+     Runs before anything measures the page so ScrollTrigger never has to
+     be refreshed for it, and re-checks every minute so a tab left open
+     across the end of the event tidies itself up.
+     ================================================================== */
+  safe('eventNotice', function eventNotice() {
+    $$('[data-until]').forEach(function (el) {
+      var until = new Date(el.dataset.until);
+      if (isNaN(until)) return;                      // unparsable: leave it alone
+
+      var tag = $('.event-tag', el);
+
+      function check() {
+        var msLeft = until - new Date();
+        if (msLeft <= 0) {
+          el.remove();
+          if (window.ScrollTrigger) ScrollTrigger.refresh();
+          return true;                                // done, stop polling
+        }
+        if (tag) {
+          var days = Math.ceil(msLeft / 86400000);
+          tag.textContent = days <= 1 ? 'Free orientation · Today'
+                          : days === 2 ? 'Free orientation · Tomorrow'
+                          : 'Free orientation · In ' + (days - 1) + ' days';
+        }
+        return false;
+      }
+
+      if (check()) return;
+      var poll = setInterval(function () { if (check()) clearInterval(poll); }, 60000);
+    });
+  });
 
   /* ====================================================================
      DEPARTURE COUNTDOWN

@@ -459,7 +459,7 @@ WhatsApp links would be invisible and expensive — everything agrees:**
 | | |
 |---|---|
 | `wa.me` links | 16, all `919710092070` |
-| `tel:` links | 5, all `+919791108230` |
+| `tel:` links | 7, all `+919710092070` |
 | Prices | `₹1,15,000` x3, `₹1,49,000` x3, no stray figures |
 | Departure date | "30 September" x4 plus `data-depart="2026-09-30"`, and the Tamil section agrees |
 | Terminology | Haj x41, Madinah x18, Makkah x15, ziyarat x34, Moulavi x25 — one spelling each, no drift |
@@ -660,7 +660,7 @@ booking.
   decoded and read: they are specific and correct per placement (visa, tickets,
   passports, next departure, Standard at ₹1,15,000, Hilton at ₹1,49,000, Haj or
   private dates, the ziyarat route, and the Tamil one in Tamil).
-- 6 `tel:` links, all `+919791108230`.
+- 7 `tel:` links, all `+919710092070`.
 - 0 insecure `http:` links, 0 empty or missing `href`.
 - Both Google Maps URLs are well-formed in the DOM — the office by text query,
   the masjid by `query_place_id`, so it cannot drift to a similarly named
