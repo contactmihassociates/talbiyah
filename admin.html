@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Gallery admin — Talbiyah Haj &amp; Umrah Service</title>
+
+<!--
+  WHAT THIS PAGE IS, AND WHAT IT IS NOT
+  =====================================
+  talbiyah.in is a static site. There is no server behind it that can accept
+  a file, so this page cannot upload anything anywhere on its own. What it
+  does instead is prepare the files for you:
+
+    1. you pick photos from your phone or computer
+    2. it shrinks each one to web size, right here in the browser
+    3. you type a title and a caption for each
+    4. it hands you back a folder of finished files to put on the site
+
+  Your work is saved in this browser as you go, so you can close the page and
+  come back to it. It is NOT on the website until the files are published.
+
+  THE LOGIN IS A LATCH, NOT A LOCK. Anything a browser checks, a browser can
+  be made to skip. It is here to keep this page from confusing a visitor who
+  stumbles onto it — not to protect anything. That is acceptable only because
+  this page cannot change the live site by itself: the worst a stranger could
+  do is prepare files they have no way to publish. Never treat it as
+  security, and never reuse this password anywhere that matters.
+
+  The password is stored as a SHA-256 hash rather than plain text, so that
+  the password itself does not leak to anyone reading this file.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --navy:#0B1B3F; --navy-2:#122753; --navy-3:#081533;
+  --gold:#C9A227; --gold-ink:#806612; --emerald:#0F5132;
+  --ivory:#FAF7F0; --ivory-2:#F3EEE3; --crimson:#9E2A2B;
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Plus Jakarta Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --hair:rgba(201,162,39,.34);
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--ivory);color:var(--navy);font-family:var(--sans);
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.1;margin:0}
+:focus-visible{outline:2px solid var(--navy);outline-offset:2px;box-shadow:0 0 0 5px var(--gold);border-radius:2px}
+.dark :focus-visible{outline-color:var(--gold);box-shadow:0 0 0 5px rgba(250,247,240,.9)}
+
+.wrap{max-width:1060px;margin-inline:auto;padding-inline:clamp(20px,5vw,40px)}
+.hdr{background:var(--navy);color:var(--ivory);padding-block:1.1rem;border-bottom:1px solid var(--hair)}
+.hdr .wrap{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.hdr .mark{width:30px;height:30px;flex:none}
+.hdr .mark path{stroke:var(--gold);stroke-width:1.4;fill:none}
+.hdr h1{font-size:1.3rem;margin-right:auto}
+.hdr h1 small{display:block;font:600 .55rem/1 var(--sans);letter-spacing:.22em;
+  text-transform:uppercase;color:rgba(250,247,240,.6);margin-top:.3rem}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  min-height:46px;padding:.7rem 1.3rem;border:0;border-radius:2px;cursor:pointer;
+  background:var(--emerald);color:var(--ivory);
+  font:600 .78rem/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;
+  text-decoration:none;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 10px 26px -14px rgba(11,27,63,.6)}
+.btn--gold{background:var(--gold);color:var(--navy-3)}
+.btn--ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 1px var(--hair)}
+.btn--ghost:hover{box-shadow:inset 0 0 0 1px var(--gold),0 10px 26px -16px rgba(11,27,63,.4)}
+.btn--danger{background:transparent;color:var(--crimson);box-shadow:inset 0 0 0 1px rgba(158,42,43,.4);
+  min-height:44px;padding:.6rem 1rem;font-size:.7rem}
+.btn--danger:hover{box-shadow:inset 0 0 0 1px var(--crimson)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-row{display:flex;flex-wrap:wrap;gap:.8rem}
+
+/* ---------- Login ---------- */
+.gate{min-height:100svh;display:grid;place-items:center;background:var(--navy);padding:2rem 1.2rem}
+.gate-card{width:min(420px,100%);background:var(--navy-2);border:1px solid var(--hair);
+  border-radius:2px;padding:clamp(1.8rem,5vw,2.6rem);color:var(--ivory)}
+.gate-card h2{font-size:1.75rem;margin-bottom:.4rem}
+.gate-card p{font-size:.9rem;color:rgba(250,247,240,.72);margin:0 0 1.8rem}
+.field{display:grid;gap:.5rem;margin-bottom:1.1rem}
+.field label{font:600 .66rem/1.5 var(--sans);letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(250,247,240,.68)}
+.field input,.field textarea{width:100%;min-height:48px;padding:.75rem .9rem;border-radius:2px;
+  background:rgba(250,247,240,.06);border:1px solid rgba(250,247,240,.2);color:var(--ivory);
+  font:400 1rem/1.5 var(--sans)}
+.field textarea{min-height:82px;resize:vertical}
+.field input:focus,.field textarea:focus{outline:0;border-color:var(--gold);background:rgba(250,247,240,.1)}
+.note{font-size:.84rem;margin:1.1rem 0 0;padding:.8rem .95rem;border-radius:2px;line-height:1.55}
+.note--err{background:rgba(158,42,43,.16);color:#FFC9C9;border:1px solid rgba(158,42,43,.5)}
+.note--ok{background:rgba(15,81,50,.2);color:#BFE8CF;border:1px solid rgba(15,81,50,.6)}
+.note--warn{background:rgba(201,162,39,.14);color:#F0DFA6;border:1px solid rgba(201,162,39,.45)}
+.gate .note{margin-top:1.4rem}
+
+/* ---------- App ---------- */
+.app{display:none}
+.app.on{display:block}
+main{padding-block:clamp(2rem,5vw,3rem)}
+.lead{max-width:60ch;color:rgba(11,27,63,.78);margin:0 0 1.8rem}
+.bar{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;
+  padding-bottom:1.4rem;margin-bottom:1.8rem;border-bottom:1px solid var(--hair)}
+.bar .count{margin-left:auto;font:600 .7rem/1 var(--sans);letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gold-ink)}
+
+.steps{background:var(--ivory-2);border:1px solid var(--hair);border-radius:2px;
+  padding:1.4rem 1.6rem;margin-bottom:2rem}
+.steps h3{font-size:1.2rem;margin-bottom:.7rem}
+.steps ol{margin:0;padding-left:1.2rem;font-size:.92rem;color:rgba(11,27,63,.8)}
+.steps li{margin-bottom:.5rem}
+.steps code{background:rgba(11,27,63,.08);padding:.1em .4em;border-radius:2px;
+  font-size:.88em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+.cards{display:grid;gap:1.2rem}
+.card{display:grid;grid-template-columns:200px minmax(0,1fr);gap:1.4rem;
+  background:#fff;border:1px solid rgba(11,27,63,.1);border-radius:2px;padding:1.2rem}
+@media(max-width:700px){.card{grid-template-columns:1fr}}
+.card-pic{position:relative;background:var(--ivory-2);border-radius:2px;overflow:hidden}
+.card-pic img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3}
+.card-pic .size{position:absolute;left:0;bottom:0;background:rgba(8,21,51,.82);color:var(--ivory);
+  font:600 .62rem/1 var(--sans);letter-spacing:.08em;padding:.35rem .5rem}
+.card-body{display:grid;gap:.9rem;align-content:start}
+.card-body .field{margin:0}
+.card-body .field label{color:var(--gold-ink)}
+.card-body .field input,.card-body .field textarea{background:var(--ivory);
+  border-color:rgba(11,27,63,.18);color:var(--navy)}
+.card-body .field input:focus,.card-body .field textarea:focus{background:#fff;border-color:var(--gold)}
+.card-tools{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.card-tools .fname{margin-right:auto;font:400 .76rem/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;
+  color:rgba(11,27,63,.55);word-break:break-all}
+.icon-btn{width:44px;height:44px;display:grid;place-items:center;border:0;cursor:pointer;
+  background:transparent;box-shadow:inset 0 0 0 1px rgba(11,27,63,.16);border-radius:2px;color:var(--navy)}
+.icon-btn:hover{box-shadow:inset 0 0 0 1px var(--gold)}
+.icon-btn[disabled]{opacity:.3;cursor:not-allowed}
+.icon-btn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7}
+
+.empty{text-align:center;padding:3.5rem 1.5rem;border:1px dashed var(--hair);border-radius:2px;
+  color:rgba(11,27,63,.6)}
+.empty h3{font-size:1.4rem;margin-bottom:.5rem;color:var(--navy)}
+.drop{border-color:var(--gold);background:rgba(201,162,39,.07)}
+.busy{font-size:.86rem;color:var(--gold-ink);margin:.8rem 0 0}
+.vis{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.app .note{max-width:70ch}
+.app .note--err{background:rgba(158,42,43,.1);color:#7A1F20;border-color:rgba(158,42,43,.45)}
+.app .note--ok{background:rgba(15,81,50,.1);color:#0B3A24;border-color:rgba(15,81,50,.45)}
+.app .note--warn{background:rgba(201,162,39,.12);color:#5C4A0E;border-color:rgba(201,162,39,.5)}
+footer.ft{border-top:1px solid var(--hair);padding-block:1.6rem;margin-top:3rem;
+  font-size:.82rem;color:rgba(11,27,63,.6)}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div class="gate dark" id="gate">
+  <form class="gate-card" id="loginForm" autocomplete="off">
+    <h2>Gallery admin</h2>
+    <p>Talbiyah Haj &amp; Umrah Service</p>
+
+    <div class="field">
+      <label for="u">User ID</label>
+      <input type="text" id="u" name="username" inputmode="numeric" autocomplete="username" required>
+    </div>
+    <div class="field">
+      <label for="pw">Password</label>
+      <input type="password" id="pw" name="password" autocomplete="current-password" required>
+    </div>
+
+    <button class="btn btn--gold" type="submit" style="width:100%">Sign in</button>
+    <p class="note note--err" id="loginErr" hidden role="alert"></p>
+    <p class="note note--warn">This page only prepares photo files on your own device. It cannot change the website by itself, and it is not a secure login.</p>
+  </form>
+</div>
+
+<!-- ============ APP ============ -->
+<div class="app" id="app">
+  <header class="hdr dark">
+    <div class="wrap">
+      <svg class="mark" viewBox="0 0 128 128" aria-hidden="true">
+        <path d="M8 116h112"/><path d="M24 114V58C24 35 40 18 64 9c24 9 40 26 40 49v56"/>
+        <path d="M43 114V63c0-14 8-25 21-30 13 5 21 16 21 30v51"/><path d="M64 45l10 12-10 12-10-12z"/>
+      </svg>
+      <h1>Gallery admin<small>Talbiyah Haj &amp; Umrah Service</small></h1>
+      <a class="btn btn--ghost" href="index.html">View site</a>
+      <button class="btn btn--ghost" type="button" id="signOut">Sign out</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p class="lead">Add photographs, give each one a title and a caption, then download the finished set. Your work stays in this browser until you download it.</p>
+
+    <div class="steps">
+      <h3>Getting the photos onto the website</h3>
+      <ol>
+        <li>Add the photographs and write a title and caption for each.</li>
+        <li>Press <strong>Download gallery files</strong>. You will get one <code>gallery.json</code> and one picture file per photo.</li>
+        <li>Put the picture files in the site's <code>assets/gallery/</code> folder and <code>gallery.json</code> next to <code>index.html</code>.</li>
+        <li>Publish. The photographs appear in their own section on the site.</li>
+      </ol>
+      <p class="note note--warn" style="margin-top:1rem">Step 3 needs whoever manages the website files. Nothing you do here changes the live site on its own.</p>
+    </div>
+
+    <div class="bar">
+      <button class="btn btn--gold" type="button" id="addBtn">Add photographs</button>
+      <button class="btn" type="button" id="dlBtn" disabled>Download gallery files</button>
+      <button class="btn btn--ghost" type="button" id="clearBtn" disabled>Remove all</button>
+      <span class="count" id="count">0 photographs</span>
+      <input type="file" id="file" accept="image/*" multiple class="vis">
+    </div>
+
+    <p class="busy" id="busy" hidden></p>
+    <p class="note note--ok" id="okMsg" hidden role="status"></p>
+    <p class="note note--err" id="errMsg" hidden role="alert"></p>
+
+    <div class="cards" id="cards"></div>
+
+    <div class="empty" id="empty">
+      <h3>No photographs yet</h3>
+      <p>Press <strong>Add photographs</strong>, or drag pictures onto this page.</p>
+    </div>
+
+    <footer class="ft">
+      Photographs are shrunk to 1400px wide before download, so a phone picture of 4&nbsp;MB becomes about 200&nbsp;KB. Only add photographs the people in them are happy to see on the website.
+    </footer>
+  </main>
+</div>
+
+<script>
+/* ==========================================================================
+   Gallery admin
+   No dependencies, no network. Everything happens in this browser.
+
+   Storage: IndexedDB, not localStorage. The photographs are Blobs of a few
+   hundred KB each and localStorage is a ~5MB string store — it would fill up
+   after a handful and start throwing.
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+
+  /* ---------------------------------------------------------------- login */
+  // SHA-256 of "talbiyah:" + the value. Hashed so the password itself is not
+  // sitting in a file anyone can read — see the note at the top of this file
+  // about what this gate is and is not.
+  var USER_HASH = '41f58f7112bbbbbce75bfb528ab8c0d4562c36507bdcbc809ebb90c8898f0412';
+  var PASS_HASH = 'd213880f99b399ee602d593e9f4cdb44551a9306635b85c6e60de732f045a764';
+  var SESSION_KEY = 'talbiyah.admin.session';
+
+  function sha256(text) {
+    var bytes = new TextEncoder().encode('talbiyah:' + text);
+    return crypto.subtle.digest('SHA-256', bytes).then(function (buf) {
+      return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+        return b.toString(16).padStart(2, '0');
+      }).join('');
+    });
+  }
+
+  function showApp() {
+    $('#gate').style.display = 'none';
+    $('#app').classList.add('on');
+    load();
+  }
+
+  $('#loginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var err = $('#loginErr');
+    err.hidden = true;
+    if (!window.crypto || !crypto.subtle) {
+      err.textContent = 'This browser cannot check the password. Open the page over https, or use a newer browser.';
+      err.hidden = false; return;
+    }
+    Promise.all([sha256($('#u').value.trim()), sha256($('#pw').value)])
+      .then(function (h) {
+        if (h[0] === USER_HASH && h[1] === PASS_HASH) {
+          try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) {}
+          showApp();
+        } else {
+          err.textContent = 'That user ID and password do not match.';
+          err.hidden = false;
+          $('#pw').value = '';
+          $('#pw').focus();
+        }
+      });
+  });
+
+  $('#signOut').addEventListener('click', function () {
+    try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+    location.reload();
+  });
+
+  /* ------------------------------------------------------------- storage */
+  var DB_NAME = 'talbiyah-gallery', STORE = 'photos', db = null;
+
+  function openDb() {
+    return new Promise(function (res, rej) {
+      if (db) return res(db);
+      var req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = function () {
+        if (!req.result.objectStoreNames.contains(STORE)) {
+          req.result.createObjectStore(STORE, { keyPath: 'id' });
+        }
+      };
+      req.onsuccess = function () { db = req.result; res(db); };
+      req.onerror = function () { rej(req.error); };
+    });
+  }
+  function tx(mode) {
+    return openDb().then(function (d) { return d.transaction(STORE, mode).objectStore(STORE); });
+  }
+  function wrap(req) {
+    return new Promise(function (res, rej) {
+      req.onsuccess = function () { res(req.result); };
+      req.onerror = function () { rej(req.error); };
+    });
+  }
+  function put(rec)   { return tx('readwrite').then(function (st) { return wrap(st.put(rec)); }); }
+  function del(id)    { return tx('readwrite').then(function (st) { return wrap(st.delete(id)); }); }
+  function clearAll() { return tx('readwrite').then(function (st) { return wrap(st.clear()); }); }
+  function all()      { return tx('readonly').then(function (st) { return wrap(st.getAll()); }); }
+
+  /* -------------------------------------------------------------- resize */
+  // A phone photograph is 3-5MB and 4000px wide. Nothing on the site is shown
+  // wider than about 900px, so everything beyond 1400 is bytes the visitor
+  // pays for and never sees. Done here rather than asked of the office.
+  var MAX_W = 1400, QUALITY = 0.78;
+
+  function shrink(file) {
+    return new Promise(function (res, rej) {
+      var url = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload = function () {
+        var w = img.naturalWidth, h = img.naturalHeight;
+        if (w > MAX_W) { h = Math.round(h * MAX_W / w); w = MAX_W; }
+        var cv = document.createElement('canvas');
+        cv.width = w; cv.height = h;
+        cv.getContext('2d').drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(url);
+        cv.toBlob(function (blob) {
+          if (!blob) { rej(new Error('Could not read that picture.')); return; }
+          res({ blob: blob, w: w, h: h });
+        }, 'image/jpeg', QUALITY);
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); rej(new Error('Not a picture.')); };
+      img.src = url;
+    });
+  }
+
+  /* ---------------------------------------------------------------- state */
+  var photos = [];
+
+  function slug(text, fallback) {
+    var out = (text || '').toLowerCase().normalize('NFKD')
+      .replace(/[^a-z0-9\s-]/g, '').trim()
+      .replace(/[\s_]+/g, '-').replace(/-+/g, '-').slice(0, 44);
+    return out || fallback;
+  }
+  function fileNameFor(p, i) {
+    return slug(p.title, 'photo-' + (i + 1)) + '-' + p.id.slice(-4) + '.jpg';
+  }
+  function kb(n) { return Math.round(n / 1024) + ' KB'; }
+
+  /* ----------------------------------------------------------------- view */
+  var cards = $('#cards'), empty = $('#empty'), countEl = $('#count');
+
+  function field(labelText, type, value, placeholder, onInput, id) {
+    var f = document.createElement('div');
+    f.className = 'field';
+    var l = document.createElement('label');
+    l.textContent = labelText; l.setAttribute('for', id);
+    var input = document.createElement(type === 'textarea' ? 'textarea' : 'input');
+    if (type !== 'textarea') input.type = type;
+    input.id = id;
+    input.value = value || '';
+    input.placeholder = placeholder;
+    input.addEventListener('input', function () { onInput(input.value); });
+    f.appendChild(l); f.appendChild(input);
+    return f;
+  }
+
+  function iconBtn(label, d, disabled, onClick) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'icon-btn';
+    b.setAttribute('aria-label', label); b.title = label; b.disabled = disabled;
+    var svg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + d + '"/></svg>';
+    b.innerHTML = svg;
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
+  function refreshName(card, p, i) {
+    var el = card.querySelector('.fname');
+    if (el) el.textContent = fileNameFor(p, i);
+  }
+
+  function render() {
+    cards.textContent = '';
+    photos.forEach(function (p, i) {
+      var card = document.createElement('div');
+      card.className = 'card';
+
+      var pic = document.createElement('div');
+      pic.className = 'card-pic';
+      var img = document.createElement('img');
+      img.src = URL.createObjectURL(p.blob);
+      img.alt = '';
+      var size = document.createElement('span');
+      size.className = 'size';
+      size.textContent = p.w + '\u00d7' + p.h + ' \u00b7 ' + kb(p.blob.size);
+      pic.appendChild(img); pic.appendChild(size);
+
+      var body = document.createElement('div');
+      body.className = 'card-body';
+
+      body.appendChild(field('Title', 'text', p.title, 'e.g. Madinah, October group', function (v) {
+        p.title = v; save(p); refreshName(card, p, i);
+      }, 'title-' + p.id));
+
+      body.appendChild(field('Caption', 'textarea', p.caption,
+        'One line about what is happening in the picture.', function (v) {
+        p.caption = v; save(p);
+      }, 'cap-' + p.id));
+
+      var tools = document.createElement('div');
+      tools.className = 'card-tools';
+      var fname = document.createElement('span');
+      fname.className = 'fname';
+      fname.textContent = fileNameFor(p, i);
+      tools.appendChild(fname);
+      tools.appendChild(iconBtn('Move up', 'M12 19V5M5 12l7-7 7 7', i === 0,
+        function () { move(i, -1); }));
+      tools.appendChild(iconBtn('Move down', 'M12 5v14M5 12l7 7 7-7', i === photos.length - 1,
+        function () { move(i, 1); }));
+      var rm = document.createElement('button');
+      rm.type = 'button'; rm.className = 'btn btn--danger'; rm.textContent = 'Remove';
+      rm.addEventListener('click', function () { remove(p.id); });
+      tools.appendChild(rm);
+      body.appendChild(tools);
+
+      card.appendChild(pic); card.appendChild(body);
+      cards.appendChild(card);
+    });
+
+    empty.hidden = photos.length > 0;
+    countEl.textContent = photos.length + (photos.length === 1 ? ' photograph' : ' photographs');
+    $('#dlBtn').disabled = photos.length === 0;
+    $('#clearBtn').disabled = photos.length === 0;
+  }
+
+  /* -------------------------------------------------------------- actions */
+  function save(p) {
+    put({ id: p.id, title: p.title, caption: p.caption, order: p.order,
+          w: p.w, h: p.h, blob: p.blob })
+      .catch(function (e) { fail('Could not save: ' + e.message); });
+  }
+
+  function move(i, dir) {
+    var j = i + dir;
+    if (j < 0 || j >= photos.length) return;
+    var tmp = photos[i]; photos[i] = photos[j]; photos[j] = tmp;
+    photos.forEach(function (p, k) { p.order = k; save(p); });
+    render();
+  }
+
+  function remove(id) {
+    del(id).then(function () {
+      photos = photos.filter(function (p) { return p.id !== id; });
+      photos.forEach(function (p, k) { p.order = k; save(p); });
+      render();
+      ok('Photograph removed.');
+    });
+  }
+
+  function load() {
+    all().then(function (rows) {
+      photos = (rows || []).sort(function (a, b) { return a.order - b.order; });
+      render();
+    }).catch(function (e) {
+      fail('Could not open the saved photographs: ' + e.message);
+    });
+  }
+
+  function addFiles(list) {
+    var files = Array.prototype.filter.call(list, function (f) {
+      return f.type && f.type.indexOf('image/') === 0;
+    });
+    var skipped = list.length - files.length;
+    if (!files.length) {
+      fail(skipped ? 'Those files are not pictures.' : 'No files chosen.');
+      return;
+    }
+    busy('Preparing ' + files.length +
+         (files.length === 1 ? ' photograph' : ' photographs') + '\u2026');
+    var done = 0, failed = 0;
+
+    files.reduce(function (chain, file) {
+      return chain.then(function () {
+        return shrink(file).then(function (r) {
+          var p = {
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
+            title: '', caption: '', order: photos.length, w: r.w, h: r.h, blob: r.blob
+          };
+          photos.push(p);
+          done++;
+          return put(p);
+        }).catch(function () { failed++; });
+      });
+    }, Promise.resolve()).then(function () {
+      busy(null);
+      render();
+      var msg = done + (done === 1 ? ' photograph added.' : ' photographs added.');
+      if (failed) msg += ' ' + failed + ' could not be read.';
+      if (skipped) msg += ' ' + skipped + ' non-picture file ignored.';
+      if (done) { ok(msg + ' Give each one a title and a caption.'); } else { fail(msg); }
+    });
+  }
+
+  /* ------------------------------------------------------------- download */
+  function download(blob, name) {
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  }
+
+  $('#dlBtn').addEventListener('click', function () {
+    var missing = photos.filter(function (p) { return !p.title.trim(); }).length;
+    if (missing) {
+      fail(missing + (missing === 1 ? ' photograph has' : ' photographs have') +
+           ' no title yet. The title names its file and heads its card on the site.');
+      return;
+    }
+    var manifest = photos.map(function (p, i) {
+      return { file: fileNameFor(p, i), title: p.title.trim(),
+               caption: p.caption.trim(), width: p.w, height: p.h };
+    });
+    download(new Blob([JSON.stringify({ photos: manifest }, null, 2)],
+                      { type: 'application/json' }), 'gallery.json');
+
+    // One at a time: browsers block a burst of downloads fired together.
+    photos.forEach(function (p, i) {
+      setTimeout(function () { download(p.blob, fileNameFor(p, i)); }, 350 * (i + 1));
+    });
+    ok('Downloading gallery.json and ' + photos.length + ' picture' +
+       (photos.length === 1 ? '' : 's') +
+       '. If the browser asks whether to allow multiple downloads, say yes.');
+  });
+
+  $('#clearBtn').addEventListener('click', function () {
+    if (!confirm('Remove all ' + photos.length +
+                 ' photographs from this page? Files you have already downloaded are not affected.')) return;
+    clearAll().then(function () { photos = []; render(); ok('All photographs removed.'); });
+  });
+
+  /* ---------------------------------------------------------------- input */
+  $('#addBtn').addEventListener('click', function () { $('#file').click(); });
+  $('#file').addEventListener('change', function (e) {
+    addFiles(e.target.files);
+    e.target.value = '';
+  });
+
+  ['dragenter', 'dragover'].forEach(function (t) {
+    document.addEventListener(t, function (e) {
+      e.preventDefault(); empty.classList.add('drop');
+    });
+  });
+  ['dragleave', 'drop'].forEach(function (t) {
+    document.addEventListener(t, function (e) {
+      e.preventDefault(); empty.classList.remove('drop');
+    });
+  });
+  document.addEventListener('drop', function (e) {
+    if (e.dataTransfer && e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
+  });
+
+  /* ------------------------------------------------------------- messages */
+  function flash(sel, m) {
+    var el = $(sel);
+    el.textContent = m; el.hidden = false;
+    var other = $(sel === '#okMsg' ? '#errMsg' : '#okMsg');
+    other.hidden = true;
+    clearTimeout(el._t);
+    el._t = setTimeout(function () { el.hidden = true; }, 9000);
+  }
+  function ok(m)   { flash('#okMsg', m); }
+  function fail(m) { flash('#errMsg', m); }
+  function busy(m) {
+    var el = $('#busy');
+    if (!m) { el.hidden = true; return; }
+    el.textContent = m; el.hidden = false;
+  }
+
+  /* ---------------------------------------------------------------- boot */
+  // Last, deliberately. showApp() calls load(), which needs DB_NAME and
+  // STORE to have been assigned — running this beside the login form opened
+  // a database literally named "undefined" and lost every saved photograph
+  // on reload.
+  try {
+    if (sessionStorage.getItem(SESSION_KEY) === '1') showApp();
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

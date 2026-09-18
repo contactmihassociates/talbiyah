@@ -2,5 +2,8 @@
 User-agent: *
 Allow: /
 
+# Staff tool, not for visitors or search results.
+Disallow: /admin.html
+
 # Set by set-domain.py. Re-run it if the canonical host ever changes.
 Sitemap: https://www.talbiyah.in/sitemap.xml
