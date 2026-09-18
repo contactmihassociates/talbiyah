@@ -1196,6 +1196,7 @@ body.js-off #enquiry .form-submit{display:none}
     <a href="#services">Services</a>
     <a href="#packages">Packages</a>
     <a href="#journey">The Journey</a>
+    <a href="#departures">Gallery</a>
     <a href="#tamil" lang="ta">தமிழ்</a>
     <a href="#faq">FAQ</a>
     <a href="#contact">Contact</a>
@@ -2287,6 +2288,7 @@ body.js-off #enquiry .form-submit{display:none}
           <li><a href="#services">Services</a></li>
           <li><a href="#packages">Packages</a></li>
           <li><a href="#journey">The Journey</a></li>
+          <li><a href="#departures">Gallery</a></li>
           <li><a href="#ziyarat">Guided ziyarat</a></li>
           <li><a href="#tamil" lang="ta">தமிழில் விவரங்கள்</a></li>
           <li><a href="#departures">Photographs</a></li>
@@ -2625,11 +2627,23 @@ document.addEventListener('DOMContentLoaded', function () {
     var wrap = $('#gallery2'), list = $('#gal2List');
     if (!wrap || !list || !window.fetch) return;
 
-    fetch('gallery.json', { cache: 'no-cache' })
-      .then(function (r) { return r.ok ? r.json() : null; })
+    // /api/gallery is the live source, written by admin.html. gallery.json is
+    // the fallback for the hand-placed route, and for any deploy where the
+    // serverless endpoint is not switched on.
+    fetchFirst(['/api/gallery', 'gallery.json'])
       .then(function (data) {
         var photos = data && Array.isArray(data.photos) ? data.photos : [];
-        photos = photos.filter(function (p) { return p && p.file && p.title; });
+        photos = photos
+          .filter(function (p) { return p && p.title && (p.url || p.file); })
+          .map(function (p) {
+            // API rows carry an absolute url; gallery.json rows carry a
+            // filename that lives in assets/gallery/.
+            return {
+              src: p.url || ('assets/gallery/' + p.file),
+              title: p.title, caption: p.caption,
+              width: p.width, height: p.height
+            };
+          });
         if (!photos.length) return;
 
         photos.forEach(function (p) {
@@ -2637,7 +2651,7 @@ document.addEventListener('DOMContentLoaded', function () {
           var fig = document.createElement('figure');
 
           var img = document.createElement('img');
-          img.src = 'assets/gallery/' + p.file;
+          img.src = p.src;
           img.alt = p.caption ? p.title + '. ' + p.caption : p.title;
           img.loading = 'lazy';
           img.decoding = 'async';
@@ -2669,6 +2683,23 @@ document.addEventListener('DOMContentLoaded', function () {
     function tidy() {
       if (!list.children.length) wrap.hidden = true;
       if (window.ScrollTrigger) ScrollTrigger.refresh();
+    }
+
+    // Try each source in order, taking the first that answers with photos.
+    // Any failure is silent: a gallery that cannot load must cost the visitor
+    // nothing but this one block.
+    function fetchFirst(urls) {
+      return urls.reduce(function (chain, url) {
+        return chain.then(function (found) {
+          if (found) return found;
+          return fetch(url, { cache: 'no-cache' })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (d) {
+              return (d && Array.isArray(d.photos) && d.photos.length) ? d : null;
+            })
+            .catch(function () { return null; });
+        });
+      }, Promise.resolve(null));
     }
   });
 

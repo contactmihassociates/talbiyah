@@ -1,0 +1,11 @@
+# Local-only material. None of this belongs on the server.
+photos/
+umrah pictures/
+*.png
+!assets/**
+card.jpeg
+file.enc
+*.zip
+IMPROVEMENTS.md
+HANDOFF.md
+set-domain.py

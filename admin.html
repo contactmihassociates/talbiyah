@@ -151,6 +151,16 @@ main{padding-block:clamp(2rem,5vw,3rem)}
 .app .note--warn{background:rgba(201,162,39,.12);color:#5C4A0E;border-color:rgba(201,162,39,.5)}
 footer.ft{border-top:1px solid var(--hair);padding-block:1.6rem;margin-top:3rem;
   font-size:.82rem;color:rgba(11,27,63,.6)}
+.live{margin-top:3.2rem;padding-top:2.4rem;border-top:1px solid var(--hair)}
+.live-head{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:.4rem}
+.live-head h2{font-size:1.7rem}
+.live-lede{margin:0 0 1.8rem;font-size:.92rem;color:rgba(11,27,63,.7)}
+.card--live{border-left:3px solid var(--emerald)}
+.card--live .badge{display:inline-flex;align-items:center;gap:.4rem;
+  font:700 .6rem/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--emerald);margin-bottom:.2rem}
+.card--live .badge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--emerald)}
+.saving{font:600 .64rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink)}
 </style>
 </head>
 <body>
@@ -193,22 +203,21 @@ footer.ft{border-top:1px solid var(--hair);padding-block:1.6rem;margin-top:3rem;
   <main class="wrap">
     <p class="lead">Add photographs, give each one a title and a caption, then download the finished set. Your work stays in this browser until you download it.</p>
 
-    <div class="steps">
-      <h3>Getting the photos onto the website</h3>
+    <div class="steps" id="steps">
+      <h3>How this works</h3>
       <ol>
         <li>Add the photographs and write a title and caption for each.</li>
-        <li>Press <strong>Download gallery files</strong>. You will get one <code>gallery.json</code> and one picture file per photo.</li>
-        <li>Put the picture files in the site's <code>assets/gallery/</code> folder and <code>gallery.json</code> next to <code>index.html</code>.</li>
-        <li>Publish. The photographs appear in their own section on the site.</li>
+        <li>Press <strong>Publish to website</strong>. They appear in the Gallery straight away.</li>
       </ol>
-      <p class="note note--warn" style="margin-top:1rem">Step 3 needs whoever manages the website files. Nothing you do here changes the live site on its own.</p>
+      <p class="note note--warn" id="offlineNote" hidden>Publishing is not switched on yet, so the button above will not work. Use <strong>Download files instead</strong> and send the files to whoever manages the website. <span id="offlineWhy"></span></p>
     </div>
 
     <div class="bar">
       <button class="btn btn--gold" type="button" id="addBtn">Add photographs</button>
-      <button class="btn" type="button" id="dlBtn" disabled>Download gallery files</button>
+      <button class="btn" type="button" id="pubBtn" disabled>Publish to website</button>
+      <button class="btn btn--ghost" type="button" id="dlBtn" disabled>Download files instead</button>
       <button class="btn btn--ghost" type="button" id="clearBtn" disabled>Remove all</button>
-      <span class="count" id="count">0 photographs</span>
+      <span class="count" id="count">0 waiting</span>
       <input type="file" id="file" accept="image/*" multiple class="vis">
     </div>
 
@@ -222,6 +231,15 @@ footer.ft{border-top:1px solid var(--hair);padding-block:1.6rem;margin-top:3rem;
       <h3>No photographs yet</h3>
       <p>Press <strong>Add photographs</strong>, or drag pictures onto this page.</p>
     </div>
+
+    <section class="live" id="live" hidden>
+      <div class="live-head">
+        <h2>On the website</h2>
+        <span class="count" id="liveCount"></span>
+      </div>
+      <p class="live-lede">These are showing in the Gallery now. Changes here are live at once.</p>
+      <div class="cards" id="liveCards"></div>
+    </section>
 
     <footer class="ft">
       Photographs are shrunk to 1400px wide before download, so a phone picture of 4&nbsp;MB becomes about 200&nbsp;KB. Only add photographs the people in them are happy to see on the website.
@@ -260,36 +278,93 @@ footer.ft{border-top:1px solid var(--hair);padding-block:1.6rem;margin-top:3rem;
     });
   }
 
+  var PW_KEY = 'talbiyah.admin.pw';
+  var API = '/api/gallery';
+  var apiUp = null;          // null = not asked yet, true/false once known
+  var apiWhy = '';
+
+  function pw() { try { return sessionStorage.getItem(PW_KEY) || ''; } catch (e) { return ''; } }
+
+  function api(body) {
+    return fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(Object.assign({ password: pw() }, body))
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (data) {
+        if (!r.ok) {
+          var e = new Error(data.message || ('Request failed (' + r.status + ')'));
+          e.code = data.error; e.status = r.status;
+          throw e;
+        }
+        return data;
+      });
+    });
+  }
+
   function showApp() {
     $('#gate').style.display = 'none';
     $('#app').classList.add('on');
     load();
+    loadLive();
   }
 
   $('#loginForm').addEventListener('submit', function (e) {
     e.preventDefault();
     var err = $('#loginErr');
+    var user = $('#u').value.trim(), pass = $('#pw').value;
     err.hidden = true;
-    if (!window.crypto || !crypto.subtle) {
-      err.textContent = 'This browser cannot check the password. Open the page over https, or use a newer browser.';
-      err.hidden = false; return;
-    }
-    Promise.all([sha256($('#u').value.trim()), sha256($('#pw').value)])
-      .then(function (h) {
-        if (h[0] === USER_HASH && h[1] === PASS_HASH) {
-          try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) {}
-          showApp();
-        } else {
-          err.textContent = 'That user ID and password do not match.';
-          err.hidden = false;
-          $('#pw').value = '';
-          $('#pw').focus();
-        }
-      });
+
+    // The server is the real gate. Ask it first; only if publishing is not
+    // switched on yet do we fall back to the local check, which exists purely
+    // so the download route still works before Vercel is configured.
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'check', password: pass })
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (d) { return { r: r, d: d }; });
+    }).then(function (res) {
+      if (res.r.ok) {
+        apiUp = true;
+        try { sessionStorage.setItem(SESSION_KEY, '1'); sessionStorage.setItem(PW_KEY, pass); } catch (e) {}
+        showApp();
+        return;
+      }
+      if (res.r.status === 401) {
+        err.textContent = 'That password is not right.';
+        err.hidden = false; $('#pw').value = ''; $('#pw').focus();
+        return;
+      }
+      // 503 (not configured) or anything else: fall back to the local check.
+      apiUp = false;
+      apiWhy = res.d.message || '';
+      return localCheck(user, pass, err);
+    }).catch(function () {
+      apiUp = false;
+      apiWhy = 'Could not reach the website. You may be offline.';
+      return localCheck(user, pass, err);
+    });
   });
 
+  function localCheck(user, pass, err) {
+    if (!window.crypto || !crypto.subtle) {
+      err.textContent = 'This browser cannot check the password. Open the page over https.';
+      err.hidden = false; return;
+    }
+    return Promise.all([sha256(user), sha256(pass)]).then(function (h) {
+      if (h[0] === USER_HASH && h[1] === PASS_HASH) {
+        try { sessionStorage.setItem(SESSION_KEY, '1'); sessionStorage.setItem(PW_KEY, pass); } catch (e) {}
+        showApp();
+      } else {
+        err.textContent = 'That user ID and password do not match.';
+        err.hidden = false; $('#pw').value = ''; $('#pw').focus();
+      }
+    });
+  }
+
   $('#signOut').addEventListener('click', function () {
-    try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+    try { sessionStorage.removeItem(SESSION_KEY); sessionStorage.removeItem(PW_KEY); } catch (e) {}
     location.reload();
   });
 
@@ -446,9 +521,10 @@ footer.ft{border-top:1px solid var(--hair);padding-block:1.6rem;margin-top:3rem;
     });
 
     empty.hidden = photos.length > 0;
-    countEl.textContent = photos.length + (photos.length === 1 ? ' photograph' : ' photographs');
+    countEl.textContent = photos.length + (photos.length === 1 ? ' waiting' : ' waiting');
     $('#dlBtn').disabled = photos.length === 0;
     $('#clearBtn').disabled = photos.length === 0;
+    $('#pubBtn').disabled = photos.length === 0 || apiUp === false;
   }
 
   /* -------------------------------------------------------------- actions */
@@ -528,6 +604,164 @@ footer.ft{border-top:1px solid var(--hair);padding-block:1.6rem;margin-top:3rem;
     a.click();
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
   }
+
+  /* ------------------------------------------------------------- publish */
+  var live = [];
+
+  function loadLive() {
+    fetch(API, { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d) { setApiState(false, 'Publishing is not switched on yet.'); return; }
+        apiUp = true;
+        live = Array.isArray(d.photos) ? d.photos : [];
+        setApiState(true, '');
+        renderLive();
+      })
+      .catch(function () { setApiState(false, 'Could not reach the website.'); });
+  }
+
+  function setApiState(up, why) {
+    apiUp = up;
+    $('#pubBtn').disabled = !up || photos.length === 0;
+    var note = $('#offlineNote');
+    note.hidden = up;
+    $('#offlineWhy').textContent = up ? '' : (apiWhy || why || '');
+  }
+
+  function renderLive() {
+    var box = $('#live'), list = $('#liveCards');
+    list.textContent = '';
+    live.forEach(function (p, i) {
+      var card = document.createElement('div');
+      card.className = 'card card--live';
+
+      var pic = document.createElement('div');
+      pic.className = 'card-pic';
+      var img = document.createElement('img');
+      img.src = p.url; img.alt = ''; img.loading = 'lazy';
+      pic.appendChild(img);
+
+      var body = document.createElement('div');
+      body.className = 'card-body';
+      var badge = document.createElement('span');
+      badge.className = 'badge'; badge.textContent = 'Live';
+      body.appendChild(badge);
+
+      body.appendChild(field('Title', 'text', p.title, '', function (v) {
+        p.title = v; queueSave(p, card);
+      }, 'lt-' + p.id));
+      body.appendChild(field('Caption', 'textarea', p.caption, '', function (v) {
+        p.caption = v; queueSave(p, card);
+      }, 'lc-' + p.id));
+
+      var tools = document.createElement('div');
+      tools.className = 'card-tools';
+      var st = document.createElement('span');
+      st.className = 'saving'; st.textContent = '';
+      tools.appendChild(st);
+      tools.appendChild(iconBtn('Move up', 'M12 19V5M5 12l7-7 7 7', i === 0, function () { moveLive(i, -1); }));
+      tools.appendChild(iconBtn('Move down', 'M12 5v14M5 12l7 7 7-7', i === live.length - 1, function () { moveLive(i, 1); }));
+      var rm = document.createElement('button');
+      rm.type = 'button'; rm.className = 'btn btn--danger'; rm.textContent = 'Take off website';
+      rm.addEventListener('click', function () { removeLive(p); });
+      tools.appendChild(rm);
+      body.appendChild(tools);
+
+      card.appendChild(pic); card.appendChild(body);
+      list.appendChild(card);
+    });
+    box.hidden = live.length === 0;
+    $('#liveCount').textContent = live.length + (live.length === 1 ? ' photograph' : ' photographs');
+  }
+
+  var saveTimers = {};
+  function queueSave(p, card) {
+    var st = card.querySelector('.saving');
+    if (st) st.textContent = 'Saving\u2026';
+    clearTimeout(saveTimers[p.id]);
+    saveTimers[p.id] = setTimeout(function () {
+      api({ action: 'update', id: p.id, title: p.title, caption: p.caption })
+        .then(function () { if (st) { st.textContent = 'Saved'; setTimeout(function () { st.textContent = ''; }, 2000); } })
+        .catch(function (e) { if (st) st.textContent = ''; fail(e.message); });
+    }, 700);
+  }
+
+  function moveLive(i, dir) {
+    var j = i + dir;
+    if (j < 0 || j >= live.length) return;
+    var t = live[i]; live[i] = live[j]; live[j] = t;
+    renderLive();
+    api({ action: 'reorder', order: live.map(function (p) { return p.id; }) })
+      .catch(function (e) { fail(e.message); loadLive(); });
+  }
+
+  function removeLive(p) {
+    if (!confirm('Take "' + p.title + '" off the website? This cannot be undone.')) return;
+    api({ action: 'remove', id: p.id })
+      .then(function () {
+        live = live.filter(function (x) { return x.id !== p.id; });
+        renderLive();
+        ok('Taken off the website.');
+      })
+      .catch(function (e) { fail(e.message); });
+  }
+
+  function blobToDataUrl(blob) {
+    return new Promise(function (res, rej) {
+      var fr = new FileReader();
+      fr.onload = function () { res(fr.result); };
+      fr.onerror = function () { rej(new Error('Could not read the picture.')); };
+      fr.readAsDataURL(blob);
+    });
+  }
+
+  $('#pubBtn').addEventListener('click', function () {
+    var missing = photos.filter(function (p) { return !p.title.trim(); }).length;
+    if (missing) {
+      fail(missing + (missing === 1 ? ' photograph has' : ' photographs have') +
+           ' no title yet. The title heads its card on the website.');
+      return;
+    }
+    var btn = $('#pubBtn');
+    btn.disabled = true;
+    var total = photos.length, done = 0, failed = 0;
+    busy('Publishing 1 of ' + total + '\u2026');
+
+    // One at a time and sequentially: each request carries a whole picture,
+    // and the manifest is read-modify-written server side, so firing them
+    // together would race and lose entries.
+    photos.slice().reduce(function (chain, p) {
+      return chain.then(function () {
+        busy('Publishing ' + (done + failed + 1) + ' of ' + total + '\u2026');
+        return blobToDataUrl(p.blob).then(function (dataUrl) {
+          return api({ action: 'add', title: p.title, caption: p.caption,
+                       dataUrl: dataUrl, width: p.w, height: p.h });
+        }).then(function (res) {
+          done++;
+          live.push(res.photo);
+          return del(p.id).then(function () {
+            photos = photos.filter(function (x) { return x.id !== p.id; });
+          });
+        }).catch(function (e) {
+          failed++;
+          if (e.status === 401) { throw e; }   // stop the run on a bad password
+        });
+      });
+    }, Promise.resolve()).then(function () {
+      busy(null); render(); renderLive();
+      btn.disabled = photos.length === 0 || !apiUp;
+      if (done && !failed) ok(done + (done === 1 ? ' photograph is' : ' photographs are') + ' now on the website.');
+      else if (done) ok(done + ' published, ' + failed + ' failed. The ones that failed are still listed above.');
+      else fail('Nothing could be published. The photographs are still here.');
+    }).catch(function (e) {
+      busy(null); render(); renderLive();
+      btn.disabled = false;
+      fail(e.status === 401
+        ? 'The password was refused. Sign out and back in.'
+        : (e.message || 'Publishing failed.'));
+    });
+  });
 
   $('#dlBtn').addEventListener('click', function () {
     var missing = photos.filter(function (p) { return !p.title.trim(); }).length;

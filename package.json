@@ -1,0 +1,11 @@
+{
+  "name": "talbiyah-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Talbiyah Haj & Umrah Service — static site plus one serverless endpoint for the gallery.",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "@vercel/blob": "^0.27.0"
+  }
+}
