@@ -59,21 +59,20 @@ function passwordOk(given) {
   return diff === 0;
 }
 
+// An empty gallery and a broken storage connection are different things and
+// must not look the same. Only "the manifest is not there yet" returns [];
+// anything else throws, so the caller can say what actually went wrong.
 async function readManifest() {
-  try {
-    // list() rather than head(): head() wants the blob's full URL in some
-    // versions and a pathname in others, and this has to work on whichever
-    // the deploy resolves.
-    const found = await list({ prefix: MANIFEST, limit: 1 });
-    const blob = found.blobs && found.blobs[0];
-    if (!blob) return [];
-    const res = await fetch(blob.url, { cache: 'no-store' });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return Array.isArray(data.photos) ? data.photos : [];
-  } catch {
-    return []; // no manifest yet: an empty gallery, not an error
-  }
+  // list() rather than head(): head() wants the blob's full URL in some
+  // versions and a pathname in others, and this has to work on whichever
+  // the deploy resolves.
+  const found = await list({ prefix: MANIFEST, limit: 1 });
+  const blob = found.blobs && found.blobs[0];
+  if (!blob) return [];                       // nothing published yet
+  const res = await fetch(blob.url, { cache: 'no-store' });
+  if (!res.ok) return [];
+  const data = await res.json().catch(() => null);
+  return data && Array.isArray(data.photos) ? data.photos : [];
 }
 
 async function writeManifest(photos) {
@@ -100,6 +99,26 @@ function clean(s, max) {
 /* -------------------------------------------------------------- the handler */
 
 export default async function handler(req, res) {
+  try {
+    return await route(req, res);
+  } catch (err) {
+    // Without this, any throw becomes an opaque FUNCTION_INVOCATION_FAILED
+    // page and the caller is left guessing.
+    console.error('[gallery]', err);
+    if (res.headersSent) return;
+    return res.status(500).json({
+      error: 'server_error',
+      message: (err && err.message) || 'Something went wrong.',
+      hint: /token|auth|forbidden|unauthor/i.test(String(err && err.message))
+        ? 'This looks like a storage permission problem. In Vercel: Storage -> ' +
+          'your Blob store -> Connections -> the talbiyah row -> add a ' +
+          'read-write token env var, then redeploy.'
+        : undefined
+    });
+  }
+}
+
+async function route(req, res) {
   res.setHeader('Cache-Control', 'no-store');
 
   if (req.method === 'OPTIONS') return res.status(204).end();
@@ -119,8 +138,18 @@ export default async function handler(req, res) {
   /* --------------------------------------------------------------- GET */
   // Public. The website itself calls this to draw the gallery.
   if (req.method === 'GET') {
-    const photos = await readManifest();
-    return res.status(200).json({ photos });
+    try {
+      const photos = await readManifest();
+      return res.status(200).json({ photos });
+    } catch (err) {
+      // The website treats any non-200 as "no gallery" and hides the block,
+      // which is the right outcome for a visitor. The message is for us.
+      console.error('[gallery] read failed', err);
+      return res.status(502).json({
+        error: 'storage_unreachable',
+        message: (err && err.message) || 'Could not read the gallery.'
+      });
+    }
   }
 
   /* -------------------------------------------------------------- POST */
@@ -227,6 +256,32 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true });
     }
 
+    /* ---- is storage really working? ---- */
+    // Answers the question the GET cannot: an empty gallery and an
+    // unreachable store both look like zero photographs from outside.
+    if (action === 'diagnose') {
+      const out = {
+        hasReadWriteToken: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
+        hasStoreId: Boolean(process.env.BLOB_STORE_ID),
+        hasAdminPassword: Boolean(process.env.ADMIN_PASSWORD)
+      };
+      try {
+        const probe = await list({ limit: 1 });
+        out.canList = true;
+        out.blobsSeen = (probe.blobs || []).length;
+      } catch (e) { out.canList = false; out.listError = e.message; }
+      try {
+        const b = await put('gallery/.probe', 'ok', {
+          access: 'public', addRandomSuffix: false, allowOverwrite: true,
+          contentType: 'text/plain'
+        });
+        out.canWrite = true;
+        try { await del(b.url); out.canDelete = true; }
+        catch (e) { out.canDelete = false; out.deleteError = e.message; }
+      } catch (e) { out.canWrite = false; out.writeError = e.message; }
+      return res.status(200).json(out);
+    }
+
     return res.status(400).json({ error: 'bad_action', message: 'Unknown action.' });
   }
 
@@ -234,6 +289,6 @@ export default async function handler(req, res) {
   return res.status(405).json({ error: 'bad_method' });
 }
 
-export const config = {
-  api: { bodyParser: { sizeLimit: '6mb' } }
-};
+// Vercel parses a JSON body automatically for Node functions. The platform
+// caps a request at 4.5MB, which is far above a resized photograph.
+export const config = { maxDuration: 30 };
