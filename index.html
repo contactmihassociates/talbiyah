@@ -14,7 +14,7 @@
      turns the mark into a blob. The PNGs keep the full mark, since they are
      shown large enough for the detail to read. `data:` images are already
      permitted by the img-src directive in the CSP above. -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><rect width='128' height='128' fill='%230B1B3F'/><g fill='none' stroke='%23C9A227' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'><path d='M24 114V58C24 35 40 18 64 9c24 9 40 26 40 49v56'/><path d='M12 114h104'/><path d='M64 47l8 10-8 10-8-10z'/></g></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><rect width='128' height='128' fill='%230B1B3F'/><g fill='none' stroke='%23C9A227' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'><path d='M6 64a58 58 0 1 0 116 0a58 58 0 1 0-116 0'/><path d='M34 46h58M63 46v36'/><path d='M45 100a18 18 0 0 1 36 0M36 100h54'/></g></svg>">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
@@ -28,13 +28,20 @@
 
      If you add a service (analytics, a booking widget, a chat box), its
      origin has to be added to the matching directive or the browser will
-     refuse to load it. That refusal is the policy working, not a bug. -->
+     refuse to load it. That refusal is the policy working, not a bug.
+
+     img-src allows *.public.blob.vercel-storage.com because photographs
+     published through admin.html are served from the Blob store, not from
+     this origin. The wildcard is deliberate: the subdomain is specific to
+     the store, so a store replaced later would otherwise silently stop
+     rendering. Without this the gallery looks empty and the only clue is a
+     CSP violation in the console. -->
 <meta http-equiv="Content-Security-Policy" content="
   default-src 'self';
   script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src 'self' https://fonts.gstatic.com;
-  img-src 'self' data:;
+  img-src 'self' data: https://*.public.blob.vercel-storage.com;
   frame-src https://www.google.com;
   connect-src 'self';
   form-action 'self';
@@ -370,7 +377,13 @@ p:last-child{margin-bottom:0}
 /* pathLength="1" on each path is what lets CSS draw them with no JS
    measuring the geometry first. */
 #loader svg path{stroke-dasharray:1;stroke-dashoffset:1;animation:loaderDraw .8s cubic-bezier(.65,0,.35,1) forwards}
-#mark1{animation-delay:.04s}#mark2{animation-delay:.16s}#mark3{animation-delay:.28s}#mark4{animation-delay:.4s}
+/* Scoped under #loader deliberately. `#loader svg path` above sets the
+   `animation` shorthand, which resets delay to 0 and outranks a bare
+   `#markN` on specificity — so these delays were silently doing nothing
+   and the five strokes all drew at once. */
+#loader #mark1{animation-delay:.04s}#loader #mark2{animation-delay:.18s}
+#loader #mark3{animation-delay:.32s}#loader #mark4{animation-delay:.46s}
+#loader #mark5{animation-delay:.6s}
 @keyframes loaderDraw{to{stroke-dashoffset:0}}
 @keyframes loaderRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @keyframes loaderFade{to{opacity:1}}
@@ -1151,13 +1164,15 @@ body.js-off #enquiry .form-submit{display:none}
 <div id="loader" role="status" aria-live="polite" aria-label="Loading">
   <div class="loader-in">
     <svg viewBox="0 0 128 128" aria-hidden="true">
-      <!-- The same mihrab arch as the header mark. Paths are drawn in this
-           order by the preloader timeline: threshold, outer arch, inner
-           arch, then the crown. -->
-      <path id="mark1" pathLength="1" d="M8 116h112"/>
-      <path id="mark2" pathLength="1" d="M24 114V58C24 35 40 18 64 9c24 9 40 26 40 49v56"/>
-      <path id="mark3" pathLength="1" d="M43 114V63c0-14 8-25 21-30 13 5 21 16 21 30v51"/>
-      <path id="mark4" pathLength="1" d="M64 45l10 12-10 12-10-12z"/>
+      <!-- The Talbiyah monogram: the badge, the ground and minarets, the
+           green dome, the T whose stem lands on the dome as its finial, and
+           last the plane leaving. Drawn in that order by the timeline, so it
+           builds the place first and flies away from it. -->
+      <path id="mark1" pathLength="1" d="M6 64a58 58 0 1 0 116 0a58 58 0 1 0-116 0"/>
+      <path id="mark2" pathLength="1" d="M38 98V74M88 98V74M32 98h64"/>
+      <path id="mark3" pathLength="1" d="M45 98a18 18 0 0 1 36 0"/>
+      <path id="mark4" pathLength="1" d="M34 44h58M63 44v36"/>
+      <path id="mark5" pathLength="1" d="M24 40c22-16 52-18 76-6M96 28l11 5-10 6 1-6z"/>
     </svg>
     <p class="loader-ar" lang="ar" dir="rtl">لَبَّيْك</p>
     <p class="loader-cap">Talbiyah</p>
@@ -1183,10 +1198,9 @@ body.js-off #enquiry .form-submit{display:none}
          two nested hairlines over a threshold rule. Deliberately not the
          Khatam star, which is already the page's texture and preloader. -->
     <svg class="brand-mark" viewBox="0 0 128 128" aria-hidden="true">
-      <path d="M24 114V58C24 35 40 18 64 9c24 9 40 26 40 49v56"/>
-      <path d="M43 114V63c0-14 8-25 21-30 13 5 21 16 21 30v51"/>
-      <path d="M12 114h104"/>
-      <path d="M64 47l8 10-8 10-8-10z"/>
+      <path d="M6 64a58 58 0 1 0 116 0a58 58 0 1 0-116 0"/>
+      <path d="M34 46h58M63 46v36"/>
+      <path d="M45 100a18 18 0 0 1 36 0M36 100h54"/>
     </svg>
     <span class="brand-txt">Talbiyah<small>Haj &amp; Umrah Service</small></span>
   </a>
