@@ -232,3 +232,11 @@ or short number, PageDown/Home/End scroll, a space typed into a form field
 stays in the field, no horizontal overflow at 360px, one `h1` with no skipped
 heading levels, no unlabelled control, every standalone tap target at least
 44px.
+
+
+## 19 September 2026 — approved logo motion
+Owner approved the standalone gold line-drawing concept and requested integration. Loader and static header now share the outlined T, Kaaba exterior, dome/minaret, full swoosh and stationary airplane. Eleven CSS stroke reveals complete at 1.76s, preserving the existing 1.85s exit / 2.65s total budget and reduced-motion fallback. No image payload, new dependencies or changes to business copy. Preview remains outside the repo.
+
+Owner requested a closer match to the supplied original after integration began. Corrected split-serif T, double stem, Kaaba bands, ribbed dome, minaret and low flight-loop proportions in both preview and website.
+
+Final owner correction: do NOT substitute vector approximations for the approved gold artwork. `assets/talbiyah-gold-approved.png` is the exact generated/approved image. Loader uses animated SVG masks over those unchanged pixels; header crops the same image to the emblem. Preview updated to match. Full reveal preserves all lettering and glow.

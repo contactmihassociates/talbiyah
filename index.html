@@ -376,15 +376,18 @@ p:last-child{margin-bottom:0}
 #loader.done{animation:none;display:none}
 /* pathLength="1" on each path is what lets CSS draw them with no JS
    measuring the geometry first. */
-#loader svg path{stroke-dasharray:1;stroke-dashoffset:1;animation:loaderDraw .8s cubic-bezier(.65,0,.35,1) forwards}
-/* Scoped under #loader deliberately. `#loader svg path` above sets the
-   `animation` shorthand, which resets delay to 0 and outranks a bare
-   `#markN` on specificity — so these delays were silently doing nothing
-   and the five strokes all drew at once. */
-#loader #mark1{animation-delay:.04s}#loader #mark2{animation-delay:.18s}
-#loader #mark3{animation-delay:.32s}#loader #mark4{animation-delay:.46s}
-#loader #mark5{animation-delay:.6s}
+/* Each stroke has its own timing: ring / T / landmarks / full trail / plane.
+   Keep the last contour complete by 1.76s, before the 1.85s exit begins. */
+#loader svg path{stroke-dasharray:1;stroke-dashoffset:1;
+  animation:loaderDraw var(--draw-duration,.6s) cubic-bezier(.4,0,.2,1) var(--draw-delay,0s) forwards}
 @keyframes loaderDraw{to{stroke-dashoffset:0}}
+/* Approved artwork stays untouched. Broad animated masks uncover its actual
+   gold strokes; the final reveal restores every glow pixel and the lettering. */
+#loader svg.approved-logo{width:clamp(230px,65vw,330px);max-height:65svh}
+#loader svg.approved-logo path{stroke:white;stroke-width:26;vector-effect:none;fill:none}
+#loader .logo-finish{opacity:0;animation:loaderFade .25s ease 1.5s forwards}
+@media(prefers-reduced-motion:reduce){#loader .logo-finish{opacity:1!important}}
+
 @keyframes loaderRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @keyframes loaderFade{to{opacity:1}}
 /* Holds the page still while the loader plays. Set by a tiny inline script
@@ -392,7 +395,7 @@ p:last-child{margin-bottom:0}
    on any CDN. Lenis is not running yet, so overflow alone is enough here. */
 html.loading,html.loading body{overflow:hidden}
 .loader-in{display:grid;justify-items:center;gap:1.5rem;text-align:center}
-#loader svg{width:clamp(88px,18vw,124px);height:auto}
+#loader svg{width:clamp(160px,35vw,210px);height:auto;overflow:visible}
 #loader svg path{stroke:var(--gold);stroke-width:1.35;fill:none;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
 .loader-ar{font-family:var(--arabic);font-size:clamp(1.9rem,6vw,2.7rem);color:var(--gold);opacity:0;line-height:1.85;
   animation:loaderRise .6s cubic-bezier(.22,.61,.36,1) .85s forwards}
@@ -413,7 +416,7 @@ html.loading,html.loading body{overflow:hidden}
 .brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--ivory);margin-right:auto}
 .brand:hover{color:var(--gold)}
 .brand-mark{width:34px;height:34px;flex:none}
-.brand-mark path{stroke:var(--gold);stroke-width:3.4;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.brand-mark path{stroke:var(--gold);stroke-width:13;fill:none;stroke-linejoin:round;stroke-linecap:round}
 .brand-txt{font-family:var(--serif);font-size:1.22rem;line-height:1.05;letter-spacing:.01em}
 .brand-txt small{display:block;font-family:var(--sans);font-size:.53rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(250,247,240,.62);margin-top:.18rem}
 .nav{display:flex;align-items:center;gap:1.7rem}
@@ -1163,16 +1166,22 @@ body.js-off #enquiry .form-submit{display:none}
 <!-- ========== PRELOADER ========== -->
 <div id="loader" role="status" aria-live="polite" aria-label="Loading">
   <div class="loader-in">
-    <svg viewBox="0 0 128 128" aria-hidden="true">
-      <!-- The Talbiyah monogram: the badge, the ground and minarets, the
-           green dome, the T whose stem lands on the dome as its finial, and
-           last the plane leaving. Drawn in that order by the timeline, so it
-           builds the place first and flies away from it. -->
-      <path id="mark1" pathLength="1" d="M6 64a58 58 0 1 0 116 0a58 58 0 1 0-116 0"/>
-      <path id="mark2" pathLength="1" d="M38 98V74M88 98V74M32 98h64"/>
-      <path id="mark3" pathLength="1" d="M45 98a18 18 0 0 1 36 0"/>
-      <path id="mark4" pathLength="1" d="M34 44h58M63 44v36"/>
-      <path id="mark5" pathLength="1" d="M24 40c22-16 52-18 76-6M96 28l11 5-10 6 1-6z"/>
+    <svg class="approved-logo" viewBox="0 0 1280 1280" aria-hidden="true">
+      <defs><mask id="approved-logo-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="1280" height="1280">
+        <path pathLength="1" style="--draw-delay:0s;--draw-duration:0.65s" d="M610 105a375 375 0 1 1 0 750a375 375 0 1 1 0-750"/>
+        <path pathLength="1" style="--draw-delay:0.12s;--draw-duration:0.85s" d="M377 226H586L625 267L666 226H875V391L835 339V269H679L644 306V671L764 753H448L568 671V326L603 287L567 269H417V338L377 391Z"/>
+        <path pathLength="1" style="--draw-delay:0.3s;--draw-duration:0.7s" d="M377 226L417 269M875 226L835 269M625 267L603 287M608 334L626 353V663L608 682L590 663V353ZM568 671L608 710L644 671M608 710L674 733H542Z"/>
+        <path pathLength="1" style="--draw-delay:0.45s;--draw-duration:0.6s" d="M381 660V568L465 536L549 568V671M381 568L465 598L549 568M465 536V660M382 594L465 623L548 594"/>
+        <path pathLength="1" style="--draw-delay:0.65s;--draw-duration:0.4s" d="M399 609V626H421V617M477 625H498V613M516 607V620H533V601"/>
+        <path pathLength="1" style="--draw-delay:0.52s;--draw-duration:0.7s" d="M709 683V649C709 606 741 568 759 552C777 568 809 606 809 649V683M709 649Q759 629 809 649M759 552V532M755 542H763M759 557C731 597 728 621 728 641M759 557V635M759 557C786 597 790 621 790 641M704 687Q796 662 899 708"/>
+        <path pathLength="1" style="--draw-delay:0.78s;--draw-duration:0.4s" d="M730 675V661Q737 651 744 661V673M754 671V657Q761 647 768 657V671M780 674V661Q787 651 794 661V676"/>
+        <path pathLength="1" style="--draw-delay:0.68s;--draw-duration:0.55s" d="M859 689V518H879V697M854 518H884V507H854ZM860 507V476L869 453L878 476V507M869 453V440M857 574H881V586H857ZM859 604H879M864 685V651H873V690"/>
+        <path pathLength="1" style="--draw-delay:0.9s;--draw-duration:0.55s" d="M565 691C368 690 267 645 341 566C412 491 610 448 746 405"/>
+        <path pathLength="1" style="--draw-delay:0.98s;--draw-duration:0.52s" d="M550 694C347 687 249 644 327 563C401 488 603 444 729 404"/>
+        <path pathLength="1" style="--draw-delay:1.42s;--draw-duration:0.34s" d="M727 408L746 401L753 391L743 383L750 380L764 386L779 379L746 367L754 364L797 375L811 367Q826 360 829 366Q831 371 821 378L799 393L783 428L777 432L779 404L758 412L749 425L744 426L744 415Z"/>
+        <rect class="logo-finish" width="1280" height="1280" fill="white"/>
+      </mask></defs>
+      <image href="assets/talbiyah-gold-approved.png" width="1280" height="1280" mask="url(#approved-logo-reveal)"/>
     </svg>
     <p class="loader-ar" lang="ar" dir="rtl">لَبَّيْك</p>
     <p class="loader-cap">Talbiyah</p>
@@ -1194,13 +1203,9 @@ body.js-off #enquiry .form-submit{display:none}
 <!-- ========== HEADER ========== -->
 <header class="hdr" id="hdr">
   <a class="brand" href="#top" aria-label="Talbiyah Haj &amp; Umrah Service &mdash; home">
-    <!-- Mark: a mihrab arch — the doorway you are prayed towards — drawn as
-         two nested hairlines over a threshold rule. Deliberately not the
-         Khatam star, which is already the page's texture and preloader. -->
-    <svg class="brand-mark" viewBox="0 0 128 128" aria-hidden="true">
-      <path d="M6 64a58 58 0 1 0 116 0a58 58 0 1 0-116 0"/>
-      <path d="M34 46h58M63 46v36"/>
-      <path d="M45 100a18 18 0 0 1 36 0M36 100h54"/>
+    <!-- Approved Talbiyah mark; static in the header, traced in the loader. -->
+    <svg class="brand-mark" viewBox="205 75 810 810" aria-hidden="true">
+      <image href="assets/talbiyah-gold-approved.png" width="1280" height="1280"/>
     </svg>
     <span class="brand-txt">Talbiyah<small>Haj &amp; Umrah Service</small></span>
   </a>
@@ -2428,7 +2433,7 @@ document.addEventListener('DOMContentLoaded', function () {
      1 · PRELOADER
      The 8-point Khatam star draws itself (stroke-dashoffset), "لَبَّيْك"
      fades up beneath it, then the whole panel wipes upward off screen.
-     Tune: star draw 0.85s, hold 0.25s, wipe 0.85s.
+     Tune: emblem builds through 1.76s; wipe begins at 1.85s and ends at 2.65s.
      ================================================================== */
   /* The CSS owns the loader's drawing and its exit (see #loader in the
      stylesheet). All that is left for JS is to know when the wipe has
