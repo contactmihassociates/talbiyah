@@ -240,3 +240,6 @@ Owner approved the standalone gold line-drawing concept and requested integratio
 Owner requested a closer match to the supplied original after integration began. Corrected split-serif T, double stem, Kaaba bands, ribbed dome, minaret and low flight-loop proportions in both preview and website.
 
 Final owner correction: do NOT substitute vector approximations for the approved gold artwork. `assets/talbiyah-gold-approved.png` is the exact generated/approved image. Loader uses animated SVG masks over those unchanged pixels; header crops the same image to the emblem. Preview updated to match. Full reveal preserves all lettering and glow.
+
+## Logo clarity correction
+Approved PNG remains byte-identical. Rendering now attenuates faint alpha halo with SVG feFuncA gamma 1.8 (opaque gold pixels unchanged), widens masks 26→44 image units, and finishes artwork at 1.36s for a 0.49s clear hold before the unchanged 1.85s exit. Loader display grows to 380px maximum with mobile viewport caps. Same clarity treatment in standalone preview.

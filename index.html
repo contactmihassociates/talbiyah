@@ -377,15 +377,15 @@ p:last-child{margin-bottom:0}
 /* pathLength="1" on each path is what lets CSS draw them with no JS
    measuring the geometry first. */
 /* Each stroke has its own timing: ring / T / landmarks / full trail / plane.
-   Keep the last contour complete by 1.76s, before the 1.85s exit begins. */
+   Finish the contour by 1.24s and full artwork by 1.36s; hold until the 1.85s exit. */
 #loader svg path{stroke-dasharray:1;stroke-dashoffset:1;
   animation:loaderDraw var(--draw-duration,.6s) cubic-bezier(.4,0,.2,1) var(--draw-delay,0s) forwards}
 @keyframes loaderDraw{to{stroke-dashoffset:0}}
 /* Approved artwork stays untouched. Broad animated masks uncover its actual
    gold strokes; the final reveal restores every glow pixel and the lettering. */
-#loader svg.approved-logo{width:clamp(230px,65vw,330px);max-height:65svh}
-#loader svg.approved-logo path{stroke:white;stroke-width:26;vector-effect:none;fill:none}
-#loader .logo-finish{opacity:0;animation:loaderFade .25s ease 1.5s forwards}
+#loader svg.approved-logo{width:clamp(250px,74vw,380px);max-width:88vw;max-height:65svh}
+#loader svg.approved-logo path{stroke:white;stroke-width:44;vector-effect:none;fill:none}
+#loader .logo-finish{opacity:0;animation:loaderFade .18s ease 1.18s forwards}
 @media(prefers-reduced-motion:reduce){#loader .logo-finish{opacity:1!important}}
 
 @keyframes loaderRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
@@ -1167,21 +1167,26 @@ body.js-off #enquiry .form-submit{display:none}
 <div id="loader" role="status" aria-live="polite" aria-label="Loading">
   <div class="loader-in">
     <svg class="approved-logo" viewBox="0 0 1280 1280" aria-hidden="true">
-      <defs><mask id="approved-logo-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="1280" height="1280">
-        <path pathLength="1" style="--draw-delay:0s;--draw-duration:0.65s" d="M610 105a375 375 0 1 1 0 750a375 375 0 1 1 0-750"/>
-        <path pathLength="1" style="--draw-delay:0.12s;--draw-duration:0.85s" d="M377 226H586L625 267L666 226H875V391L835 339V269H679L644 306V671L764 753H448L568 671V326L603 287L567 269H417V338L377 391Z"/>
-        <path pathLength="1" style="--draw-delay:0.3s;--draw-duration:0.7s" d="M377 226L417 269M875 226L835 269M625 267L603 287M608 334L626 353V663L608 682L590 663V353ZM568 671L608 710L644 671M608 710L674 733H542Z"/>
-        <path pathLength="1" style="--draw-delay:0.45s;--draw-duration:0.6s" d="M381 660V568L465 536L549 568V671M381 568L465 598L549 568M465 536V660M382 594L465 623L548 594"/>
-        <path pathLength="1" style="--draw-delay:0.65s;--draw-duration:0.4s" d="M399 609V626H421V617M477 625H498V613M516 607V620H533V601"/>
-        <path pathLength="1" style="--draw-delay:0.52s;--draw-duration:0.7s" d="M709 683V649C709 606 741 568 759 552C777 568 809 606 809 649V683M709 649Q759 629 809 649M759 552V532M755 542H763M759 557C731 597 728 621 728 641M759 557V635M759 557C786 597 790 621 790 641M704 687Q796 662 899 708"/>
-        <path pathLength="1" style="--draw-delay:0.78s;--draw-duration:0.4s" d="M730 675V661Q737 651 744 661V673M754 671V657Q761 647 768 657V671M780 674V661Q787 651 794 661V676"/>
-        <path pathLength="1" style="--draw-delay:0.68s;--draw-duration:0.55s" d="M859 689V518H879V697M854 518H884V507H854ZM860 507V476L869 453L878 476V507M869 453V440M857 574H881V586H857ZM859 604H879M864 685V651H873V690"/>
-        <path pathLength="1" style="--draw-delay:0.9s;--draw-duration:0.55s" d="M565 691C368 690 267 645 341 566C412 491 610 448 746 405"/>
-        <path pathLength="1" style="--draw-delay:0.98s;--draw-duration:0.52s" d="M550 694C347 687 249 644 327 563C401 488 603 444 729 404"/>
-        <path pathLength="1" style="--draw-delay:1.42s;--draw-duration:0.34s" d="M727 408L746 401L753 391L743 383L750 380L764 386L779 379L746 367L754 364L797 375L811 367Q826 360 829 366Q831 371 821 378L799 393L783 428L777 432L779 404L758 412L749 425L744 426L744 415Z"/>
+      <defs>
+        <!-- Suppress only translucent halo pixels; opaque approved artwork
+             and its geometry remain unchanged. No blur or resampling filter. -->
+        <filter id="logo-edge-clarity" color-interpolation-filters="sRGB" x="-5%" y="-5%" width="110%" height="110%">
+          <feComponentTransfer><feFuncA type="gamma" amplitude="1" exponent="1.8" offset="0"/></feComponentTransfer>
+        </filter><mask id="approved-logo-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="1280" height="1280">
+        <path pathLength="1" style="--draw-delay:0.000s;--draw-duration:0.455s" d="M610 105a375 375 0 1 1 0 750a375 375 0 1 1 0-750"/>
+        <path pathLength="1" style="--draw-delay:0.084s;--draw-duration:0.595s" d="M377 226H586L625 267L666 226H875V391L835 339V269H679L644 306V671L764 753H448L568 671V326L603 287L567 269H417V338L377 391Z"/>
+        <path pathLength="1" style="--draw-delay:0.210s;--draw-duration:0.490s" d="M377 226L417 269M875 226L835 269M625 267L603 287M608 334L626 353V663L608 682L590 663V353ZM568 671L608 710L644 671M608 710L674 733H542Z"/>
+        <path pathLength="1" style="--draw-delay:0.315s;--draw-duration:0.420s" d="M381 660V568L465 536L549 568V671M381 568L465 598L549 568M465 536V660M382 594L465 623L548 594"/>
+        <path pathLength="1" style="--draw-delay:0.455s;--draw-duration:0.280s" d="M399 609V626H421V617M477 625H498V613M516 607V620H533V601"/>
+        <path pathLength="1" style="--draw-delay:0.364s;--draw-duration:0.490s" d="M709 683V649C709 606 741 568 759 552C777 568 809 606 809 649V683M709 649Q759 629 809 649M759 552V532M755 542H763M759 557C731 597 728 621 728 641M759 557V635M759 557C786 597 790 621 790 641M704 687Q796 662 899 708"/>
+        <path pathLength="1" style="--draw-delay:0.546s;--draw-duration:0.280s" d="M730 675V661Q737 651 744 661V673M754 671V657Q761 647 768 657V671M780 674V661Q787 651 794 661V676"/>
+        <path pathLength="1" style="--draw-delay:0.476s;--draw-duration:0.385s" d="M859 689V518H879V697M854 518H884V507H854ZM860 507V476L869 453L878 476V507M869 453V440M857 574H881V586H857ZM859 604H879M864 685V651H873V690"/>
+        <path pathLength="1" style="--draw-delay:0.630s;--draw-duration:0.385s" d="M565 691C368 690 267 645 341 566C412 491 610 448 746 405"/>
+        <path pathLength="1" style="--draw-delay:0.686s;--draw-duration:0.364s" d="M550 694C347 687 249 644 327 563C401 488 603 444 729 404"/>
+        <path pathLength="1" style="--draw-delay:0.994s;--draw-duration:0.238s" d="M727 408L746 401L753 391L743 383L750 380L764 386L779 379L746 367L754 364L797 375L811 367Q826 360 829 366Q831 371 821 378L799 393L783 428L777 432L779 404L758 412L749 425L744 426L744 415Z"/>
         <rect class="logo-finish" width="1280" height="1280" fill="white"/>
       </mask></defs>
-      <image href="assets/talbiyah-gold-approved.png" width="1280" height="1280" mask="url(#approved-logo-reveal)"/>
+      <image filter="url(#logo-edge-clarity)" href="assets/talbiyah-gold-approved.png" width="1280" height="1280" mask="url(#approved-logo-reveal)"/>
     </svg>
     <p class="loader-ar" lang="ar" dir="rtl">لَبَّيْك</p>
     <p class="loader-cap">Talbiyah</p>
