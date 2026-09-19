@@ -366,18 +366,18 @@ p:last-child{margin-bottom:0}
    clears on its own whatever the network is doing, and it is also the
    no-JS path: nothing here needs a script to finish.
    Timeline: draw 0.04–1.2s · لبيك 0.85–1.45s · caption 1.15–1.65s ·
-   wipe 1.85–2.65s. GSAP only takes over the hero once the wipe is done. */
+   wipe 3–3.8s. GSAP only takes over the hero once the wipe is done. */
 #loader{
   position:fixed;inset:0;z-index:9999;background:var(--navy);
   display:grid;place-items:center;gap:1.4rem;
-  animation:loaderOut .8s cubic-bezier(.76,0,.24,1) 1.85s forwards;
+  animation:loaderOut .8s cubic-bezier(.76,0,.24,1) 3s forwards;
 }
 @keyframes loaderOut{to{transform:translateY(-100%);visibility:hidden}}
 #loader.done{animation:none;display:none}
 /* pathLength="1" on each path is what lets CSS draw them with no JS
    measuring the geometry first. */
 /* Each stroke has its own timing: ring / T / landmarks / full trail / plane.
-   Finish the contour by 1.24s and full artwork by 1.36s; hold until the 1.85s exit. */
+   Finish the contour by 1.24s and full artwork by 1.36s; hold until the 3s exit. */
 #loader svg path{stroke-dasharray:1;stroke-dashoffset:1;
   animation:loaderDraw var(--draw-duration,.6s) cubic-bezier(.4,0,.2,1) var(--draw-delay,0s) forwards}
 @keyframes loaderDraw{to{stroke-dashoffset:0}}
@@ -1142,7 +1142,7 @@ body.js-off #enquiry .form-submit{display:none}
   .mbar{transform:translateY(0)}
   /* The rule above zeroes the wipe's duration but not its delay, which
      would leave a reduced-motion visitor looking at a navy panel for
-     1.85 seconds for no reason. Get out of the way almost at once. */
+     3 seconds for no reason. Get out of the way almost at once. */
   #loader{animation-delay:.2s!important}
   #loader svg path{stroke-dashoffset:0!important}
   .loader-ar,.loader-cap{opacity:1!important}
@@ -1201,7 +1201,7 @@ body.js-off #enquiry .form-submit{display:none}
   var h=document.documentElement, quick=false;
   try{quick=matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
   h.classList.add('loading');
-  setTimeout(function(){h.classList.remove('loading');}, quick?350:2700);
+  setTimeout(function(){h.classList.remove('loading');}, quick?350:3850);
 })();
 </script>
 
@@ -2438,13 +2438,13 @@ document.addEventListener('DOMContentLoaded', function () {
      1 · PRELOADER
      The 8-point Khatam star draws itself (stroke-dashoffset), "لَبَّيْك"
      fades up beneath it, then the whole panel wipes upward off screen.
-     Tune: emblem builds through 1.76s; wipe begins at 1.85s and ends at 2.65s.
+     Tune: full artwork appears at 1.36s; wipe begins at 3s and ends at 3.8s.
      ================================================================== */
   /* The CSS owns the loader's drawing and its exit (see #loader in the
      stylesheet). All that is left for JS is to know when the wipe has
      finished, so the hero intro can start on the same beat, and to release
      the parse-time scroll lock. */
-  var LOADER_END = 2650;                       // wipe ends: 1.85s delay + 0.8s
+  var LOADER_END = 3800;                       // wipe ends: 3s delay + 0.8s
   var loaderGone = false;
 
   function loaderStillUp() {

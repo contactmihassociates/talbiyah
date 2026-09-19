@@ -243,3 +243,6 @@ Final owner correction: do NOT substitute vector approximations for the approved
 
 ## Logo clarity correction
 Approved PNG remains byte-identical. Rendering now attenuates faint alpha halo with SVG feFuncA gamma 1.8 (opaque gold pixels unchanged), widens masks 26→44 image units, and finishes artwork at 1.36s for a 0.49s clear hold before the unchanged 1.85s exit. Loader display grows to 380px maximum with mobile viewport caps. Same clarity treatment in standalone preview.
+
+## 19 September 2026 — longer logo viewing time
+Owner requested 3 seconds so visitors can see the motion. Loader now starts its existing 0.8s wipe at 3s (3.8s total); full artwork remains visible from 1.36s to 3s. Hero timing and scroll-unlock backstop updated together; reduced-motion timing, artwork and drawing effects unchanged. Verified timing constants, inline JavaScript syntax and diff whitespace; browser visual verification remains unavailable.
