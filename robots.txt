@@ -1,9 +1,62 @@
-# Talbiyah Haj & Umrah Service
+# Talbiyah Haj & Umrah Service — https://www.talbiyah.in
+
+# Everyone, including search and AI crawlers, may read the site.
 User-agent: *
 Allow: /
 
 # Staff tool, not for visitors or search results.
 Disallow: /admin.html
+# The publishing endpoint. Nothing to index, and crawling it is pointless.
+Disallow: /api/
 
-# Set by set-domain.py. Re-run it if the canonical host ever changes.
+# Named explicitly so there is no ambiguity about AI assistants being welcome
+# to read and cite this business. A bare "User-agent: *" already permits them,
+# but several of these are commonly blocked by default templates and by hosts,
+# and an explicit Allow is the clearest statement of intent.
+User-agent: GPTBot
+Allow: /
+Disallow: /admin.html
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin.html
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin.html
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin.html
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /admin.html
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /admin.html
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin.html
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin.html
+
+User-agent: CCBot
+Allow: /
+Disallow: /admin.html
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin.html
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin.html
+
+# Plain-language summary of the business for language models.
+# https://llmstxt.org
 Sitemap: https://www.talbiyah.in/sitemap.xml

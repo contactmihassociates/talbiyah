@@ -17,7 +17,7 @@ import re
 import sys
 
 PLACEHOLDER = 'REPLACE-WITH-YOUR-DOMAIN.com'
-FILES = ['index.html', 'robots.txt', 'sitemap.xml']
+FILES = ['index.html', 'robots.txt', 'sitemap.xml', 'llms.txt']
 
 
 def normalise(raw):
