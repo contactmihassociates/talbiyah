@@ -103,6 +103,7 @@
   "url": "https://www.talbiyah.in/",
   "image": "https://www.talbiyah.in/assets/og-image.jpg",
   "telephone": "+91-97100-92070",
+  "email": "talbiyahhajumrahservice@gmail.com",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "No.7, 13/1, Qaide Millath Street",
@@ -119,6 +120,27 @@
   "areaServed": { "@type": "City", "name": "Chennai" },
   "knowsAbout": ["Haj packages","Umrah packages","Umrah visa","Air ticketing","Passport assistance","Guided ziyarat","Group departures"],
   "makesOffer": [
+    {
+      "@type": "Offer",
+      "name": "Hajj 2027 \u2014 Standard package",
+      "description": "Hajj 2027 from Chennai. Makkah Clock Tower or similar, Madinah Nusuk Al Madina or similar, Azizya Apartment near to Jamarat. Approximately 35 or 38 days. Price excludes GST and TCS.",
+      "price": "700000", "priceCurrency": "INR",
+      "category": "Hajj", "availability": "https://schema.org/InStock"
+    },
+    {
+      "@type": "Offer",
+      "name": "Hajj 2027 \u2014 Deluxe package",
+      "description": "Hajj 2027 from Chennai. Makkah Clock Tower or similar, Madinah Nusuk Al Madina or similar, Azizya Apartment near to Jamarat. Approximately 35 or 38 days. Price excludes GST and TCS.",
+      "price": "800000", "priceCurrency": "INR",
+      "category": "Hajj", "availability": "https://schema.org/InStock"
+    },
+    {
+      "@type": "Offer",
+      "name": "Hajj 2027 \u2014 Short package",
+      "description": "Hajj 2027 from Chennai, 22 to 25 days. Azizya Apartment near to Jamarat. Price excludes GST and TCS.",
+      "price": "675000", "priceCurrency": "INR",
+      "category": "Hajj", "availability": "https://schema.org/InStock"
+    },
     {
       "@type": "Offer", "name": "Umrah Package — Standard, October 2026", "category": "Umrah",
       "price": "115000", "priceCurrency": "INR", "availability": "https://schema.org/InStock",
@@ -436,7 +458,12 @@ html.loading,html.loading body{overflow:hidden}
 .menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
 .menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 
-@media(max-width:900px){
+/* 1080, not 900: the primary nav carries nine links now and they wrapped the
+   header onto two rows somewhere around 950px. A hamburger is a better answer
+   than a two-storey header, so it takes over while there is still room to
+   spare. The mobile bar and the pinned journey keep their own 900 breakpoint
+   — those are about layout width, not about how many links fit. */
+@media(max-width:1080px){
   .menu-btn{display:block}
   /* The header carries a backdrop-filter when stuck, which makes it the
      containing block for any fixed child — so the panel is positioned
@@ -554,6 +581,30 @@ h1 .ch{display:inline-block}
 .event-ta{font-family:"Noto Sans Tamil",var(--sans);font-size:.95rem;line-height:1.9;
   color:rgba(250,247,240,.72);margin:0 0 1.6rem}
 .event .btn-row{margin-top:0}
+
+/* ============================================================
+   HAJJ 2027
+   Poster beside the three tiers. The poster is decoration; every
+   figure on it is also set as real text beside it, so the offer is
+   readable, searchable and translatable without opening an image.
+   ============================================================ */
+.haj-grid{display:grid;grid-template-columns:minmax(0,.46fr) minmax(0,1fr);
+  gap:clamp(1.8rem,4vw,3.4rem);align-items:start;margin-top:3rem}
+@media(max-width:900px){.haj-grid{grid-template-columns:1fr;gap:2rem}}
+.haj-poster{margin:0;position:sticky;top:96px}
+/* width, not max-width: margin-inline:auto stops a grid item stretching,
+   which leaves `img{width:100%}` with nothing to resolve against and
+   collapses the poster to a couple of pixels. A definite width fixes it. */
+@media(max-width:900px){.haj-poster{position:static;width:min(100%,420px);margin-inline:auto}}
+.haj-poster img{width:100%;height:auto;border-radius:2px;
+  border:1px solid rgba(201,162,39,.26);
+  box-shadow:0 22px 50px -30px rgba(0,0,0,.8)}
+/* Scoped by id on purpose: .pkg-grid is declared later in this stylesheet
+   with the same specificity and a 272px minimum, which wins on source order
+   and wraps the three tiers 2+1 inside this narrower column. */
+#haj2027 .pkg-grid{margin-top:0;grid-template-columns:repeat(auto-fit,minmax(195px,1fr))}
+#haj2027 .pkg-price{font-size:1.7rem}
+#haj2027 .pkg ul{margin-bottom:1.4rem}
 
 /* ============================================================
    TRUST STRIP
@@ -1218,7 +1269,8 @@ body.js-off #enquiry .form-submit{display:none}
   <nav class="nav" id="nav" aria-label="Primary">
     <a href="#about">The Guide</a>
     <a href="#services">Services</a>
-    <a href="#packages">Packages</a>
+    <a href="#haj2027">Hajj 2027</a>
+    <a href="#packages">Umrah</a>
     <a href="#journey">The Journey</a>
     <a href="#departures">Gallery</a>
     <a href="#tamil" lang="ta">தமிழ்</a>
@@ -1334,50 +1386,90 @@ body.js-off #enquiry .form-submit{display:none}
   </div>
 </aside>
 
-<!-- ========== DATED EVENT ==========
-     The ONLY place the deadline lives is data-until below. Once that moment
-     passes the whole aside is removed by eventNotice() in the motion layer,
-     so a finished event never sits on the page as if it were still coming.
-     To run another event, change data-until and the copy together; to pull
-     it early, delete this whole block. -->
-<aside class="event" id="event" aria-labelledby="eventH"
-       data-until="2026-09-19T16:30:00+05:30">
-  <div class="wrap event-grid">
+<!-- ========== HAJJ 2027 ==========
+     Every price, duration and hotel below is from the office's own Hajj
+     2027 poster (assets/haj-2027-*). If the poster is reprinted, these and
+     the makesOffer entries in the JSON-LD change together.
+     The Umrah announcement strip above runs on its own date and is separate
+     from this; this section has no expiry because Hajj 2027 is the standing
+     offer until the season is over. -->
+<section class="sec dark khatam" id="haj2027" aria-labelledby="hajH">
+  <div class="wrap">
 
-    <figure class="event-poster rv">
-      <picture>
-        <source type="image/webp" srcset="assets/orientation-2026-09-19-480.webp 480w, assets/orientation-2026-09-19-820.webp 820w" sizes="(max-width:820px) 88vw, 34vw">
-        <img src="assets/orientation-2026-09-19-480.jpg"
-             srcset="assets/orientation-2026-09-19-480.jpg 480w, assets/orientation-2026-09-19-820.jpg 820w"
-             sizes="(max-width:820px) 88vw, 34vw"
-             width="820" height="1230" loading="lazy" decoding="async"
-             alt="Poster for the Talbiyah Umrah Orientation Programme on Saturday 19 September 2026, 2:30 to 4:30 PM, at Indian Palace, Moore Street, Mannady, Chennai. Session by Mohamed Sadath. Phone 97100 92070.">
-      </picture>
-    </figure>
+    <p class="eyebrow rv">The next Haj</p>
+    <h2 class="rv" id="hajH">Hajj 2027.<br>Fulfil it with comfort and guidance.</h2>
+    <p class="lede rv" style="margin-top:1.3rem">Approved and recognised by the Government of India and the Kingdom of Saudi Arabia. Three packages, all of them accompanied &mdash; Makkah, Madinah, and Azizya within reach of the Jamarat.</p>
 
-    <div>
-      <p class="event-tag" id="eventTag">Free orientation</p>
-      <h2 id="eventH" class="rv">Umrah Orientation Programme</h2>
-      <p class="event-lede rv">An open session on what the journey actually asks of you &mdash; the paperwork, the rites, and what to expect on the ground. Come and ask anything before you decide.</p>
+    <div class="haj-grid">
+      <figure class="haj-poster rv">
+        <picture>
+          <source type="image/webp" srcset="assets/haj-2027-480.webp 480w, assets/haj-2027-820.webp 820w" sizes="(max-width:900px) 88vw, 32vw">
+          <img src="assets/haj-2027-480.jpg"
+               srcset="assets/haj-2027-480.jpg 480w, assets/haj-2027-820.jpg 820w"
+               sizes="(max-width:900px) 88vw, 32vw"
+               width="820" height="1230" loading="lazy" decoding="async"
+               alt="Talbiyah Hajj 2027 packages poster. Standard 7,00,000 rupees and Deluxe 8,00,000 rupees, approximately 35 or 38 days; Short 6,75,000 rupees, 22 to 25 days, all plus GST and TCS. Makkah Clock Tower or similar, Madinah Nusuk Al Madina or similar, Azizya Apartment near to Jamarat.">
+        </picture>
+      </figure>
 
-      <dl class="event-facts rv">
-        <div><dt>Date</dt><dd>Saturday, 19 September 2026</dd></div>
-        <div><dt>Time</dt><dd>2:30 PM &ndash; 4:30 PM</dd></div>
-        <div><dt>Venue</dt><dd>Indian Palace<small>Moore Street, Mannady&nbsp;&ndash;&nbsp;1, Chennai</small></dd></div>
-        <div><dt>Session by</dt><dd>Mohamed Sadath, Manbayee<small>Founder, Talbiyah Haj &amp; Umrah Service</small></dd></div>
-      </dl>
+      <div>
+        <div class="pkg-grid haj-pkgs">
 
-      <p class="event-ta rv" lang="ta">உம்ரா பயிற்சி கூட்டம் &mdash; 19 செப்டம்பர் 2026, சனிக்கிழமை, பிற்பகல் 2:30 முதல் 4:30 வரை. இண்டியன் பேலஸ், மூர் தெரு, மண்ணடி &ndash; 1, சென்னை. நுழைவு இலவசம்.</p>
+          <article class="pkg rv">
+            <h3>Standard</h3>
+            <p class="pkg-sub">Clock Tower &amp; Nusuk Al Madina, or similar</p>
+            <p class="pkg-price">&#8377;7,00,000<small>Per person, plus GST and TCS</small></p>
+            <ul>
+              <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Approximately 35 or 38 days</li>
+              <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Azizya Apartment, near to Jamarat</li>
+            </ul>
+            <a class="btn btn--ghost" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20would%20like%20the%20details%20of%20your%20Hajj%202027%20packages." target="_blank" rel="noopener"
+               aria-label="Ask on WhatsApp about the Hajj 2027 Standard package">Ask about Standard</a>
+          </article>
 
-      <div class="btn-row rv">
-        <a class="btn btn--gold" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20would%20like%20to%20attend%20the%20Umrah%20Orientation%20Programme%20on%20Saturday%2019%20September%202026%20at%20Indian%20Palace%2C%20Mannady." target="_blank" rel="noopener"
-           aria-label="Tell us on WhatsApp that you are coming to the Umrah Orientation Programme">Tell us you are coming</a>
-        <a class="btn btn--ghost" href="tel:+919710092070">97100&nbsp;92070</a>
+          <article class="pkg pkg--feat rv">
+            <p class="pkg-flag">Most comfort</p>
+            <h3>Deluxe</h3>
+            <p class="pkg-sub">Clock Tower &amp; Nusuk Al Madina, or similar</p>
+            <p class="pkg-price">&#8377;8,00,000<small>Per person, plus GST and TCS</small></p>
+            <ul>
+              <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Approximately 35 or 38 days</li>
+              <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Azizya Apartment, near to Jamarat</li>
+            </ul>
+            <a class="btn btn--gold" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20would%20like%20the%20details%20of%20your%20Hajj%202027%20packages." target="_blank" rel="noopener"
+               aria-label="Ask on WhatsApp about the Hajj 2027 Deluxe package">Ask about Deluxe</a>
+          </article>
+
+          <article class="pkg rv">
+            <h3>Short</h3>
+            <p class="pkg-sub">For those who cannot be away as long</p>
+            <p class="pkg-price">&#8377;6,75,000<small>Per person, plus GST and TCS</small></p>
+            <ul>
+              <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>22 to 25 days</li>
+              <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Azizya Apartment, near to Jamarat</li>
+            </ul>
+            <a class="btn btn--ghost" href="https://wa.me/919710092070?text=Assalamu%20alaikum.%20I%20would%20like%20the%20details%20of%20your%20Hajj%202027%20packages." target="_blank" rel="noopener"
+               aria-label="Ask on WhatsApp about the Hajj 2027 Short package">Ask about Short</a>
+          </article>
+
+        </div>
+
+        <div class="kit rv">
+          <p class="kit-h">Included in every Hajj package</p>
+          <ul>
+            <li>Comfortable stay</li><li>Transport services</li><li>Meals arrangements</li>
+            <li>Experienced team</li><li>Visa assistance</li><li>24/7 support</li>
+          </ul>
+        </div>
+
+        <p class="pkg-note rv">Hajj seats are allotted, not simply sold &mdash; the earlier you register, the better the accommodation that can be held for you. Message us and we will tell you what is still open.</p>
       </div>
     </div>
 
   </div>
-</aside>
+</section>
+
+
 
 <!-- ========== TRUST STRIP ========== -->
 <section class="trust" aria-label="Why pilgrims trust Talbiyah">
@@ -2186,6 +2278,10 @@ body.js-off #enquiry .form-submit{display:none}
               <span class="ct-alt"><a href="https://wa.me/919710092070?text=Assalamu%20alaikum." target="_blank" rel="noopener" aria-label="Message +91 97100 92070 on WhatsApp">Message on WhatsApp &rarr;</a></span>
             </div>
           </div>
+          <div class="ct-line">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M3 6.5l9 6.5 9-6.5"/></svg>
+            <div><b>Email</b><a href="mailto:talbiyahhajumrahservice@gmail.com">talbiyahhajumrahservice@gmail.com</a></div>
+          </div>
         </div>
 
         <!-- Click-to-load map: keeps ~700KB of Google Maps off the initial
@@ -2302,7 +2398,8 @@ body.js-off #enquiry .form-submit{display:none}
         <address>
           No.7, 13/1, Qaide Millath Street,<br>Chennai &ndash; 600&nbsp;029, Tamil Nadu<br>
           +91 97100 92070<br>
-          <a href="tel:+919710092070">Call</a> &middot; <a href="https://wa.me/919710092070?text=Assalamu%20alaikum." target="_blank" rel="noopener">WhatsApp</a>
+          <a href="tel:+919710092070">Call</a> &middot; <a href="https://wa.me/919710092070?text=Assalamu%20alaikum." target="_blank" rel="noopener">WhatsApp</a><br>
+          <a href="mailto:talbiyahhajumrahservice@gmail.com">talbiyahhajumrahservice@gmail.com</a>
         </address>
       </div>
       <div>
@@ -2310,7 +2407,8 @@ body.js-off #enquiry .form-submit{display:none}
         <ul>
           <li><a href="#about">The Guide</a></li>
           <li><a href="#services">Services</a></li>
-          <li><a href="#packages">Packages</a></li>
+          <li><a href="#haj2027">Hajj 2027</a></li>
+          <li><a href="#packages">Umrah packages</a></li>
           <li><a href="#journey">The Journey</a></li>
           <li><a href="#departures">Gallery</a></li>
           <li><a href="#ziyarat">Guided ziyarat</a></li>
