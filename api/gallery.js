@@ -69,7 +69,12 @@ async function readManifest() {
   const found = await list({ prefix: MANIFEST, limit: 1 });
   const blob = found.blobs && found.blobs[0];
   if (!blob) return [];                       // nothing published yet
-  const res = await fetch(blob.url, { cache: 'no-store' });
+  // Cache-buster, not decoration: Vercel's CDN can serve a blob for up to a
+  // minute after it is overwritten, so without this a photograph just deleted
+  // in the admin page is still listed when the page refreshes — which reads
+  // as a delete that failed. A unique query defeats it, and is what Vercel's
+  // own docs recommend for exactly this.
+  const res = await fetch(blob.url + '?t=' + Date.now(), { cache: 'no-store' });
   if (!res.ok) return [];
   const data = await res.json().catch(() => null);
   return data && Array.isArray(data.photos) ? data.photos : [];
