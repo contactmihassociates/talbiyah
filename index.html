@@ -94,66 +94,255 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TravelAgency",
-  "@id": "https://www.talbiyah.in/#organization",
-  "name": "Talbiyah Haj & Umrah Service",
-  "slogan": "Your Journey is Our Responsibility",
-  "priceRange": "₹1,15,000–₹1,49,000",
-  "description": "Haj and Umrah travel service in Chennai with 15 years of experience. Visa, ticketing, passport assistance, Haj and Umrah packages, group departures and guided ziyarat.",
-  "url": "https://www.talbiyah.in/",
-  "image": "https://www.talbiyah.in/assets/og-image.jpg",
-  "telephone": "+91-97100-92070",
-  "email": "talbiyahhajumrahservice@gmail.com",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "No.7, 13/1, Qaide Millath Street",
-    "addressLocality": "Chennai",
-    "addressRegion": "Tamil Nadu",
-    "postalCode": "600029",
-    "addressCountry": "IN"
-  },
-  "contactPoint": [
-    { "@type": "ContactPoint", "telephone": "+91-97100-92070", "contactType": "customer service", "availableLanguage": ["en","ta","ur"] }
-  ],
-  "founder": { "@type": "Person", "name": "Moulavi Alhaj B. Mohamed Sadath", "jobTitle": "Umra Guide" },
-  "employee": { "@type": "Person", "name": "Moulavi Alhaj B. Mohamed Sadath", "jobTitle": "Umra Guide" },
-  "areaServed": { "@type": "City", "name": "Chennai" },
-  "knowsAbout": ["Haj packages","Umrah packages","Umrah visa","Air ticketing","Passport assistance","Guided ziyarat","Group departures"],
-  "makesOffer": [
+  "@graph": [
     {
-      "@type": "Offer",
-      "name": "Hajj 2027 \u2014 Standard package",
-      "description": "Hajj 2027 from Chennai. Makkah Clock Tower or similar, Madinah Nusuk Al Madina or similar, Azizya Apartment near to Jamarat. Approximately 35 or 38 days. Price excludes GST and TCS.",
-      "price": "700000", "priceCurrency": "INR",
-      "category": "Hajj", "availability": "https://schema.org/InStock"
+      "@type": "TravelAgency",
+      "@id": "https://www.talbiyah.in/#organization",
+      "name": "Talbiyah Haj & Umrah Service",
+      "slogan": "Your Journey is Our Responsibility",
+      "priceRange": "₹1,15,000–₹8,00,000",
+      "description": "Haj and Umrah travel service in Chennai with 15 years of experience. Visa, ticketing, passport assistance, Haj and Umrah packages, group departures and guided ziyarat.",
+      "url": "https://www.talbiyah.in/",
+      "image": "https://www.talbiyah.in/assets/og-image.jpg",
+      "telephone": "+91-97100-92070",
+      "email": "talbiyahhajumrahservice@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "No.7, 13/1, Qaide Millath Street",
+        "addressLocality": "Chennai",
+        "addressRegion": "Tamil Nadu",
+        "postalCode": "600029",
+        "addressCountry": "IN"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+91-97100-92070",
+          "contactType": "customer service",
+          "availableLanguage": [
+            "en",
+            "ta",
+            "ur"
+          ]
+        }
+      ],
+      "founder": {
+        "@id": "https://www.talbiyah.in/#mohamed-sadath"
+      },
+      "employee": {
+        "@id": "https://www.talbiyah.in/#mohamed-sadath"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Chennai"
+      },
+      "knowsAbout": [
+        "Haj packages",
+        "Umrah packages",
+        "Umrah visa",
+        "Air ticketing",
+        "Passport assistance",
+        "Guided ziyarat",
+        "Group departures"
+      ],
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "name": "Hajj 2027 — Standard package",
+          "description": "Hajj 2027 from Chennai. Makkah Clock Tower or similar, Madinah Nusuk Al Madina or similar, Azizya Apartment near to Jamarat. Approximately 35 or 38 days. Price excludes GST and TCS.",
+          "price": "700000",
+          "priceCurrency": "INR",
+          "category": "Hajj",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "Hajj 2027 — Deluxe package",
+          "description": "Hajj 2027 from Chennai. Makkah Clock Tower or similar, Madinah Nusuk Al Madina or similar, Azizya Apartment near to Jamarat. Approximately 35 or 38 days. Price excludes GST and TCS.",
+          "price": "800000",
+          "priceCurrency": "INR",
+          "category": "Hajj",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "Hajj 2027 — Short package",
+          "description": "Hajj 2027 from Chennai, 22 to 25 days. Azizya Apartment near to Jamarat. Price excludes GST and TCS.",
+          "price": "675000",
+          "priceCurrency": "INR",
+          "category": "Hajj",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "Umrah Package — Standard, October 2026",
+          "category": "Umrah",
+          "price": "115000",
+          "priceCurrency": "INR",
+          "availability": "https://schema.org/InStock",
+          "validThrough": "2026-09-30",
+          "url": "https://www.talbiyah.in/#packages",
+          "description": "Umrah from Chennai with Oman Air, 30 September – 14 October 2026. Flight, Umrah visa, hotels near the Haram in Makkah and Madinah, airport transfers, South Indian food, Zamzam water, guide and travel insurance."
+        },
+        {
+          "@type": "Offer",
+          "name": "Umrah Package — Hilton, October 2026",
+          "category": "Umrah",
+          "price": "149000",
+          "priceCurrency": "INR",
+          "availability": "https://schema.org/InStock",
+          "validThrough": "2026-09-30",
+          "url": "https://www.talbiyah.in/#packages",
+          "description": "Umrah from Chennai with Oman Air, 30 September – 14 October 2026, Hilton accommodation on four-bed sharing."
+        },
+        {
+          "@type": "Offer",
+          "name": "Haj Package",
+          "category": "Haj",
+          "url": "https://www.talbiyah.in/#packages"
+        }
+      ],
+      "hasMap": "https://www.google.com/maps/search/?api=1&query=No.7%2C%2013%2F1%2C%20Qaide%20Millath%20Street%2C%20Chennai%20600029"
     },
     {
-      "@type": "Offer",
-      "name": "Hajj 2027 \u2014 Deluxe package",
-      "description": "Hajj 2027 from Chennai. Makkah Clock Tower or similar, Madinah Nusuk Al Madina or similar, Azizya Apartment near to Jamarat. Approximately 35 or 38 days. Price excludes GST and TCS.",
-      "price": "800000", "priceCurrency": "INR",
-      "category": "Hajj", "availability": "https://schema.org/InStock"
+      "@type": "WebSite",
+      "@id": "https://www.talbiyah.in/#website",
+      "url": "https://www.talbiyah.in/",
+      "name": "Talbiyah Haj & Umrah Service",
+      "description": "Haj and Umrah travel service in Chennai with 15 years of experience. Visa, ticketing, passport assistance, Haj and Umrah packages, group departures and guided ziyarat.",
+      "publisher": {
+        "@id": "https://www.talbiyah.in/#organization"
+      },
+      "inLanguage": [
+        "en-IN",
+        "ta-IN"
+      ]
     },
     {
-      "@type": "Offer",
-      "name": "Hajj 2027 \u2014 Short package",
-      "description": "Hajj 2027 from Chennai, 22 to 25 days. Azizya Apartment near to Jamarat. Price excludes GST and TCS.",
-      "price": "675000", "priceCurrency": "INR",
-      "category": "Hajj", "availability": "https://schema.org/InStock"
+      "@type": "Person",
+      "@id": "https://www.talbiyah.in/#mohamed-sadath",
+      "name": "Moulavi Alhaj B. Mohamed Sadath",
+      "honorificPrefix": "Moulavi Alhaj",
+      "honorificSuffix": "Manbayee",
+      "jobTitle": "Umra Guide",
+      "description": "Proprietor and Umra Guide of Talbiyah Haj & Umrah Service, Chennai. Fifteen years arranging and personally accompanying Haj and Umrah groups from Chennai. Imam of Khurasani Peer Masjid (K.P.M.), LB Road, Adyar.",
+      "worksFor": {
+        "@id": "https://www.talbiyah.in/#organization"
+      },
+      "affiliation": {
+        "@type": "PlaceOfWorship",
+        "name": "Khurasani Peer Masjid (K.P.M.)",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "LB Road, Adyar",
+          "addressLocality": "Chennai",
+          "addressRegion": "Tamil Nadu",
+          "addressCountry": "IN"
+        }
+      },
+      "knowsAbout": [
+        "Haj",
+        "Umrah",
+        "Ziyarat",
+        "Umrah visa",
+        "Haj pilgrimage guidance"
+      ],
+      "knowsLanguage": [
+        "Tamil",
+        "English"
+      ]
     },
     {
-      "@type": "Offer", "name": "Umrah Package — Standard, October 2026", "category": "Umrah",
-      "price": "115000", "priceCurrency": "INR", "availability": "https://schema.org/InStock",
-      "validThrough": "2026-09-30", "url": "https://www.talbiyah.in/#packages",
-      "description": "Umrah from Chennai with Oman Air, 30 September – 14 October 2026. Flight, Umrah visa, hotels near the Haram in Makkah and Madinah, airport transfers, South Indian food, Zamzam water, guide and travel insurance."
+      "@type": "Service",
+      "name": "Umrah and Haj visa",
+      "description": "Visa application prepared, filed and tracked for pilgrims travelling from Chennai.",
+      "provider": {
+        "@id": "https://www.talbiyah.in/#organization"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Chennai"
+      },
+      "serviceType": "Umrah and Haj visa"
     },
     {
-      "@type": "Offer", "name": "Umrah Package — Hilton, October 2026", "category": "Umrah",
-      "price": "149000", "priceCurrency": "INR", "availability": "https://schema.org/InStock",
-      "validThrough": "2026-09-30", "url": "https://www.talbiyah.in/#packages",
-      "description": "Umrah from Chennai with Oman Air, 30 September – 14 October 2026, Hilton accommodation on four-bed sharing."
+      "@type": "Service",
+      "name": "Air ticketing",
+      "description": "Return airfare from Chennai, issued together with the group so no one flies alone.",
+      "provider": {
+        "@id": "https://www.talbiyah.in/#organization"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Chennai"
+      },
+      "serviceType": "Air ticketing"
     },
-    { "@type": "Offer", "name": "Haj Package", "category": "Haj", "url": "https://www.talbiyah.in/#packages" }
+    {
+      "@type": "Service",
+      "name": "Passport assistance",
+      "description": "New passport applications, renewals, corrections and re-issue, with the document checklist prepared in advance.",
+      "provider": {
+        "@id": "https://www.talbiyah.in/#organization"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Chennai"
+      },
+      "serviceType": "Passport assistance"
+    },
+    {
+      "@type": "Service",
+      "name": "Haj packages",
+      "description": "Hajj 2027 packages from Chennai including flights, accommodation in Makkah, Madinah and Azizya, transfers, meals and guidance.",
+      "provider": {
+        "@id": "https://www.talbiyah.in/#organization"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Chennai"
+      },
+      "serviceType": "Haj packages"
+    },
+    {
+      "@type": "Service",
+      "name": "Umrah packages",
+      "description": "Umrah packages from Chennai including flights, Umrah visa, hotels near the Haram, transfers and guided ziyarat.",
+      "provider": {
+        "@id": "https://www.talbiyah.in/#organization"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Chennai"
+      },
+      "serviceType": "Umrah packages"
+    },
+    {
+      "@type": "Service",
+      "name": "Group departures",
+      "description": "Scheduled group departures from Chennai, accompanied throughout by the guide on the same flight.",
+      "provider": {
+        "@id": "https://www.talbiyah.in/#organization"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Chennai"
+      },
+      "serviceType": "Group departures"
+    },
+    {
+      "@type": "Service",
+      "name": "Guided ziyarat",
+      "description": "The sites of Makkah and Madinah visited with explanation and at an unhurried pace, in the group’s own coach.",
+      "provider": {
+        "@id": "https://www.talbiyah.in/#organization"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Chennai"
+      },
+      "serviceType": "Guided ziyarat"
+    }
   ]
 }
 </script>
