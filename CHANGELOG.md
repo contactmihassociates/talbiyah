@@ -3,6 +3,14 @@
 Continuous optimisation of [talbiyah.in](https://www.talbiyah.in). One line per
 change: the date, what changed, and why it was worth doing.
 
+## 2026-11-20
+
+- **The October departure replaced by the two groups now open.** The site still advertised the 30 September 2026 Oman Air trip seven weeks after it left. The announcement strip, the packages section, the Tamil summary, the hero and contact-form wording now carry the December 2026 group (Chennai 30 December on Gulf Air through Bahrain, GF69 and GF171 out, GF184 and GF68 home, landing back in Chennai early on 13 January 2027, fare on request) and the Ramadan 2027 package, the first fifteen days, at ₹1,45,000 per person with Munshiya in Makkah 400 metres from the Haram and Bustan Diamond in Madinah 100 metres from the Masjid. Every figure is from the office's own posters. The October inclusions were not thrown away: they now sit under "What a Talbiyah Umrah group covers", where they describe the service rather than one departed trip.
+- **New office address throughout.** The business moved to No.3, L.B. Road, near Selva Tea Stall, Adyar, Chennai 600 020. Updated in the hero strip, the contact block, both map pins, the footer, the credentials list, the structured data, `llms.txt` and the README. The old Qaide Millath Street address remains in one testimonial, which is a pilgrim's own recollection and is not ours to rewrite.
+- **Grand opening notice, self-retiring.** A dated notice for the opening on Sunday 22 November 2026, 10 to 11 am, reusing the existing `data-until` mechanism so it removes itself the moment the event ends. The countdown label is no longer hard-wired to "Free orientation" and now counts calendar days in IST rather than rounding part-days up, which had it saying "Tomorrow" two days out.
+- **Umrah cost answer, schema and `llms.txt` brought up to date.** The FAQ quoted ₹1,15,000 and ₹1,49,000 from the departed trip; it now gives the Ramadan price and says the December fare is on request, in English, Tamil and FAQPage schema. The two October offers in the structured data were replaced by the two live ones, `priceRange` corrected to ₹1,45,000–₹8,00,000, and the Instagram profile added as `sameAs` and as a footer link.
+- **Sitemap `lastmod` moved to 2026-11-20.** New dates, a new price and a new address, which is precisely the moment the field is for.
+
 ## 2026-09-25
 
 - **Search snippet rewritten.** Title was 79 characters and led with the brand, so Google truncated it and the words people actually search ("haj packages chennai") sat behind a name they do not know yet. Now 56 characters, keyword first: *Haj & Umrah Packages from Chennai — Talbiyah Haj Service*. Description rebuilt to 147 characters and now carries the live Hajj 2027 price. OpenGraph and Twitter fields updated to match, so the business describes itself identically everywhere.

@@ -4,7 +4,7 @@ For whoever — or whatever — picks this up next. [README.md](README.md) is th
 project documentation; this file is only "where things stand and what to do
 next". Keep both current.
 
-**Last updated:** 8 September 2026
+**Last updated:** 20 November 2026
 **Repo:** https://github.com/contactmihassociates/talbiyah (branch `main`) —
 **private**, so cloning or pushing needs an account with access.
 **Live:** https://www.talbiyah.in — on Vercel, `www.talbiyah.in` attached to
@@ -26,6 +26,32 @@ Verified live on 8 September 2026: HTTPS with a Let's Encrypt certificate for
 consolidating everything on `www`. The canonical tag already points at `www` so
 the harm is limited, but the two signals disagree. Fix in Vercel: the
 `talbiyah.in` entry → Edit → change 307 Temporary to 308 Permanent.
+
+---
+
+## Where things stand, 20 November 2026
+
+The site now carries the two Umrah groups the office is actually selling, taken
+from its own Instagram posters (`sadathmanbayeeofficial`): the December 2026
+group leaving Chennai on 30 December and landing back on 13 January 2027, fare
+on request, and the Ramadan 2027 package, the first fifteen days, at
+₹1,45,000. The October 2026 trip it replaced had been showing for seven weeks
+after departure.
+
+The office address changed everywhere to No.3, L.B. Road, near Selva Tea Stall,
+Adyar, Chennai 600 020. The 600 020 postcode is read from "Chennai-20" on the
+poster and should be confirmed. A grand-opening notice for 22 November 2026
+sits under the announcement strip and removes itself when the event ends.
+
+Two things to get from the office:
+
+1. **The fare for the December group.** The card reads "Fare on request" until
+   there is a figure.
+2. **A Google Maps pin for the new office.** Both map links currently search
+   the address as text, which is close enough but not exact.
+
+Instagram is now linked in the footer and in `sameAs`. The posters themselves
+were not added to the gallery; the figures are on the page as real text.
 
 ---
 

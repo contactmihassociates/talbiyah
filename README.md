@@ -69,7 +69,7 @@ python -m http.server 8777
 
 | | |
 |---|---|
-| Office | No.7, 13/1, Qaide Millath Street, Chennai 600 029 |
+| Office | No.3, L.B. Road, near Selva Tea Stall, Adyar, Chennai 600 020 (opened 22 November 2026) |
 | Masjid | Khurasani Peer Masjid (K.P.M.), LB Road, Adyar — Moulavi Sadath is Imam there |
 
 The masjid pin is `place_id ChIJmwkFGfNnUjoRauOLW8EFx98` (12.9988242,
