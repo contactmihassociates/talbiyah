@@ -1603,11 +1603,11 @@ body.js-off #enquiry .form-submit{display:none}
 
 <aside class="event" aria-labelledby="openH" data-until="2026-11-22T11:00:00+05:30" data-tag-label="Grand opening">
   <div class="wrap">
-    <div class="event-grid">
+    <div>
       <div>
         <p class="event-tag">Grand opening</p>
         <h2 id="openH">Our new office in Adyar opens.</h2>
-        <p class="event-lede">The office moves to L.B. Road, a few steps from Khurasani Peer Masjid. Families, friends and well-wishers are warmly invited to the opening.</p>
+        <p class="event-lede">The office moves to L.B. Road in Adyar, the same road as Khurasani Peer Masjid. Families, friends and well-wishers are warmly invited to the opening.</p>
         <dl class="event-facts">
           <div><dt>Date</dt><dd>Sunday, 22 November 2026<small>10.00 am to 11.00 am</small></dd></div>
           <div><dt>Where</dt><dd>No.3, L.B. Road, Adyar<small>Near Selva Tea Stall, Chennai 600&nbsp;020</small></dd></div>
@@ -1884,9 +1884,10 @@ body.js-off #enquiry .form-submit{display:none}
 </section>
 
 <!-- ========== PACKAGES ==========
-     Prices, dates and inclusions are taken from the October 2026 Oman Air
-     poster. Update all three cards together when the next season's poster
-     is printed. -->
+     Dates, flights, hotels and the Ramadan price are taken from the office's
+     December 2026 and Ramadan 2027 posters. The coverage list below the cards
+     describes the service rather than one departure. Update the cards, the
+     Tamil block and the JSON-LD offers together when a new poster is printed. -->
 <section class="sec dark khatam" id="packages" data-offer-dated aria-label="Umrah packages and prices">
   <div class="wrap">
     <p class="eyebrow rv">Umrah packages</p>
@@ -1943,10 +1944,10 @@ body.js-off #enquiry .form-submit{display:none}
     </div>
 
     <!-- The kit handed to every pilgrim, as listed on the departure poster -->
-    <!-- Sourced from the JULY poster, not the October one this section
-         otherwise quotes. It sits inside a priced package, so it reads as a
-         promise about the October trip. Confirm with the office that the kit
-         still applies before publishing — see README's pre-launch list. -->
+    <!-- Sourced from the July 2026 poster, not from the two departures this
+         section quotes. It sits inside a priced section, so it reads as a
+         promise about them. Confirm with the office that the kit still
+         applies — see README's pre-launch list. -->
     <div class="kit rv">
       <p class="kit-h">What a Talbiyah Umrah group covers</p>
       <ul>
@@ -1987,10 +1988,11 @@ body.js-off #enquiry .form-submit{display:none}
 </section>
 
 <!-- ========== TAMIL SUMMARY ==========
-     The wording here is lifted from Talbiyah's own printed poster, not
-     translated from the English above — so the terminology is the office's.
-     Have Moulavi Sadath read it once before publishing. Keep it in step with
-     the package cards whenever prices or dates change. -->
+     The inclusions list here is the office's own wording from its printed
+     poster. The December and Ramadan dates and prices were written for this
+     page and have not been read by the office yet. Have Moulavi Sadath read
+     it, and keep it in step with the package cards whenever prices or dates
+     change. -->
 <section class="sec ta-sec" id="tamil" lang="ta" aria-label="Details in Tamil" data-offer-dated>
   <div class="wrap">
     <p class="eyebrow rv" lang="en">In Tamil</p>
@@ -3172,9 +3174,9 @@ document.addEventListener('DOMContentLoaded', function () {
         note.innerHTML =
           '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/>' +
           '<path d="M12 7.5v5M12 16.2v.3"/></svg>' +
-          '<span><b>This departure has already left.</b>' +
-          'The dates and prices here are the last announced group’s, kept so you can ' +
-          'see what a package includes. Ask us for the next group’s dates and price.' +
+          '<span><b>The departure announced above has already left.</b>' +
+          'Later groups shown here may still be open. Ask us which dates are ' +
+          'available and what the fare is for the group you want.' +
           '<span class="ta" lang="ta">இந்தப் பயணம் ' +
           'புறப்பட்டுவிட்டது. ' +
           'அடுத்த குழுவின் ' +
