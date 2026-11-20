@@ -3,6 +3,10 @@
 Continuous optimisation of [talbiyah.in](https://www.talbiyah.in). One line per
 change: the date, what changed, and why it was worth doing.
 
+## 2026-11-20 (later)
+
+- **The published photographs now have a section of their own.** They were a sub-block tucked under the departures gallery, headed "More from our groups", which is not where anyone looks for photographs. They are now `#photos`, a full section with its own heading and its own nav entry, rendering everything `/api/gallery` returns rather than a selection. Nothing changed about how a photograph gets there: the office uploads it on the admin page and the section picks it up, so it stays current without anyone touching the markup. The section hides itself when there is nothing to show.
+
 ## 2026-11-20
 
 - **The October departure replaced by the two groups now open.** The site still advertised the 30 September 2026 Oman Air trip seven weeks after it left. The announcement strip, the packages section, the Tamil summary, the hero and contact-form wording now carry the December 2026 group (Chennai 30 December on Gulf Air through Bahrain, GF69 and GF171 out, GF184 and GF68 home, landing back in Chennai early on 13 January 2027, fare on request) and the Ramadan 2027 package, the first fifteen days, at ₹1,45,000 per person with Munshiya in Makkah 400 metres from the Haram and Bustan Diamond in Madinah 100 metres from the Masjid. Every figure is from the office's own posters. The October inclusions were not thrown away: they now sit under "What a Talbiyah Umrah group covers", where they describe the service rather than one departed trip.

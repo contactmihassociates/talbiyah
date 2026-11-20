@@ -1142,13 +1142,10 @@ h1 .ch{display:inline-block}
 .pkg-note{margin-top:2rem;font-size:.86rem;color:rgba(250,247,240,.6);max-width:60ch}
 .gal{columns:1;column-gap:1.1rem;margin-top:3.2rem}
 
-/* Admin-added photographs. Same visual family as .gal above, but each one
-   carries a title as well as a caption, so they get their own block rather
-   than being mixed into the hand-picked set. Populated from gallery.json;
-   the whole section stays hidden when that file is absent or empty. */
+/* Admin-added photographs, in their own section. Same visual family as .gal
+   above, but each one carries a title as well as a caption. Populated from
+   /api/gallery; the whole section stays hidden when there is nothing in it. */
 .gal2-wrap[hidden]{display:none!important}
-.gal2-head{margin-top:clamp(3rem,6vw,4.5rem);padding-top:clamp(2.2rem,4vw,3rem);
-  border-top:1px solid rgba(201,162,39,.24)}
 .gal2{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
   gap:1.4rem;margin-top:2.4rem;padding:0;list-style:none}
 .gal2 li{margin:0}
@@ -1488,6 +1485,7 @@ body.js-off #enquiry .form-submit{display:none}
     <a href="#packages">Umrah</a>
     <a href="#journey">The Journey</a>
     <a href="#departures">Gallery</a>
+    <a href="#photos">Photos</a>
     <a href="#tamil" lang="ta">தமிழ்</a>
     <a href="#faq">FAQ</a>
     <a href="#contact">Contact</a>
@@ -2042,6 +2040,20 @@ body.js-off #enquiry .form-submit{display:none}
   </div>
 </section>
 
+<!-- ========== PHOTOS ==========
+     Everything the office has published through admin.html, in one place and
+     in full. The markup is empty on purpose: extraGallery() fills it from
+     /api/gallery, so a new photograph needs an upload and nothing else. The
+     whole section stays hidden until there is at least one picture. -->
+<section class="sec dark khatam gal2-wrap" id="photos" hidden aria-labelledby="gal2H">
+  <div class="wrap">
+    <p class="eyebrow rv">Photographs</p>
+    <h2 class="rv" id="gal2H">Every picture from our journeys.</h2>
+    <p class="lede rv" style="margin-top:1.2rem">Added by the office as each group travels &mdash; Makkah, Madinah, the ziyarat and the airport mornings in between.</p>
+    <ul class="gal2" id="gal2List"></ul>
+  </div>
+</section>
+
 <!-- ========== JOURNEY TIMELINE ========== -->
 <section id="journey" aria-label="The journey, step by step">
   <div class="wrap jr-head" style="padding-top:var(--sec)">
@@ -2310,18 +2322,6 @@ body.js-off #enquiry .form-submit{display:none}
     <p class="eyebrow rv">From recent departures</p>
     <h2 class="rv">Our own groups, our own coach,<br>our own guide beside them.</h2>
     <p class="lede rv" style="margin-top:1.2rem">Not stock photographs. Every picture below is from a Talbiyah departure out of Chennai.</p>
-
-    <!-- Photographs added through admin.html. The office prepares the files
-         there; this reads gallery.json and renders whatever it finds, so no
-         one has to touch the markup to add a picture. Hidden entirely when
-         the file is missing, empty or unreadable. -->
-    <div class="gal2-wrap" id="gallery2" hidden>
-      <div class="gal2-head">
-        <p class="eyebrow">More from our groups</p>
-        <h3 id="gal2H" style="font-size:clamp(1.5rem,3vw,2rem)">Recently added</h3>
-      </div>
-      <ul class="gal2" id="gal2List" aria-labelledby="gal2H"></ul>
-    </div>
 
     <div class="gal rv">
       <figure>
@@ -2683,7 +2683,7 @@ body.js-off #enquiry .form-submit{display:none}
           <li><a href="#departures">Gallery</a></li>
           <li><a href="#ziyarat">Guided ziyarat</a></li>
           <li><a href="#tamil" lang="ta">தமிழில் விவரங்கள்</a></li>
-          <li><a href="#departures">Photographs</a></li>
+          <li><a href="#photos">Photographs</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="#contact">Contact</a></li>
           <li><a href="https://www.instagram.com/sadathmanbayeeofficial/" target="_blank" rel="noopener">Instagram</a></li>
@@ -3017,7 +3017,7 @@ document.addEventListener('DOMContentLoaded', function () {
      grid does not jump as they arrive.
      ================================================================== */
   safe('extraGallery', function extraGallery() {
-    var wrap = $('#gallery2'), list = $('#gal2List');
+    var wrap = $('#photos'), list = $('#gal2List');
     if (!wrap || !list || !window.fetch) return;
 
     // /api/gallery is the live source, written by admin.html. gallery.json is
